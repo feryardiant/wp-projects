@@ -3,6 +3,11 @@ github_actions:
       - any-glob-to-any-file:
           - '.github/**.yml'
 
+'pkg: cf7-entry-manager':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/cf7-entry-manager/**'
+
 'pkg: custom-theme':
   - changed-files:
       - any-glob-to-any-file:
