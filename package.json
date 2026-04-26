@@ -15,6 +15,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.12",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@tsconfig/bun": "^1.0.10",
     "@types/bun": "1.3.10",
     "lint-staged": "^16.4.0",
@@ -26,12 +28,21 @@
   "peerDependencies": {
     "typescript": "^5.9.3"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "simple-git-hooks": {
+    "commit-msg": "bunx commitlint --edit $1",
     "pre-commit": "bunx lint-staged --allow-empty"
   },
   "lint-staged": {
     "*.{css,jsonc,ts}": [
       "biome format --write --no-errors-on-unmatched"
+    ],
+    "docker/mu-plugins/*.php": [
+      "sh -c 'composer format:packages -- \"$@\"; [ \"$?\" -eq 0 ] || [ \"$?\" -eq 1 ]' --"
     ],
     "packages/**/*.php": [
       "sh -c 'composer format:packages -- \"$@\"; [ \"$?\" -eq 0 ] || [ \"$?\" -eq 1 ]' --"
