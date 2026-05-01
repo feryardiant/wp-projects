@@ -13,7 +13,9 @@ updates:
         patterns: ['*']
 
   - package-ecosystem: composer
-    directory: "/"
+    directories:
+      - /
+      - /packages/*
     schedule:
       interval: weekly
       timezone: Asia/Jakarta
@@ -33,5 +35,9 @@ updates:
       - dependency-name: '@types/bun'
       - dependency-name: '@types/node'
       - dependency-name: 'typescript'
+    groups:
+      commitlint:
+        patterns: ['@commitlint/*']
+        update-types: [patch]
     labels:
       - dependencies
