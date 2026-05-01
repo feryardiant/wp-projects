@@ -14,9 +14,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
+ * @var Page_Element $elm
  * @var \WP_Post_Type $post_type_object
  * @var \WPCF7_ContactForm $contact_form
- * @var Page_Element $elm
  */
 
 $elm->h2( array(), \esc_html( $post_type_object->label ) );
@@ -24,20 +24,14 @@ $elm->h2( array(), \esc_html( $post_type_object->label ) );
 $elm->fieldset(
 	array( 'class' => 'cf7em-option' ),
 	static fn ( $elm ) => $elm
-	->legend(
-		child: \__(
-			'You can edit the way you treat each submissions here.',
-			'cf7-entry-manager'
-		)
-	)
+	->legend( child: \__( 'You can edit the way you treat each submissions here.', 'cf7-entry-manager' ) )
 
 	->table(
 		array( 'class' => 'form-table' ),
 		static fn ( $elm ) => $elm
 		->tbody(
 			child: static function ( $elm ) use ( $contact_form ) {
-				$option   = new Option( $contact_form );
-				$panel_id = 'cf7-entry-manager';
+				$option = new Option( $contact_form );
 
 				foreach ( $option->fields() as $id => $field ) {
 					$field = \wp_parse_args(
@@ -66,7 +60,7 @@ $elm->fieldset(
 						continue;
 					}
 
-					$field_id = sprintf( '%s-%s', $panel_id, $id );
+					$field_id = sprintf( '%s-%s', Submission::MENU_SLUG, $id );
 
 					$elm->tr(
 						child: static fn ( $elm ) => $elm
@@ -77,12 +71,12 @@ $elm->fieldset(
 						)
 
 						->td(
-							child: static function ( $elm ) use ( $option, $id, $panel_id, $field, $field_id ) {
+							child: static function ( $elm ) use ( $option, $id, $field, $field_id ) {
 								$field_atts = \wp_parse_args(
 									$field['atts'],
 									array(
 										'id'    => $field_id,
-										'name'  => sprintf( '%s[%s]', $panel_id, $id ),
+										'name'  => sprintf( '%s[%s]', Submission::MENU_SLUG, $id ),
 										'value' => $option[ $id ],
 									)
 								);

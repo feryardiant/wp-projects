@@ -13,7 +13,7 @@ use WP_Post_Type;
 use WPCF7_ContactForm;
 
 /**
- * Class Item.
+ * Class Submission.
  */
 final class Submission {
 	public const POST_TYPE = 'cf7em-submission';
@@ -28,7 +28,6 @@ final class Submission {
 			'search_items'          => __( 'Search Submissions', 'cf7-entry-manager' ),
 			'not_found'             => __( 'No submissions found.', 'cf7-entry-manager' ),
 			'not_found_in_trash'    => __( 'No submissions found in Trash.', 'cf7-entry-manager' ),
-
 			'filter_items_list'     => _x(
 				'Filter submissions list',
 				'Screen reader text for the filter links heading on the post type listing screen.',
@@ -79,7 +78,7 @@ final class Submission {
 			$post_type_object->labels->items_list,
 			$post_type_object->labels->menu_name,
 			'wpcf7_read_contact_forms',
-			'cf7-entry-manager',
+			self::MENU_SLUG,
 			array( self::class, 'admin_management_page' ),
 			2,
 		);

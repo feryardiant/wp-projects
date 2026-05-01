@@ -270,7 +270,9 @@ $elm->div(
 													}
 												),
 
-												'file' => $elm->p( child: esc_html( $has_value ? $value : \__( 'No file uploaded', 'cf7-entry-manager' ) ) ),
+												'file' => $elm->p(
+													child: esc_html( $has_value ? $value : \__( 'No file uploaded', 'cf7-entry-manager' ) )
+												),
 
 												'acceptance' => $elm->p(
 													child: boolval( $value )
@@ -350,7 +352,7 @@ $elm->div(
 									);
 								}
 							}
-						) // #cf7em-entry
+						) // .inside
 					) // #cf7em-viewer
 				) // #postbox-container-2
 			) // #post-body

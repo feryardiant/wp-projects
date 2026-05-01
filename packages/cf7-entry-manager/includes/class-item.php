@@ -111,14 +111,14 @@ final class Item {
 	 *
 	 * @param WPCF7_ContactForm $form   The contact form.
 	 * @param Option            $option The submission option.
-	 * @return int|WP_Error
+	 * @return int|\WP_Error
 	 */
 	public static function store( WPCF7_ContactForm $form, Option $option ) {
 		$form_data = $option->form_data();
 
 		$returned_id = \wp_insert_post(
 			array(
-				'post_type'    => 'form-submissions',
+				'post_type'    => Submission::POST_TYPE,
 				'post_status'  => 'publish',
 				'post_title'   => $option->subject ?: sprintf(
 					/* translators: %s: Contact form title */
@@ -128,7 +128,7 @@ final class Item {
 				'post_parent'  => $form->id(),
 				'post_author'  => self::store_author( $option ),
 				'post_excerpt' => $option->message,
-			// 'post_content' => null,
+				// 'post_content' => null,
 			),
 			true
 		);

@@ -155,9 +155,7 @@ add_action(
 		add_filter(
 			'user_contactmethods',
 			static fn ( array $methods ) => array_merge(
-				array(
-					'user_phone' => __( 'Phone Number', 'cf7-entry-manager' ),
-				),
+				array( 'user_phone' => __( 'Phone Number', 'cf7-entry-manager' ) ),
 				$methods
 			),
 			10,
@@ -201,7 +199,7 @@ add_action(
 \add_action(
 	'wpcf7_save_contact_form',
 	static function ( WPCF7_ContactForm $contact_form, array $data ): void {
-		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ], array() );
+		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
 
 		$contact_form->set_properties( array( 'submissions' => $submissions ) );
 	},

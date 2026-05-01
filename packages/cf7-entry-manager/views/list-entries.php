@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
- * @var \WP_Post_Type $post_type_object
  * @var Page_Element $elm
+ * @var \WP_Post_Type $post_type_object
  */
 
 $elm->div(
@@ -35,7 +35,7 @@ $elm->div(
 			array(
 				'type'  => 'hidden',
 				'name'  => 'page',
-				'value' => 'cf7-entry-manager',
+				'value' => Submission::MENU_SLUG,
 			)
 		)
 
@@ -47,7 +47,7 @@ $elm->div(
 
 				$list_table->search_box(
 					$post_type_object->labels->search_items,
-					'cf7-entry-manager'
+					Submission::MENU_SLUG
 				);
 
 				$list_table->display();

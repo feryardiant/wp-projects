@@ -64,7 +64,7 @@ class List_Table extends WP_List_Table {
 		$per_page = max( 1, (int) $this->get_items_per_page( 'cf7em_submissions_per_page' ) );
 
 		$args = array(
-			'post_type'      => 'form-submissions',
+			'post_type'      => Submission::POST_TYPE,
 			'post_parent'    => $this->contact_form?->id(),
 			'posts_per_page' => $per_page,
 			'orderby'        => 'date',
