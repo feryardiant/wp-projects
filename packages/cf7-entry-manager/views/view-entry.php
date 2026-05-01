@@ -359,5 +359,3 @@ $elm->div(
 		) // #poststuff
 	) // #wpcf7-admin-form-element
 ); // #cf7em-submission-entry-viewer.wrap
-
-$elm->render();

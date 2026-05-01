@@ -294,7 +294,7 @@ final class Item {
 	 * @return string
 	 */
 	public function url( string $action = 'view', ?string $nonce_key = null ) {
-		$link = admin_menu_url(
+		$link = Submission::admin_menu_url(
 			array(
 				'post'   => $this->id,
 				'action' => $action,

@@ -21,10 +21,15 @@
  * Requires Plugins: contact-form-7
  */
 
+use CF7_Entry_Manager\Item;
+use CF7_Entry_Manager\Option;
+use CF7_Entry_Manager\Submission;
+
 defined( 'ABSPATH' ) || exit;
 
 define( 'CF7EM_VERSION', '0.1.0' );
 define( 'CF7EM_DEBUG', defined( 'WP_DEBUG' ) && boolval( WP_DEBUG ) );
+define( 'CF7EM_PLUGIN_DIR', __DIR__ );
 
 define( 'CF7EM__MINIMUM_WP_VERSION', '6.0' );
 define( 'CF7EM__MINIMUM_WPCF7_VERSION', '6.1' );
@@ -94,8 +99,8 @@ register_deactivation_hook(
 
 add_action(
 	'admin_enqueue_scripts',
-	static function ( string $hook_suffix ) {
-		if ( ! in_array( $hook_suffix, array( 'toplevel_page_wpcf7', 'contact_page_cf7-entry-manager' ), true ) ) {
+	static function ( string $suffix ) {
+		if ( ! in_array( $suffix, array( 'toplevel_page_wpcf7', 'contact_page_cf7-entry-manager' ), true ) ) {
 			return;
 		}
 
@@ -136,52 +141,13 @@ add_action(
 			require_once __DIR__ . '/vendor/autoload.php';
 		}
 
-		require_once __DIR__ . '/includes/admin.php';
-
 		require_once __DIR__ . '/includes/class-item.php';
 		require_once __DIR__ . '/includes/class-page-element.php';
 		require_once __DIR__ . '/includes/class-list-table.php';
 		require_once __DIR__ . '/includes/class-option.php';
-	}
-);
+		require_once __DIR__ . '/includes/class-submission.php';
 
-add_action(
-	'init',
-	static function () {
-		$post_type = 'form-submissions';
-
-		$labels = array(
-			'name'                  => __( 'Submissions', 'cf7-entry-manager' ),
-			'singular_name'         => __( 'Submission', 'cf7-entry-manager' ),
-			'view_item'             => __( 'View Submission', 'cf7-entry-manager' ),
-			'search_items'          => __( 'Search Submissions', 'cf7-entry-manager' ),
-			'not_found'             => __( 'No submissions found.', 'cf7-entry-manager' ),
-			'not_found_in_trash'    => __( 'No submissions found in Trash.', 'cf7-entry-manager' ),
-			'filter_items_list'     => _x( 'Filter submissions list', 'Screen reader text for the filter links heading on the post type listing screen.', 'cf7-entry-manager' ),
-			'items_list_navigation' => _x( 'Submissions list navigation', 'Screen reader text for the pagination heading on the post type listing screen.', 'cf7-entry-manager' ),
-			'items_list'            => _x( 'Submissions list', 'Screen reader text for the items list heading on the post type listing screen.', 'cf7-entry-manager' ),
-		);
-
-		register_post_type(
-			$post_type,
-			array(
-				'labels'            => $labels,
-				'description'       => 'List of form submissions.',
-				'public'            => false,
-				'show_ui'           => false,
-				'show_in_nav_menus' => false,
-				'show_in_admin_bar' => false,
-				'capability_type'   => 'post',
-				'hierarchical'      => false,
-				'supports'          => array( 'title', 'excerpt', 'author', 'custom-fields' ),
-				'rewrite'           => array( 'slug' => 'submission' ),
-				'query_var'         => true,
-				'menu_icon'         => 'dashicons-email-alt',
-				// 'register_meta_box_cb' => static function( WP_Post $post ) {
-				// Doing nothing for now.
-				// },
-			)
-		);
+		Submission::register();
 
 		/**
 		 * Override user contact meta properties.
@@ -197,5 +163,80 @@ add_action(
 			10,
 			1
 		);
+
+		/**
+		 * Register the submissions admin menu.
+		 */
+		\add_action( 'admin_menu', array( Submission::class, 'admin_menu' ), 9, 0 );
 	}
+);
+
+/**
+ * Capture the contact form submission and store it to database before sending it.
+ */
+\add_action(
+	'wpcf7_before_send_mail',
+	static function ( WPCF7_ContactForm $contact_form ): void {
+		$option = Option::get( $contact_form );
+
+		if ( ! $option ) {
+			return;
+		}
+
+		$form_data = $option->form_data();
+
+		\do_action( 'cf7em_before_save', $form_data );
+
+		$returned_id = Item::store( $contact_form, $option );
+
+		\do_action( 'cf7em_after_save', $form_data, $returned_id );
+	},
+	10,
+	1
+);
+
+/**
+ * Prepare to store option properties values.
+ */
+\add_action(
+	'wpcf7_save_contact_form',
+	static function ( WPCF7_ContactForm $contact_form, array $data ): void {
+		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ], array() );
+
+		$contact_form->set_properties( array( 'submissions' => $submissions ) );
+	},
+	10,
+	2
+);
+
+/**
+ * Register new contact form option properties.
+ */
+\add_filter(
+	'wpcf7_pre_construct_contact_form_properties',
+	static fn ( array $properties ) => array_merge(
+		$properties,
+		array( 'submissions' => array() )
+	),
+	10,
+	1
+);
+
+/**
+ * Add a submissions panel to the contact form editor.
+ */
+\add_filter(
+	'wpcf7_editor_panels',
+	static function ( array $panels ): array {
+		$post_type_object = Submission::get_post_type_object();
+
+		$panels['submissions'] = array(
+			'title'    => $post_type_object->label,
+			'callback' => array( Submission::class, 'admin_editor_panel' ),
+		);
+
+		return $panels;
+	},
+	10,
+	1
 );
