@@ -70,6 +70,8 @@ define( 'CF7EM__MINIMUM_WPCF7_VERSION', '6.1' );
 define( 'CF7EM__MINIMUM_PHP_VERSION', '8.1' );
 
 /**
+ * Check the current screen.
+ *
  * @internal
  * @return bool
  */
@@ -156,39 +158,39 @@ if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) )
 	return;
 }
 
+/**
+ * Perform actions on plugin activation.
+ *
+ * @return void
+ */
 register_activation_hook(
 	__FILE__,
-	/**
-	 * Perform actions on plugin activation.
-	 *
-	 * @return void
-	 */
 	static function () {
 		// Doing nothing on activation.
 	}
 );
 
+/**
+ * Perform actions on plugin deactivation.
+ *
+ * @return void
+ */
 register_deactivation_hook(
 	__FILE__,
-	/**
-	 * Perform actions on plugin deactivation.
-	 *
-	 * @return void
-	 */
 	static function () {
 		// Doing nothing on deactivation.
 	}
 );
 
+/**
+ * Enqueue admin scripts and styles.
+ *
+ * @param string $suffix The current admin page suffix.
+ * @return void
+ */
 add_action(
 	'admin_enqueue_scripts',
-	/**
-	 * Enqueue admin scripts and styles.
-	 *
-	 * @param string $suffix The current admin page suffix.
-	 * @return void
-	 */
-	static function ( string $suffix ) {
+	static function ( string $suffix ): void {
 		if ( ! in_array( $suffix, array( 'toplevel_page_wpcf7', 'contact_page_cf7-entry-manager' ), true ) ) {
 			return;
 		}
@@ -199,14 +201,14 @@ add_action(
 	1
 );
 
+/**
+ * Initialize the plugin when Contact Form 7 is ready.
+ *
+ * @return void
+ */
 add_action(
 	'wpcf7_init',
-	/**
-	 * Initialize the plugin when Contact Form 7 is ready.
-	 *
-	 * @return void
-	 */
-	static function () {
+	static function (): void {
 		/**
 		 * Check if the version of Contact Form 7 in use on the site is supported by Entry Manager for Contact Form 7.
 		 */

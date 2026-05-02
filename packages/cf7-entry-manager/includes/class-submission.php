@@ -175,7 +175,7 @@ final class Submission {
 	 * @internal
 	 * @return void
 	 */
-	public static function admin_editor_panel( WPCF7_ContactForm $contact_form ): void {
+	public static function admin_editor_panel( WPCF7_ContactForm $contact_form ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		$post_type_object = self::get_post_type_object();
 
 		$elm = new Page_Element(
