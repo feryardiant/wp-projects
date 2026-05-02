@@ -101,32 +101,6 @@ final class Submission {
 	}
 
 	/**
-	 * Register the submissions admin menu.
-	 *
-	 * @return void
-	 */
-	public static function admin_menu() {
-		$post_type_object = self::get_post_type_object();
-
-		$submissions = \add_submenu_page(
-			'wpcf7',
-			$post_type_object->labels->items_list,
-			$post_type_object->labels->menu_name,
-			$post_type_object->cap->read_private_posts,
-			self::MENU_SLUG,
-			array( self::class, 'admin_management_page' ),
-			2,
-		);
-
-		\add_action(
-			'load-' . $submissions,
-			array( self::class, 'admin_load_page' ),
-			10,
-			0
-		);
-	}
-
-	/**
 	 * Load the submissions admin page.
 	 *
 	 * @internal

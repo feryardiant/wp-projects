@@ -272,8 +272,128 @@ add_action(
 
 		/**
 		 * Register the submissions admin menu.
+		 *
+		 * @return void
 		 */
-		\add_action( 'admin_menu', array( Submission::class, 'admin_menu' ), 9, 0 );
+		\add_action(
+			'admin_menu',
+			static function (): void {
+				$post_type_object = Submission::get_post_type_object();
+
+				$submissions = \add_submenu_page(
+					'wpcf7',
+					$post_type_object->labels->items_list,
+					$post_type_object->labels->menu_name,
+					$post_type_object->cap->read_private_posts,
+					Submission::MENU_SLUG,
+					array( Submission::class, 'admin_management_page' ),
+					2,
+				);
+
+				\add_action(
+					'load-' . $submissions,
+					array( Submission::class, 'admin_load_page' ),
+					10,
+					0
+				);
+			},
+			9,
+			0
+		);
+
+		/**
+		 * Register new contact form option properties.
+		 *
+		 * @param array $properties The existing contact form properties.
+		 * @return array
+		 */
+		\add_filter(
+			'wpcf7_pre_construct_contact_form_properties',
+			static fn ( array $properties ): array => array_merge(
+				$properties,
+				array( Option::FORM_PROP_KEY => array() )
+			),
+			10,
+			1
+		);
+
+		/**
+		 * Add a submissions panel to the contact form editor.
+		 *
+		 * @param array $panels The existing editor panels.
+		 * @return array
+		 */
+		\add_filter(
+			'wpcf7_editor_panels',
+			static function ( array $panels ): array {
+				$post_type_object = Submission::get_post_type_object();
+
+				$panels[ Option::FORM_PROP_KEY ] = array(
+					'title'    => $post_type_object->label,
+					'callback' => array( Submission::class, 'admin_editor_panel' ),
+				);
+
+				return $panels;
+			},
+			10,
+			1
+		);
+
+		/**
+		 * Capture the contact form submission and store it to database before sending it.
+		 *
+		 * @param WPCF7_ContactForm $contact_form The contact form object.
+		 * @return void
+		 */
+		\add_action(
+			'wpcf7_before_send_mail',
+			static function ( WPCF7_ContactForm $contact_form ): void {
+				$option = Option::get( $contact_form );
+
+				if ( ! $option ) {
+					return;
+				}
+
+				$form_data = $option->form_data();
+
+				/**
+				 * Action hook before saving the submission.
+				 *
+				 * @param array $form_data The form submission data.
+				 */
+				\do_action( 'cf7em_before_save', $form_data );
+
+				$returned_id = Item::store( $contact_form, $option );
+
+				/**
+				 * Action hook after saving the submission.
+				 *
+				 * @param array         $form_data   The form submission data.
+				 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
+				 */
+				\do_action( 'cf7em_after_save', $form_data, $returned_id );
+			},
+			10,
+			1
+		);
+
+		/**
+		 * Prepare to store option properties values.
+		 *
+		 * @param WPCF7_ContactForm $contact_form The contact form object.
+		 * @param array             $data         The form data being saved.
+		 * @return void
+		 */
+		\add_action(
+			'wpcf7_save_contact_form',
+			static function ( WPCF7_ContactForm $contact_form, array $data ): void {
+				$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
+
+				$contact_form->set_properties( array( Option::FORM_PROP_KEY => $submissions ) );
+			},
+			10,
+			2
+		);
 	}
 );
 
@@ -365,100 +485,6 @@ add_action(
 		);
 
 		return $options;
-	},
-	10,
-	2
-);
-
-/**
- * Register new contact form option properties.
- *
- * @param array $properties The existing contact form properties.
- * @return array
- */
-\add_filter(
-	'wpcf7_pre_construct_contact_form_properties',
-	static fn ( array $properties ): array => array_merge(
-		$properties,
-		array( Option::FORM_PROP_KEY => array() )
-	),
-	10,
-	1
-);
-
-/**
- * Add a submissions panel to the contact form editor.
- *
- * @param array $panels The existing editor panels.
- * @return array
- */
-\add_filter(
-	'wpcf7_editor_panels',
-	static function ( array $panels ): array {
-		$post_type_object = Submission::get_post_type_object();
-
-		$panels[ Option::FORM_PROP_KEY ] = array(
-			'title'    => $post_type_object->label,
-			'callback' => array( Submission::class, 'admin_editor_panel' ),
-		);
-
-		return $panels;
-	},
-	10,
-	1
-);
-
-/**
- * Capture the contact form submission and store it to database before sending it.
- *
- * @param WPCF7_ContactForm $contact_form The contact form object.
- * @return void
- */
-\add_action(
-	'wpcf7_before_send_mail',
-	static function ( WPCF7_ContactForm $contact_form ): void {
-		$option = Option::get( $contact_form );
-
-		if ( ! $option ) {
-			return;
-		}
-
-		$form_data = $option->form_data();
-
-		/**
-		 * Action hook before saving the submission.
-		 *
-		 * @param array $form_data The form submission data.
-		 */
-		\do_action( 'cf7em_before_save', $form_data );
-
-		$returned_id = Item::store( $contact_form, $option );
-
-		/**
-		 * Action hook after saving the submission.
-		 *
-		 * @param array         $form_data   The form submission data.
-		 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
-		 */
-		\do_action( 'cf7em_after_save', $form_data, $returned_id );
-	},
-	10,
-	1
-);
-
-/**
- * Prepare to store option properties values.
- *
- * @param WPCF7_ContactForm $contact_form The contact form object.
- * @param array             $data         The form data being saved.
- * @return void
- */
-\add_action(
-	'wpcf7_save_contact_form',
-	static function ( WPCF7_ContactForm $contact_form, array $data ): void {
-		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
-
-		$contact_form->set_properties( array( Option::FORM_PROP_KEY => $submissions ) );
 	},
 	10,
 	2
