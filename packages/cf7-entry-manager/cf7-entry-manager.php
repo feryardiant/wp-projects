@@ -258,7 +258,7 @@ add_action(
 		add_filter(
 			'user_contactmethods',
 			static fn ( array $methods ) => array_merge(
-				array( 'user_phone' => __( 'Phone Number', 'cf7-entry-manager' ) ),
+				array( Submission::USER_PHONE_META_KEY => __( 'Phone Number', 'cf7-entry-manager' ) ),
 				$methods
 			),
 			10,

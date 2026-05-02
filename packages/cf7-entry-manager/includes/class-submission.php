@@ -30,6 +30,13 @@ final class Submission {
 	public const MENU_SLUG = 'cf7-entry-manager';
 
 	/**
+	 * Meta key for the user phone field.
+	 *
+	 * @var string
+	 */
+	public const USER_PHONE_META_KEY = '_cf7em_user_phone';
+
+	/**
 	 * Register the submissions custom post type.
 	 *
 	 * @return void
