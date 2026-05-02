@@ -183,7 +183,7 @@ final class Submission {
 		$item   = \wpcf7_superglobal_request( 'post', null );
 
 		if ( 'view' === $action && $item ) {
-			$item = new Item( $item );
+			$item = new Item( absint( $item ) );
 			$elm  = new Page_Element(
 				array(
 					'allowed_html' => array(
