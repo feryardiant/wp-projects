@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
- * @var Item $item
- * @var Page_Element $elm
+ * @var Item         $item The submission item instance.
+ * @var Page_Element $elm  The page element instance.
  */
 
 $elm->div(
@@ -26,19 +26,7 @@ $elm->div(
 	static fn ( $elm ) => $elm
 	->call(
 		static function () use ( $item ) {
-			do_action(
-				'wpcf7_admin_warnings',
-				$item->id ? 'wpcf7-new' : 'wpcf7',
-				wpcf7_current_action(),
-				$item
-			);
-
-			do_action(
-				'wpcf7_admin_notices',
-				$item->id ? 'wpcf7-new' : 'wpcf7',
-				wpcf7_current_action(),
-				$item
-			);
+			// Do nothing for now
 		},
 		$item
 	)
@@ -270,7 +258,9 @@ $elm->div(
 													}
 												),
 
-												'file' => $elm->p( child: esc_html( $has_value ? $value : \__( 'No file uploaded', 'cf7-entry-manager' ) ) ),
+												'file' => $elm->p(
+													child: esc_html( $has_value ? $value : \__( 'No file uploaded', 'cf7-entry-manager' ) )
+												),
 
 												'acceptance' => $elm->p(
 													child: boolval( $value )
@@ -350,7 +340,7 @@ $elm->div(
 									);
 								}
 							}
-						) // #cf7em-entry
+						) // .inside
 					) // #cf7em-viewer
 				) // #postbox-container-2
 			) // #post-body
@@ -359,5 +349,3 @@ $elm->div(
 		) // #poststuff
 	) // #wpcf7-admin-form-element
 ); // #cf7em-submission-entry-viewer.wrap
-
-$elm->render();

@@ -18,9 +18,65 @@ use WPCF7_Submission;
  */
 final class Option implements ArrayAccess {
 	/**
+	 * Meta key for whether to record submissions.
+	 *
+	 * @var string
+	 */
+	public const SHOULD_RECORD_KEY = 'should_record';
+
+	/**
+	 * Meta key for the subject field name.
+	 *
+	 * @var string
+	 */
+	public const SUBJECT_FIELD_KEY = 'subject_field';
+
+	/**
+	 * Meta key for the message field name.
+	 *
+	 * @var string
+	 */
+	public const MESSAGE_FIELD_KEY = 'message_field';
+
+	/**
+	 * Meta key for whether to store the author.
+	 *
+	 * @var string
+	 */
+	public const STORE_AUTHOR_KEY = 'store_author';
+
+	/**
+	 * Meta key for the author name field name.
+	 *
+	 * @var string
+	 */
+	public const NAME_FIELD_KEY = 'name_field';
+
+	/**
+	 * Meta key for the author email field name.
+	 *
+	 * @var string
+	 */
+	public const EMAIL_FIELD_KEY = 'email_field';
+
+	/**
+	 * Meta key for the author phone field name.
+	 *
+	 * @var string
+	 */
+	public const PHONE_FIELD_KEY = 'phone_field';
+
+	/**
+	 * Meta key for the form property name.
+	 *
+	 * @var string
+	 */
+	public const FORM_PROP_KEY = 'submissions';
+
+	/**
 	 * Default properties.
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	public readonly array $defaults;
 
@@ -39,7 +95,7 @@ final class Option implements ArrayAccess {
 	public string $subject_field;
 
 	/**
-	 * The configured value of {$subject_field}.
+	 * The configured value of the subject field.
 	 *
 	 * @var string|null
 	 */
@@ -53,7 +109,7 @@ final class Option implements ArrayAccess {
 	public string $message_field;
 
 	/**
-	 * The configured value of {$message_field}.
+	 * The configured value of the message field.
 	 *
 	 * @var string|null
 	 */
@@ -74,7 +130,7 @@ final class Option implements ArrayAccess {
 	public string $name_field;
 
 	/**
-	 * The configured value of {$name_field}.
+	 * The configured value of the name field.
 	 *
 	 * @var string|null
 	 */
@@ -88,7 +144,7 @@ final class Option implements ArrayAccess {
 	public string $email_field;
 
 	/**
-	 * The configured value of {$email_field}.
+	 * The configured value of the email field.
 	 *
 	 * @var string|null
 	 */
@@ -102,7 +158,7 @@ final class Option implements ArrayAccess {
 	public string $phone_field;
 
 	/**
-	 * The configured value of {$phone_field}.
+	 * The configured value of the phone field.
 	 *
 	 * @var string|null
 	 */
@@ -111,28 +167,28 @@ final class Option implements ArrayAccess {
 	/**
 	 * Form data.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private array $form_data = array();
 
 	/**
-	 * Field map.
+	 * Field map linking internal properties to field keys.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private array $field_map = array(
-		'subject' => 'subject_field',
-		'message' => 'message_field',
-		'name'    => 'name_field',
-		'email'   => 'email_field',
-		'phone'   => 'phone_field',
+		'subject' => self::SUBJECT_FIELD_KEY,
+		'message' => self::MESSAGE_FIELD_KEY,
+		'name'    => self::NAME_FIELD_KEY,
+		'email'   => self::EMAIL_FIELD_KEY,
+		'phone'   => self::PHONE_FIELD_KEY,
 	);
 
 	/**
 	 * Get all available options for the given $contact_form.
 	 *
 	 * @param WPCF7_ContactForm $contact_form The contact form.
-	 * @return Option|false
+	 * @return Option|false The Option instance or false if recording is disabled or submission is missing.
 	 */
 	public static function get( WPCF7_ContactForm $contact_form ): Option|false {
 		$option     = new self( $contact_form );
@@ -171,17 +227,17 @@ final class Option implements ArrayAccess {
 		private WPCF7_ContactForm $contact_form
 	) {
 		$this->defaults = array(
-			'should_record' => null,
-			'subject_field' => '',
-			'message_field' => '',
-			'store_author'  => null,
-			'name_field'    => '',
-			'email_field'   => '',
-			'phone_field'   => '',
+			self::SHOULD_RECORD_KEY => null,
+			self::SUBJECT_FIELD_KEY => '',
+			self::MESSAGE_FIELD_KEY => '',
+			self::STORE_AUTHOR_KEY  => null,
+			self::NAME_FIELD_KEY    => '',
+			self::EMAIL_FIELD_KEY   => '',
+			self::PHONE_FIELD_KEY   => '',
 		);
 
-		$properties   = \wp_parse_args( $contact_form->prop( 'submissions' ), $this->defaults );
-		$boolean_keys = array( 'should_record', 'store_author' );
+		$properties   = \wp_parse_args( $contact_form->prop( self::FORM_PROP_KEY ), $this->defaults );
+		$boolean_keys = array( self::SHOULD_RECORD_KEY, self::STORE_AUTHOR_KEY );
 
 		foreach ( $properties as $key => $value ) {
 			$this->$key = in_array( $key, $boolean_keys, true )
@@ -191,88 +247,9 @@ final class Option implements ArrayAccess {
 	}
 
 	/**
-	 * Get the form fields for the submission option form.
+	 * Get the form data for the submission.
 	 *
-	 * @return array<string, array{label: string, description: string, type: string, atts: array, options: array}>
-	 */
-	public function fields() {
-		$mail_tags = $this->contact_form->collect_mail_tags();
-
-		return array(
-			'should_record' => array(
-				'label'       => \__( 'Record', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Whether to record the submissions to the database',
-					'cf7-entry-manager'
-				),
-				'atts'        => array( 'type' => 'checkbox' ),
-			),
-			'subject_field' => array(
-				'label'       => \__( 'Subject', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as a submission subject',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'message_field' => array(
-				'label'       => \__( 'Message', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as a submission message',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'sep-1'         => array( 'type' => 'separator' ),
-			'store_author'  => array(
-				'label'       => \__( 'Author', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Whether the submission author will be registered as subscriber',
-					'cf7-entry-manager'
-				),
-				'atts'        => array( 'type' => 'checkbox' ),
-			),
-			'name_field'    => array(
-				'label'       => \__( 'Author Name', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as the submitter\'s name',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'email_field'   => array(
-				'label'       => \__( 'Author Email', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as the submitter\'s email',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'phone_field'   => array(
-				'label'       => \__( 'Author Phone', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as the submitter\'s phone number',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-		);
-	}
-
-	/**
-	 * Get the form data for the submission option form.
-	 *
-	 * @return array<string, mixed>
+	 * @return array<string, string>
 	 */
 	public function form_data() {
 		return $this->form_data;
@@ -282,7 +259,7 @@ final class Option implements ArrayAccess {
 	 * Offset to retrieve.
 	 *
 	 * @param mixed $offset The offset.
-	 * @return mixed
+	 * @return mixed The value or null if not found.
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet( $offset ) {
@@ -294,6 +271,7 @@ final class Option implements ArrayAccess {
 	 *
 	 * @param mixed $offset The offset.
 	 * @param mixed $value  The value.
+	 * @return void
 	 */
 	public function offsetSet( $offset, $value ): void {
 		if ( array_key_exists( $offset, $this->field_map ) ) {
@@ -305,6 +283,7 @@ final class Option implements ArrayAccess {
 	 * Offset to unset.
 	 *
 	 * @param mixed $offset The offset.
+	 * @return void
 	 */
 	public function offsetUnset( $offset ): void {
 		// Doing nothing.

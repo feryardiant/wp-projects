@@ -24,10 +24,10 @@ class List_Table extends WP_List_Table {
 	/**
 	 * Define the columns for the submissions list table.
 	 *
-	 * @param array $columns The columns array.
-	 * @return array
+	 * @param array $columns The existing columns array.
+	 * @return array The updated columns array.
 	 */
-	public static function define_column( array $columns ) {
+	public static function define_column( array $columns ): array {
 		return \wp_parse_args(
 			$columns,
 			array(
@@ -43,7 +43,7 @@ class List_Table extends WP_List_Table {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPCF7_ContactForm|null $contact_form The contact form.
+	 * @param WPCF7_ContactForm|null $contact_form The contact form instance to filter by.
 	 */
 	public function __construct(
 		private ?WPCF7_ContactForm $contact_form = null,
@@ -59,12 +59,14 @@ class List_Table extends WP_List_Table {
 
 	/**
 	 * Prepare the items for the submissions list table.
+	 *
+	 * @return void
 	 */
 	public function prepare_items() {
 		$per_page = max( 1, (int) $this->get_items_per_page( 'cf7em_submissions_per_page' ) );
 
 		$args = array(
-			'post_type'      => 'form-submissions',
+			'post_type'      => Submission::POST_TYPE,
 			'post_parent'    => $this->contact_form?->id(),
 			'posts_per_page' => $per_page,
 			'orderby'        => 'date',
@@ -107,7 +109,9 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the list of sortable columns.
+	 *
+	 * @return array
 	 */
 	protected function get_sortable_columns() {
 		$columns = array(
@@ -120,14 +124,16 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the list of columns.
+	 *
+	 * @return array
 	 */
 	public function get_columns() {
 		return \get_column_headers( \get_current_screen() );
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Default column renderer.
 	 *
 	 * @param Item   $item        The item object.
 	 * @param string $column_name The column name.
@@ -138,12 +144,12 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Handle row actions.
 	 *
 	 * @param Item   $item        The item object.
 	 * @param string $column_name The column name.
 	 * @param string $primary     The primary column name.
-	 * @return string
+	 * @return string The row actions HTML.
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
 		if ( $column_name !== $primary ) {
@@ -180,12 +186,12 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Checkbox column renderer.
 	 *
 	 * @param Item $item The item object.
 	 * @return string
 	 */
-	public function column_cb( $item ) {
+	public function column_cb( $item ): string {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			$this->_args['singular'],
@@ -194,7 +200,7 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Configure the title column.
+	 * Title column renderer.
 	 *
 	 * @param Item $item The item object.
 	 * @return string
@@ -216,7 +222,7 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Configure the author column.
+	 * Author column renderer.
 	 *
 	 * @param Item $item The item object.
 	 * @return string
@@ -233,7 +239,7 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Configure the form column.
+	 * Form column renderer.
 	 *
 	 * @param Item $item The item object.
 	 * @return string
@@ -250,7 +256,7 @@ class List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Configure the date column.
+	 * Date column renderer.
 	 *
 	 * @param Item $item The item object.
 	 * @return string

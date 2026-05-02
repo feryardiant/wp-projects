@@ -100,7 +100,7 @@ final class Item {
 	 *
 	 * @param int|null $id   The item ID.
 	 * @param bool     $read The read status.
-	 * @return int|false
+	 * @return int|false The updated meta ID if successful, false on failure.
 	 */
 	public static function set_read_status( ?int $id, bool $read ): int|false {
 		return \update_post_meta( $id, '_cf7em_read_status', $read ? 1 : 0 );
@@ -111,14 +111,14 @@ final class Item {
 	 *
 	 * @param WPCF7_ContactForm $form   The contact form.
 	 * @param Option            $option The submission option.
-	 * @return int|WP_Error
+	 * @return int|\WP_Error The ID of the stored submission or WP_Error on failure.
 	 */
 	public static function store( WPCF7_ContactForm $form, Option $option ) {
 		$form_data = $option->form_data();
 
 		$returned_id = \wp_insert_post(
 			array(
-				'post_type'    => 'form-submissions',
+				'post_type'    => Submission::POST_TYPE,
 				'post_status'  => 'publish',
 				'post_title'   => $option->subject ?: sprintf(
 					/* translators: %s: Contact form title */
@@ -128,7 +128,7 @@ final class Item {
 				'post_parent'  => $form->id(),
 				'post_author'  => self::store_author( $option ),
 				'post_excerpt' => $option->message,
-			// 'post_content' => null,
+				// 'post_content' => null,
 			),
 			true
 		);
@@ -148,7 +148,7 @@ final class Item {
 	 * Store submission author.
 	 *
 	 * @param Option $option The submission option.
-	 * @return int
+	 * @return int The ID of the stored author (user ID) or 0 if not stored.
 	 */
 	private static function store_author( Option $option ): int {
 		$could_store = ( $option->email && \is_email( $option->email ) );
@@ -242,6 +242,8 @@ final class Item {
 
 	/**
 	 * Get the form post for this submission item.
+	 *
+	 * @return WPCF7_ContactForm|null The contact form object or null if not found.
 	 */
 	public function form(): ?WPCF7_ContactForm {
 		return $this->form_id ? WPCF7_ContactForm::get_instance( $this->form_id ) : null;
@@ -249,6 +251,8 @@ final class Item {
 
 	/**
 	 * Get the author for this submission item.
+	 *
+	 * @return WP_User|null The user object or null if not found.
 	 */
 	public function author(): ?WP_User {
 		if ( ! $this->author_id ) {
@@ -260,20 +264,26 @@ final class Item {
 
 	/**
 	 * Mark this submission item as read.
+	 *
+	 * @return int|false
 	 */
-	public function mark_read() {
+	public function mark_read(): int|false {
 		return self::set_read_status( $this->id, true );
 	}
 
 	/**
 	 * Mark this submission item as unread.
+	 *
+	 * @return int|false
 	 */
-	public function mark_unread() {
+	public function mark_unread(): int|false {
 		return self::set_read_status( $this->id, false );
 	}
 
 	/**
 	 * Check if this submission item is read.
+	 *
+	 * @return bool
 	 */
 	public function is_read(): bool {
 		return 1 === $this->read_status;
@@ -281,6 +291,8 @@ final class Item {
 
 	/**
 	 * Check if this submission item is unread.
+	 *
+	 * @return bool
 	 */
 	public function is_unread(): bool {
 		return 0 === $this->read_status;
@@ -291,10 +303,10 @@ final class Item {
 	 *
 	 * @param 'view'|'read' $action    The action.
 	 * @param string|null   $nonce_key The nonce key.
-	 * @return string
+	 * @return string The escaped URL.
 	 */
-	public function url( string $action = 'view', ?string $nonce_key = null ) {
-		$link = admin_menu_url(
+	public function url( string $action = 'view', ?string $nonce_key = null ): string {
+		$link = Submission::admin_menu_url(
 			array(
 				'post'   => $this->id,
 				'action' => $action,
