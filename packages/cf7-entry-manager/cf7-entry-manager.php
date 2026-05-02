@@ -73,13 +73,13 @@ define( 'CF7EM__MINIMUM_PHP_VERSION', '8.1' );
  * Check if the version of PHP in use on the site is supported.
  */
 if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
+	/**
+	 * Display an admin notice if the PHP version is too low.
+	 *
+	 * @return void
+	 */
 	add_action(
 		'admin_notices',
-		/**
-		 * Display an admin notice if the PHP version is too low.
-		 *
-		 * @return void
-		 */
 		static function () {
 			$screen = get_current_screen();
 
@@ -112,13 +112,13 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
  * Check if the version of WordPress in use on the site is supported.
  */
 if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) ) {
+	/**
+	 * Display an admin notice if the WordPress version is too low.
+	 *
+	 * @return void
+	 */
 	add_action(
 		'admin_notices',
-		/**
-		 * Display an admin notice if the WordPress version is too low.
-		 *
-		 * @return void
-		 */
 		static function () {
 			$screen = get_current_screen();
 
@@ -202,13 +202,13 @@ add_action(
 		 * Check if the version of Contact Form 7 in use on the site is supported by Entry Manager for Contact Form 7.
 		 */
 		if ( version_compare( WPCF7_VERSION, CF7EM__MINIMUM_WPCF7_VERSION, '<' ) ) {
+			/**
+			 * Display an admin notice if the Contact Form 7 version is too low.
+			 *
+			 * @return void
+			 */
 			add_action(
 				'admin_notices',
-				/**
-				 * Display an admin notice if the Contact Form 7 version is too low.
-				 *
-				 * @return void
-				 */
 				static function () {
 					$screen = get_current_screen();
 
@@ -270,62 +270,6 @@ add_action(
 		 */
 		\add_action( 'admin_menu', array( Submission::class, 'admin_menu' ), 9, 0 );
 	}
-);
-
-/**
- * Capture the contact form submission and store it to database before sending it.
- *
- * @param WPCF7_ContactForm $contact_form The contact form object.
- * @return void
- */
-\add_action(
-	'wpcf7_before_send_mail',
-	static function ( WPCF7_ContactForm $contact_form ): void {
-		$option = Option::get( $contact_form );
-
-		if ( ! $option ) {
-			return;
-		}
-
-		$form_data = $option->form_data();
-
-		/**
-		 * Action hook before saving the submission.
-		 *
-		 * @param array $form_data The form submission data.
-		 */
-		\do_action( 'cf7em_before_save', $form_data );
-
-		$returned_id = Item::store( $contact_form, $option );
-
-		/**
-		 * Action hook after saving the submission.
-		 *
-		 * @param array          $form_data   The form submission data.
-		 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
-		 */
-		\do_action( 'cf7em_after_save', $form_data, $returned_id );
-	},
-	10,
-	1
-);
-
-/**
- * Prepare to store option properties values.
- *
- * @param WPCF7_ContactForm $contact_form The contact form object.
- * @param array             $data         The form data being saved.
- * @return void
- */
-\add_action(
-	'wpcf7_save_contact_form',
-	static function ( WPCF7_ContactForm $contact_form, array $data ): void {
-		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
-
-		$contact_form->set_properties( array( Option::FORM_PROP_KEY => $submissions ) );
-	},
-	10,
-	2
 );
 
 /**
@@ -429,7 +373,7 @@ add_action(
  */
 \add_filter(
 	'wpcf7_pre_construct_contact_form_properties',
-	static fn ( array $properties ) => array_merge(
+	static fn ( array $properties ): array => array_merge(
 		$properties,
 		array( Option::FORM_PROP_KEY => array() )
 	),
@@ -457,4 +401,60 @@ add_action(
 	},
 	10,
 	1
+);
+
+/**
+ * Capture the contact form submission and store it to database before sending it.
+ *
+ * @param WPCF7_ContactForm $contact_form The contact form object.
+ * @return void
+ */
+\add_action(
+	'wpcf7_before_send_mail',
+	static function ( WPCF7_ContactForm $contact_form ): void {
+		$option = Option::get( $contact_form );
+
+		if ( ! $option ) {
+			return;
+		}
+
+		$form_data = $option->form_data();
+
+		/**
+		 * Action hook before saving the submission.
+		 *
+		 * @param array $form_data The form submission data.
+		 */
+		\do_action( 'cf7em_before_save', $form_data );
+
+		$returned_id = Item::store( $contact_form, $option );
+
+		/**
+		 * Action hook after saving the submission.
+		 *
+		 * @param array         $form_data   The form submission data.
+		 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
+		 */
+		\do_action( 'cf7em_after_save', $form_data, $returned_id );
+	},
+	10,
+	1
+);
+
+/**
+ * Prepare to store option properties values.
+ *
+ * @param WPCF7_ContactForm $contact_form The contact form object.
+ * @param array             $data         The form data being saved.
+ * @return void
+ */
+\add_action(
+	'wpcf7_save_contact_form',
+	static function ( WPCF7_ContactForm $contact_form, array $data ): void {
+		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
+
+		$contact_form->set_properties( array( Option::FORM_PROP_KEY => $submissions ) );
+	},
+	10,
+	2
 );
