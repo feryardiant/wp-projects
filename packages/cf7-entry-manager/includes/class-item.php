@@ -160,7 +160,7 @@ final class Item {
 		if ( \email_exists( $option->email ) ) {
 			$user = WP_User::get_data_by( 'email', $option->email );
 
-			\update_user_meta( $user->ID, 'user_phone', $option->phone ?? '' );
+			\update_user_meta( $user->ID, Submission::USER_PHONE_META_KEY, $option->phone ?? '' );
 
 			return (int) $user->ID;
 		}
@@ -172,7 +172,7 @@ final class Item {
 		if ( \username_exists( $login ) ) {
 			$user = WP_User::get_data_by( 'login', $login );
 
-			\update_user_meta( $user->ID, 'user_phone', $option->phone ?? '' );
+			\update_user_meta( $user->ID, Submission::USER_PHONE_META_KEY, $option->phone ?? '' );
 
 			return (int) $user->ID;
 		}
@@ -198,7 +198,7 @@ final class Item {
 			return 0;
 		}
 
-		\update_user_meta( $user_id, 'user_phone', $option->phone ?? '' );
+		\update_user_meta( $user_id, Submission::USER_PHONE_META_KEY, $option->phone ?? '' );
 
 		return (int) $user_id;
 	}
@@ -221,11 +221,12 @@ final class Item {
 		$this->datetime    = \get_post_datetime( $item?->ID ?? null ) ?: null;
 		$this->read_status = (int) \get_post_meta( $this->id, '_cf7em_read_status', true );
 
-		$author = $this->author();
+		$author      = $this->author();
+		$phone_field = Submission::USER_PHONE_META_KEY;
 
 		$this->author_name  = empty( $author?->display_name ) ? null : $author?->display_name;
 		$this->author_email = empty( $author?->user_email ) ? null : $author?->user_email;
-		$this->author_phone = empty( $author?->user_phone ) ? null : $author?->user_phone;
+		$this->author_phone = empty( $author?->{$phone_field} ) ? null : $author?->{$phone_field};
 
 		$submission = array();
 
