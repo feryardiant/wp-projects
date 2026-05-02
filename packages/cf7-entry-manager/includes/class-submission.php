@@ -87,7 +87,7 @@ final class Submission {
 	 * @return void
 	 */
 	public static function admin_menu() {
-		$post_type_object = \get_post_type_object( self::POST_TYPE );
+		$post_type_object = self::get_post_type_object();
 
 		$submissions = \add_submenu_page(
 			'wpcf7',

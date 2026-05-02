@@ -81,6 +81,16 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 		 * @return void
 		 */
 		static function () {
+			$screen = get_current_screen();
+
+			if (
+				! in_array( $screen->id, array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' ), true )
+				&& false === strpos( $screen->id, 'wpcf7' )
+				&& 'contact_page_cf7-entry-manager' !== $screen->id
+			) {
+				return;
+			}
+
 			echo '<div class="notice notice-error is-dismissible"><p>';
 
 			// phpcs:disable WordPress.Security.EscapeOutput
@@ -110,6 +120,16 @@ if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) )
 		 * @return void
 		 */
 		static function () {
+			$screen = get_current_screen();
+
+			if (
+				! in_array( $screen->id, array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' ), true )
+				&& false === strpos( $screen->id, 'wpcf7' )
+				&& 'contact_page_cf7-entry-manager' !== $screen->id
+			) {
+				return;
+			}
+
 			echo '<div class="notice notice-error is-dismissible"><p>';
 
 			// phpcs:disable WordPress.Security.EscapeOutput
@@ -190,6 +210,16 @@ add_action(
 				 * @return void
 				 */
 				static function () {
+					$screen = get_current_screen();
+
+					if (
+						! in_array( $screen->id, array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' ), true )
+						&& false === strpos( $screen->id, 'wpcf7' )
+						&& 'contact_page_cf7-entry-manager' !== $screen->id
+					) {
+						return;
+					}
+
 					echo '<div class="notice notice-error is-dismissible"><p>';
 
 					// phpcs:disable WordPress.Security.EscapeOutput

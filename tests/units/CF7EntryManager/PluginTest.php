@@ -30,6 +30,10 @@ class PluginTest extends BaseTestCase
         Functions\when('plugin_dir_url')->justReturn('https://example.com/wp-content/plugins/cf7-entry-manager/');
         Functions\when('register_post_type')->justReturn();
 
+        if (! defined('WPCF7_VERSION')) {
+            define('WPCF7_VERSION', '6.1');
+        }
+
         // Set WP version global if not available
         if (! isset($GLOBALS['wp_version'])) {
             $GLOBALS['wp_version'] = getenv('WP_VERSION') ?: '6.9';
@@ -39,7 +43,7 @@ class PluginTest extends BaseTestCase
         // Actions\expectAdded( 'admin_notices' )->never();
         // Actions\expectAdded( 'admin_enqueue_scripts' )->once();
         // Actions\expectAdded( 'wpcf7_init' )->once();
-        Actions\expectAdded('init')
+        Actions\expectAdded('wpcf7_init')
             ->once()
             ->whenHappen(function ($callback) {
                 Filters\expectAdded('user_contactmethods')->once();
