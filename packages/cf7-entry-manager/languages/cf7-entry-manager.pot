@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-02T00:18:49+00:00\n"
+"POT-Creation-Date: 2026-05-02T01:07:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: cf7-entry-manager\n"
@@ -35,24 +35,24 @@ msgid "https://feryardiant.id"
 msgstr ""
 
 #. translators: %s: version of PHP required by Entry Manager for Contact Form 7 plugin.
-#: cf7-entry-manager.php:51
+#: cf7-entry-manager.php:50
 #, php-format
 msgid "Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused."
 msgstr ""
 
 #. translators: %s: version of WordPress required by Entry Manager for Contact Form 7 plugin.
-#: cf7-entry-manager.php:75
+#: cf7-entry-manager.php:74
 #, php-format
 msgid "Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused."
 msgstr ""
 
 #. translators: %s: version of Contact Form 7 required by Entry Manager for Contact Form 7 plugin.
-#: cf7-entry-manager.php:129
+#: cf7-entry-manager.php:128
 #, php-format
 msgid "Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused."
 msgstr ""
 
-#: cf7-entry-manager.php:159
+#: cf7-entry-manager.php:158
 msgid "Phone Number"
 msgstr ""
 
@@ -259,32 +259,32 @@ msgstr ""
 msgid "no phone info"
 msgstr ""
 
-#: views/view-entry.php:211
+#: views/view-entry.php:217
 msgid "Submission Entry"
 msgstr ""
 
-#: views/view-entry.php:268
+#: views/view-entry.php:274
 msgid "No file uploaded"
 msgstr ""
 
-#: views/view-entry.php:273
+#: views/view-entry.php:279
 msgid "Accepted"
 msgstr ""
 
-#: views/view-entry.php:274
+#: views/view-entry.php:280
 msgid "Not accepted"
 msgstr ""
 
-#: views/view-entry.php:277
+#: views/view-entry.php:283
 msgid "No answer"
 msgstr ""
 
 #. translators: %s: comma-separated list of form tag options
-#: views/view-entry.php:316
+#: views/view-entry.php:322
 #, php-format
 msgid "Options: %s"
 msgstr ""
 
-#: views/view-entry.php:331
+#: views/view-entry.php:337
 msgid "Questions"
 msgstr ""
