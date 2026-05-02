@@ -17,24 +17,66 @@ use WPCF7_Submission;
  * Class Option.
  */
 final class Option implements ArrayAccess {
+	/**
+	 * Meta key for whether to record submissions.
+	 *
+	 * @var string
+	 */
 	public const SHOULD_RECORD_KEY = 'should_record';
 
+	/**
+	 * Meta key for the subject field name.
+	 *
+	 * @var string
+	 */
 	public const SUBJECT_FIELD_KEY = 'subject_field';
 
+	/**
+	 * Meta key for the message field name.
+	 *
+	 * @var string
+	 */
 	public const MESSAGE_FIELD_KEY = 'message_field';
 
+	/**
+	 * Meta key for whether to store the author.
+	 *
+	 * @var string
+	 */
 	public const STORE_AUTHOR_KEY = 'store_author';
 
+	/**
+	 * Meta key for the author name field name.
+	 *
+	 * @var string
+	 */
 	public const NAME_FIELD_KEY = 'name_field';
 
+	/**
+	 * Meta key for the author email field name.
+	 *
+	 * @var string
+	 */
 	public const EMAIL_FIELD_KEY = 'email_field';
 
+	/**
+	 * Meta key for the author phone field name.
+	 *
+	 * @var string
+	 */
 	public const PHONE_FIELD_KEY = 'phone_field';
+
+	/**
+	 * Meta key for the form property name.
+	 *
+	 * @var string
+	 */
+	public const FORM_PROP_KEY = 'submissions';
 
 	/**
 	 * Default properties.
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	public readonly array $defaults;
 
@@ -53,7 +95,7 @@ final class Option implements ArrayAccess {
 	public string $subject_field;
 
 	/**
-	 * The configured value of {$subject_field}.
+	 * The configured value of the subject field.
 	 *
 	 * @var string|null
 	 */
@@ -67,7 +109,7 @@ final class Option implements ArrayAccess {
 	public string $message_field;
 
 	/**
-	 * The configured value of {$message_field}.
+	 * The configured value of the message field.
 	 *
 	 * @var string|null
 	 */
@@ -88,7 +130,7 @@ final class Option implements ArrayAccess {
 	public string $name_field;
 
 	/**
-	 * The configured value of {$name_field}.
+	 * The configured value of the name field.
 	 *
 	 * @var string|null
 	 */
@@ -102,7 +144,7 @@ final class Option implements ArrayAccess {
 	public string $email_field;
 
 	/**
-	 * The configured value of {$email_field}.
+	 * The configured value of the email field.
 	 *
 	 * @var string|null
 	 */
@@ -116,7 +158,7 @@ final class Option implements ArrayAccess {
 	public string $phone_field;
 
 	/**
-	 * The configured value of {$phone_field}.
+	 * The configured value of the phone field.
 	 *
 	 * @var string|null
 	 */
@@ -125,14 +167,14 @@ final class Option implements ArrayAccess {
 	/**
 	 * Form data.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private array $form_data = array();
 
 	/**
-	 * Field map.
+	 * Field map linking internal properties to field keys.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private array $field_map = array(
 		'subject' => self::SUBJECT_FIELD_KEY,
@@ -146,7 +188,7 @@ final class Option implements ArrayAccess {
 	 * Get all available options for the given $contact_form.
 	 *
 	 * @param WPCF7_ContactForm $contact_form The contact form.
-	 * @return Option|false
+	 * @return Option|false The Option instance or false if recording is disabled or submission is missing.
 	 */
 	public static function get( WPCF7_ContactForm $contact_form ): Option|false {
 		$option     = new self( $contact_form );
@@ -194,7 +236,7 @@ final class Option implements ArrayAccess {
 			self::PHONE_FIELD_KEY   => '',
 		);
 
-		$properties   = \wp_parse_args( $contact_form->prop( 'submissions' ), $this->defaults );
+		$properties   = \wp_parse_args( $contact_form->prop( self::FORM_PROP_KEY ), $this->defaults );
 		$boolean_keys = array( self::SHOULD_RECORD_KEY, self::STORE_AUTHOR_KEY );
 
 		foreach ( $properties as $key => $value ) {
@@ -205,9 +247,9 @@ final class Option implements ArrayAccess {
 	}
 
 	/**
-	 * Get the form data for the submission option form.
+	 * Get the form data for the submission.
 	 *
-	 * @return array<string, mixed>
+	 * @return array<string, string>
 	 */
 	public function form_data() {
 		return $this->form_data;
@@ -217,7 +259,7 @@ final class Option implements ArrayAccess {
 	 * Offset to retrieve.
 	 *
 	 * @param mixed $offset The offset.
-	 * @return mixed
+	 * @return mixed The value or null if not found.
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet( $offset ) {
@@ -229,6 +271,7 @@ final class Option implements ArrayAccess {
 	 *
 	 * @param mixed $offset The offset.
 	 * @param mixed $value  The value.
+	 * @return void
 	 */
 	public function offsetSet( $offset, $value ): void {
 		if ( array_key_exists( $offset, $this->field_map ) ) {
@@ -240,6 +283,7 @@ final class Option implements ArrayAccess {
 	 * Offset to unset.
 	 *
 	 * @param mixed $offset The offset.
+	 * @return void
 	 */
 	public function offsetUnset( $offset ): void {
 		// Doing nothing.

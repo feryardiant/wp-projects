@@ -151,16 +151,16 @@ final class Page_Element {
 	private WPCF7_HTMLFormatter $formatter;
 
 	/**
-	 * Known elements.
+	 * List of known HTML elements that can be generated.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	private array $known_elements = array();
 
 	/**
-	 * Ignored elements.
+	 * List of HTML elements to be ignored (not allowed to be generated).
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	private array $ignored_elements = array(
 		WPCF7_HTMLFormatter::placeholder_block,
@@ -177,7 +177,7 @@ final class Page_Element {
 	);
 
 	/**
-	 * Within element flag.
+	 * Flag indicating if we are currently inside an element context.
 	 *
 	 * @var bool
 	 */
@@ -186,7 +186,7 @@ final class Page_Element {
 	/**
 	 * Constructor.
 	 *
-	 * @param array $option The options.
+	 * @param array $option Options for the WPCF7_HTMLFormatter instance.
 	 */
 	public function __construct( array $option ) {
 		if ( array_key_exists( 'allowed_html', $option ) ) {
@@ -210,12 +210,12 @@ final class Page_Element {
 	}
 
 	/**
-	 * Magic method __call.
+	 * Magic method __call to handle HTML element generation.
 	 *
-	 * @param string $method The method name.
-	 * @param array  $args   The arguments.
+	 * @param string $method The HTML element name.
+	 * @param array  $args   Arguments (attributes and child content).
 	 * @return self
-	 * @throws \BadMethodCallException If method is undefined.
+	 * @throws \BadMethodCallException If the element is not known or allowed.
 	 * @throws \TypeError              If arguments are invalid.
 	 */
 	public function __call( string $method, array $args = array() ): self {
@@ -297,7 +297,7 @@ final class Page_Element {
 	}
 
 	/**
-	 * Append whitespace.
+	 * Append a whitespace character.
 	 *
 	 * @return self
 	 */
@@ -308,10 +308,10 @@ final class Page_Element {
 	}
 
 	/**
-	 * Clear float.
+	 * Append a clearing element.
 	 *
-	 * @param 'br'|'div'|'span' $mode The element mode.
-	 * @throws \InvalidArgumentException If mode is invalid.
+	 * @param 'br'|'div'|'span' $mode The clearing element type.
+	 * @throws \InvalidArgumentException If an invalid mode is provided.
 	 * @return self
 	 */
 	public function clear( string $mode = 'br' ): self {
@@ -335,10 +335,10 @@ final class Page_Element {
 	}
 
 	/**
-	 * Call a user function.
+	 * Call a user-defined function within the fluent interface.
 	 *
-	 * @param Closure $callback The callback.
-	 * @param mixed   ...$params The parameters.
+	 * @param Closure $callback The callback function.
+	 * @param mixed   ...$params Additional parameters for the callback.
 	 * @return self
 	 */
 	public function call( Closure $callback, mixed ...$params ): self {
@@ -348,11 +348,11 @@ final class Page_Element {
 	}
 
 	/**
-	 * Call a user function when condition is met.
+	 * Conditionally call a user-defined function.
 	 *
-	 * @param bool|Closure $condition The condition.
-	 * @param Closure      $met       The met callback.
-	 * @param mixed        ...$params The parameters.
+	 * @param bool|Closure $condition The condition to check.
+	 * @param Closure      $met       The callback to execute if the condition is met.
+	 * @param mixed        ...$params Additional parameters for the callback.
 	 * @return self
 	 */
 	public function call_when( bool|Closure $condition, Closure $met, mixed ...$params ): self {
@@ -366,12 +366,12 @@ final class Page_Element {
 	}
 
 	/**
-	 * Execute callback when condition is met.
+	 * Conditionally execute closures on the current Page_Element instance.
 	 *
-	 * @param bool|Closure       $condition The condition.
-	 * @param Closure(self)      $met       The met callback.
-	 * @param Closure(self)|null $unmet     The unmet callback.
-	 * @return self|void
+	 * @param bool|Closure       $condition The condition to check.
+	 * @param Closure(self)      $met       The closure to execute if the condition is met.
+	 * @param Closure(self)|null $unmet     The closure to execute if the condition is not met.
+	 * @return self
 	 */
 	public function when( bool|Closure $condition, Closure $met, ?Closure $unmet = null ): self {
 		if ( $condition instanceof Closure ) {
@@ -388,9 +388,9 @@ final class Page_Element {
 	}
 
 	/**
-	 * Dump parameters.
+	 * Dump parameters for debugging (no-op if CF7EM_DEBUG is false).
 	 *
-	 * @param mixed ...$params The parameters.
+	 * @param mixed ...$params The parameters to dump.
 	 * @return self
 	 * @internal
 	 */
@@ -413,10 +413,10 @@ final class Page_Element {
 	}
 
 	/**
-	 * Render the output.
+	 * Render the accumulated HTML output.
 	 *
 	 * @return void
-	 * @throws \LogicException If called within an element.
+	 * @throws \LogicException If called while inside an element context.
 	 */
 	public function render(): void {
 		if ( $this->within_element ) {

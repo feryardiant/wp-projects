@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
- * @var Page_Element $elm
- * @var \WP_Post_Type $post_type_object
+ * @var Page_Element  $elm              The page element instance.
+ * @var \WP_Post_Type $post_type_object The custom post type object.
  */
 
 $elm->div(

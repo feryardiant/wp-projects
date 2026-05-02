@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
- * @var Item $item
- * @var Page_Element $elm
+ * @var Item         $item The submission item instance.
+ * @var Page_Element $elm  The page element instance.
  */
 
 $elm->div(
@@ -26,19 +26,7 @@ $elm->div(
 	static fn ( $elm ) => $elm
 	->call(
 		static function () use ( $item ) {
-			do_action(
-				'wpcf7_admin_warnings',
-				$item->id ? 'wpcf7-new' : 'wpcf7',
-				wpcf7_current_action(),
-				$item
-			);
-
-			do_action(
-				'wpcf7_admin_notices',
-				$item->id ? 'wpcf7-new' : 'wpcf7',
-				wpcf7_current_action(),
-				$item
-			);
+			// Do nothing for now
 		},
 		$item
 	)

@@ -27,20 +27,59 @@ use CF7_Entry_Manager\Submission;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Plugin version.
+ *
+ * @var string
+ */
 define( 'CF7EM_VERSION', '0.1.0' );
+
+/**
+ * Debug mode flag.
+ *
+ * @var bool
+ */
 define( 'CF7EM_DEBUG', defined( 'WP_DEBUG' ) && boolval( WP_DEBUG ) );
+
+/**
+ * Plugin directory path.
+ *
+ * @var string
+ */
 define( 'CF7EM_PLUGIN_DIR', __DIR__ );
 
+/**
+ * Minimum required WordPress version.
+ *
+ * @var string
+ */
 define( 'CF7EM__MINIMUM_WP_VERSION', '6.0' );
+
+/**
+ * Minimum required Contact Form 7 version.
+ *
+ * @var string
+ */
 define( 'CF7EM__MINIMUM_WPCF7_VERSION', '6.1' );
+
+/**
+ * Minimum required PHP version.
+ *
+ * @var string
+ */
 define( 'CF7EM__MINIMUM_PHP_VERSION', '8.1' );
 
 /**
- * Check if the version of WordPress in use on the site is supported by Entry Manager for Contact Form 7.
+ * Check if the version of PHP in use on the site is supported.
  */
 if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action(
 		'admin_notices',
+		/**
+		 * Display an admin notice if the PHP version is too low.
+		 *
+		 * @return void
+		 */
 		static function () {
 			echo '<div class="notice notice-error is-dismissible"><p>';
 
@@ -60,11 +99,16 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 }
 
 /**
- * Check if the version of WordPress in use on the site is supported by Entry Manager for Contact Form 7.
+ * Check if the version of WordPress in use on the site is supported.
  */
 if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) ) {
 	add_action(
 		'admin_notices',
+		/**
+		 * Display an admin notice if the WordPress version is too low.
+		 *
+		 * @return void
+		 */
 		static function () {
 			echo '<div class="notice notice-error is-dismissible"><p>';
 
@@ -85,6 +129,11 @@ if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) )
 
 register_activation_hook(
 	__FILE__,
+	/**
+	 * Perform actions on plugin activation.
+	 *
+	 * @return void
+	 */
 	static function () {
 		// Doing nothing on activation.
 	}
@@ -92,6 +141,11 @@ register_activation_hook(
 
 register_deactivation_hook(
 	__FILE__,
+	/**
+	 * Perform actions on plugin deactivation.
+	 *
+	 * @return void
+	 */
 	static function () {
 		// Doing nothing on deactivation.
 	}
@@ -99,6 +153,12 @@ register_deactivation_hook(
 
 add_action(
 	'admin_enqueue_scripts',
+	/**
+	 * Enqueue admin scripts and styles.
+	 *
+	 * @param string $suffix The current admin page suffix.
+	 * @return void
+	 */
 	static function ( string $suffix ) {
 		if ( ! in_array( $suffix, array( 'toplevel_page_wpcf7', 'contact_page_cf7-entry-manager' ), true ) ) {
 			return;
@@ -112,6 +172,11 @@ add_action(
 
 add_action(
 	'wpcf7_init',
+	/**
+	 * Initialize the plugin when Contact Form 7 is ready.
+	 *
+	 * @return void
+	 */
 	static function () {
 		/**
 		 * Check if the version of Contact Form 7 in use on the site is supported by Entry Manager for Contact Form 7.
@@ -119,6 +184,11 @@ add_action(
 		if ( version_compare( WPCF7_VERSION, CF7EM__MINIMUM_WPCF7_VERSION, '<' ) ) {
 			add_action(
 				'admin_notices',
+				/**
+				 * Display an admin notice if the Contact Form 7 version is too low.
+				 *
+				 * @return void
+				 */
 				static function () {
 					echo '<div class="notice notice-error is-dismissible"><p>';
 
@@ -151,6 +221,9 @@ add_action(
 
 		/**
 		 * Override user contact meta properties.
+		 *
+		 * @param array $methods The user contact methods.
+		 * @return array
 		 */
 		add_filter(
 			'user_contactmethods',
@@ -171,6 +244,9 @@ add_action(
 
 /**
  * Capture the contact form submission and store it to database before sending it.
+ *
+ * @param WPCF7_ContactForm $contact_form The contact form object.
+ * @return void
  */
 \add_action(
 	'wpcf7_before_send_mail',
@@ -183,10 +259,21 @@ add_action(
 
 		$form_data = $option->form_data();
 
+		/**
+		 * Action hook before saving the submission.
+		 *
+		 * @param array $form_data The form submission data.
+		 */
 		\do_action( 'cf7em_before_save', $form_data );
 
 		$returned_id = Item::store( $contact_form, $option );
 
+		/**
+		 * Action hook after saving the submission.
+		 *
+		 * @param array          $form_data   The form submission data.
+		 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
+		 */
 		\do_action( 'cf7em_after_save', $form_data, $returned_id );
 	},
 	10,
@@ -195,18 +282,29 @@ add_action(
 
 /**
  * Prepare to store option properties values.
+ *
+ * @param WPCF7_ContactForm $contact_form The contact form object.
+ * @param array             $data         The form data being saved.
+ * @return void
  */
 \add_action(
 	'wpcf7_save_contact_form',
 	static function ( WPCF7_ContactForm $contact_form, array $data ): void {
 		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
 
-		$contact_form->set_properties( array( 'submissions' => $submissions ) );
+		$contact_form->set_properties( array( Option::FORM_PROP_KEY => $submissions ) );
 	},
 	10,
 	2
 );
 
+/**
+ * Filter the editor panel options for the submissions tab.
+ *
+ * @param array             $options      The existing panel options.
+ * @param WPCF7_ContactForm $contact_form The contact form object.
+ * @return array
+ */
 \add_filter(
 	'cf7em_editor_panel_options',
 	static function ( array $options, WPCF7_ContactForm $contact_form ) {
@@ -295,12 +393,15 @@ add_action(
 
 /**
  * Register new contact form option properties.
+ *
+ * @param array $properties The existing contact form properties.
+ * @return array
  */
 \add_filter(
 	'wpcf7_pre_construct_contact_form_properties',
 	static fn ( array $properties ) => array_merge(
 		$properties,
-		array( 'submissions' => array() )
+		array( Option::FORM_PROP_KEY => array() )
 	),
 	10,
 	1
@@ -308,13 +409,16 @@ add_action(
 
 /**
  * Add a submissions panel to the contact form editor.
+ *
+ * @param array $panels The existing editor panels.
+ * @return array
  */
 \add_filter(
 	'wpcf7_editor_panels',
 	static function ( array $panels ): array {
 		$post_type_object = Submission::get_post_type_object();
 
-		$panels['submissions'] = array(
+		$panels[ Option::FORM_PROP_KEY ] = array(
 			'title'    => $post_type_object->label,
 			'callback' => array( Submission::class, 'admin_editor_panel' ),
 		);

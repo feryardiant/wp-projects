@@ -9,17 +9,31 @@
 
 namespace CF7_Entry_Manager;
 
-use WP_Post_Type;
 use WPCF7_ContactForm;
 
 /**
  * Class Submission.
  */
 final class Submission {
+	/**
+	 * Custom post type slug for submissions.
+	 *
+	 * @var string
+	 */
 	public const POST_TYPE = 'cf7em-submission';
 
+	/**
+	 * Menu slug for the submissions admin page.
+	 *
+	 * @var string
+	 */
 	public const MENU_SLUG = 'cf7-entry-manager';
 
+	/**
+	 * Register the submissions custom post type.
+	 *
+	 * @return void
+	 */
 	public static function register() {
 		$labels = array(
 			'name'                  => __( 'Submissions', 'cf7-entry-manager' ),
@@ -69,6 +83,8 @@ final class Submission {
 
 	/**
 	 * Register the submissions admin menu.
+	 *
+	 * @return void
 	 */
 	public static function admin_menu() {
 		$post_type_object = \get_post_type_object( self::POST_TYPE );
@@ -95,6 +111,7 @@ final class Submission {
 	 * Load the submissions admin page.
 	 *
 	 * @internal
+	 * @return void
 	 */
 	public static function admin_load_page(): void {
 		$action = \wpcf7_superglobal_request( 'action', null );
@@ -137,6 +154,7 @@ final class Submission {
 	 *
 	 * @param WPCF7_ContactForm $contact_form The contact form.
 	 * @internal
+	 * @return void
 	 */
 	public static function admin_editor_panel( WPCF7_ContactForm $contact_form ): void {
 		$post_type_object = self::get_post_type_object();
@@ -158,6 +176,7 @@ final class Submission {
 	 * Render the submissions admin management page.
 	 *
 	 * @internal
+	 * @return void
 	 */
 	public static function admin_management_page(): void {
 		$action = \wpcf7_superglobal_request( 'action', null );
@@ -207,6 +226,7 @@ final class Submission {
 	 * Generate the admin URL for the submissions page.
 	 *
 	 * @param array $query The query arguments to add to the URL.
+	 * @return string The generated URL.
 	 */
 	public static function admin_menu_url( array $query ): string {
 		return \add_query_arg(
@@ -218,7 +238,7 @@ final class Submission {
 	/**
 	 * Retrieve custom post type object for form submission.
 	 *
-	 * @return WP_Post_Type|null
+	 * @return \WP_Post_Type|null The post type object or null if not registered.
 	 */
 	public static function get_post_type_object() {
 		return \get_post_type_object( self::POST_TYPE );
