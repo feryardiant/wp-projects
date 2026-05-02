@@ -33,15 +33,22 @@ $elm->fieldset(
 			child: static function ( $elm ) use ( $contact_form ) {
 				$option = new Option( $contact_form );
 
-				foreach ( $option->fields() as $id => $field ) {
+				/**
+				 * Get the form fields for the submission option form.
+				 *
+				 * @var array<string, array{label: string, hint: string, type: string, atts: array, options: array}> $fields
+				 */
+				$fields = apply_filters( 'cf7em_editor_panel_options', array(), $contact_form );
+
+				foreach ( $fields as $id => $field ) {
 					$field = \wp_parse_args(
 						$field,
 						array(
-							'label'       => '',
-							'description' => '',
-							'type'        => 'input',
-							'atts'        => array(),
-							'options'     => array(),
+							'label'   => '',
+							'hint'    => '',
+							'type'    => 'input',
+							'atts'    => array(),
+							'options' => array(),
 						)
 					);
 
@@ -124,14 +131,14 @@ $elm->fieldset(
 									default => $elm->input( $field_atts ),
 								};
 
-								if ( empty( $field['description'] ) ) {
+								if ( empty( $field['hint'] ) ) {
 									return;
 								}
 
 								if ( $is_checkbox ) {
-									$elm->span( array(), \esc_html( $field['description'] ) );
+									$elm->span( array(), \esc_html( $field['hint'] ) );
 								} else {
-									$elm->p( array( 'class' => 'description' ), \esc_html( $field['description'] ) );
+									$elm->p( array( 'class' => 'description' ), \esc_html( $field['hint'] ) );
 								}
 							}
 						)

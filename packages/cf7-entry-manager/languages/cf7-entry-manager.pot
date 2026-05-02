@@ -56,25 +56,73 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
+#: cf7-entry-manager.php:216
+msgid "Record"
+msgstr ""
+
+#: cf7-entry-manager.php:217
+msgid "Whether to record the submissions to the database"
+msgstr ""
+
+#: cf7-entry-manager.php:225
+#: includes/class-list-table.php:35
+msgid "Subject"
+msgstr ""
+
+#: cf7-entry-manager.php:226
+msgid "Choose which field is identified as a submission subject"
+msgstr ""
+
+#: cf7-entry-manager.php:236
+msgid "Message"
+msgstr ""
+
+#: cf7-entry-manager.php:237
+msgid "Choose which field is identified as a submission message"
+msgstr ""
+
+#: cf7-entry-manager.php:249
+#: includes/class-list-table.php:37
+msgid "Author"
+msgstr ""
+
+#: cf7-entry-manager.php:250
+msgid "Whether the submission author will be registered as subscriber"
+msgstr ""
+
+#: cf7-entry-manager.php:258
+msgid "Author Name"
+msgstr ""
+
+#: cf7-entry-manager.php:259
+msgid "Choose which field is identified as the submitter's name"
+msgstr ""
+
+#: cf7-entry-manager.php:269
+msgid "Author Email"
+msgstr ""
+
+#: cf7-entry-manager.php:270
+msgid "Choose which field is identified as the submitter's email"
+msgstr ""
+
+#: cf7-entry-manager.php:280
+msgid "Author Phone"
+msgstr ""
+
+#: cf7-entry-manager.php:281
+msgid "Choose which field is identified as the submitter's phone number"
+msgstr ""
+
 #. translators: %s: Contact form title
 #: includes/class-item.php:125
 #, php-format
 msgid "Submission for \"%s\""
 msgstr ""
 
-#: includes/class-list-table.php:35
-#: includes/class-option.php:211
-msgid "Subject"
-msgstr ""
-
 #: includes/class-list-table.php:36
 #: views/view-entry.php:143
 msgid "Form"
-msgstr ""
-
-#: includes/class-list-table.php:37
-#: includes/class-option.php:232
-msgid "Author"
 msgstr ""
 
 #: includes/class-list-table.php:38
@@ -132,54 +180,6 @@ msgstr ""
 msgid "g:i a"
 msgstr ""
 
-#: includes/class-option.php:203
-msgid "Record"
-msgstr ""
-
-#: includes/class-option.php:204
-msgid "Whether to record the submissions to the database"
-msgstr ""
-
-#: includes/class-option.php:212
-msgid "Choose which field is identified as a submission subject"
-msgstr ""
-
-#: includes/class-option.php:221
-msgid "Message"
-msgstr ""
-
-#: includes/class-option.php:222
-msgid "Choose which field is identified as a submission message"
-msgstr ""
-
-#: includes/class-option.php:233
-msgid "Whether the submission author will be registered as subscriber"
-msgstr ""
-
-#: includes/class-option.php:240
-msgid "Author Name"
-msgstr ""
-
-#: includes/class-option.php:241
-msgid "Choose which field is identified as the submitter's name"
-msgstr ""
-
-#: includes/class-option.php:250
-msgid "Author Email"
-msgstr ""
-
-#: includes/class-option.php:251
-msgid "Choose which field is identified as the submitter's email"
-msgstr ""
-
-#: includes/class-option.php:260
-msgid "Author Phone"
-msgstr ""
-
-#: includes/class-option.php:261
-msgid "Choose which field is identified as the submitter's phone number"
-msgstr ""
-
 #: includes/class-submission.php:25
 msgid "Submissions"
 msgstr ""
@@ -227,7 +227,7 @@ msgstr ""
 msgid "You can edit the way you treat each submissions here."
 msgstr ""
 
-#: views/editor-panel.php:108
+#: views/editor-panel.php:115
 msgid "None selected"
 msgstr ""
 

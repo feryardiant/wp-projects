@@ -17,6 +17,20 @@ use WPCF7_Submission;
  * Class Option.
  */
 final class Option implements ArrayAccess {
+	public const SHOULD_RECORD_KEY = 'should_record';
+
+	public const SUBJECT_FIELD_KEY = 'subject_field';
+
+	public const MESSAGE_FIELD_KEY = 'message_field';
+
+	public const STORE_AUTHOR_KEY = 'store_author';
+
+	public const NAME_FIELD_KEY = 'name_field';
+
+	public const EMAIL_FIELD_KEY = 'email_field';
+
+	public const PHONE_FIELD_KEY = 'phone_field';
+
 	/**
 	 * Default properties.
 	 *
@@ -121,11 +135,11 @@ final class Option implements ArrayAccess {
 	 * @var array
 	 */
 	private array $field_map = array(
-		'subject' => 'subject_field',
-		'message' => 'message_field',
-		'name'    => 'name_field',
-		'email'   => 'email_field',
-		'phone'   => 'phone_field',
+		'subject' => self::SUBJECT_FIELD_KEY,
+		'message' => self::MESSAGE_FIELD_KEY,
+		'name'    => self::NAME_FIELD_KEY,
+		'email'   => self::EMAIL_FIELD_KEY,
+		'phone'   => self::PHONE_FIELD_KEY,
 	);
 
 	/**
@@ -171,102 +185,23 @@ final class Option implements ArrayAccess {
 		private WPCF7_ContactForm $contact_form
 	) {
 		$this->defaults = array(
-			'should_record' => null,
-			'subject_field' => '',
-			'message_field' => '',
-			'store_author'  => null,
-			'name_field'    => '',
-			'email_field'   => '',
-			'phone_field'   => '',
+			self::SHOULD_RECORD_KEY => null,
+			self::SUBJECT_FIELD_KEY => '',
+			self::MESSAGE_FIELD_KEY => '',
+			self::STORE_AUTHOR_KEY  => null,
+			self::NAME_FIELD_KEY    => '',
+			self::EMAIL_FIELD_KEY   => '',
+			self::PHONE_FIELD_KEY   => '',
 		);
 
 		$properties   = \wp_parse_args( $contact_form->prop( 'submissions' ), $this->defaults );
-		$boolean_keys = array( 'should_record', 'store_author' );
+		$boolean_keys = array( self::SHOULD_RECORD_KEY, self::STORE_AUTHOR_KEY );
 
 		foreach ( $properties as $key => $value ) {
 			$this->$key = in_array( $key, $boolean_keys, true )
 				? ! is_null( $value )
 				: $value;
 		}
-	}
-
-	/**
-	 * Get the form fields for the submission option form.
-	 *
-	 * @return array<string, array{label: string, description: string, type: string, atts: array, options: array}>
-	 */
-	public function fields() {
-		$mail_tags = $this->contact_form->collect_mail_tags();
-
-		return array(
-			'should_record' => array(
-				'label'       => \__( 'Record', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Whether to record the submissions to the database',
-					'cf7-entry-manager'
-				),
-				'atts'        => array( 'type' => 'checkbox' ),
-			),
-			'subject_field' => array(
-				'label'       => \__( 'Subject', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as a submission subject',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'message_field' => array(
-				'label'       => \__( 'Message', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as a submission message',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'sep-1'         => array( 'type' => 'separator' ),
-			'store_author'  => array(
-				'label'       => \__( 'Author', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Whether the submission author will be registered as subscriber',
-					'cf7-entry-manager'
-				),
-				'atts'        => array( 'type' => 'checkbox' ),
-			),
-			'name_field'    => array(
-				'label'       => \__( 'Author Name', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as the submitter\'s name',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'email_field'   => array(
-				'label'       => \__( 'Author Email', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as the submitter\'s email',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-			'phone_field'   => array(
-				'label'       => \__( 'Author Phone', 'cf7-entry-manager' ),
-				'description' => \__(
-					'Choose which field is identified as the submitter\'s phone number',
-					'cf7-entry-manager'
-				),
-				'type'        => 'select',
-				'atts'        => array( 'class' => 'large-text code' ),
-				'options'     => $mail_tags,
-			),
-		);
 	}
 
 	/**

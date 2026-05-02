@@ -207,6 +207,92 @@ add_action(
 	2
 );
 
+\add_filter(
+	'cf7em_editor_panel_options',
+	static function ( array $options, WPCF7_ContactForm $contact_form ) {
+		$mail_tags = $contact_form->collect_mail_tags();
+
+		$options[ Option::SHOULD_RECORD_KEY ] = array(
+			'label' => \__( 'Record', 'cf7-entry-manager' ),
+			'hint'  => \__(
+				'Whether to record the submissions to the database',
+				'cf7-entry-manager'
+			),
+			'atts'  => array( 'type' => 'checkbox' ),
+		);
+
+		$options[ Option::SUBJECT_FIELD_KEY ] = array(
+			'label'   => \__( 'Subject', 'cf7-entry-manager' ),
+			'hint'    => \__(
+				'Choose which field is identified as a submission subject',
+				'cf7-entry-manager'
+			),
+			'type'    => 'select',
+			'atts'    => array( 'class' => 'large-text code' ),
+			'options' => $mail_tags,
+		);
+
+		$options[ Option::MESSAGE_FIELD_KEY ] = array(
+			'label'   => \__( 'Message', 'cf7-entry-manager' ),
+			'hint'    => \__(
+				'Choose which field is identified as a submission message',
+				'cf7-entry-manager'
+			),
+			'type'    => 'select',
+			'atts'    => array( 'class' => 'large-text code' ),
+			'options' => $mail_tags,
+		);
+
+		$options['sep-1'] = array( 'type' => 'separator' );
+
+		$options[ Option::STORE_AUTHOR_KEY ] = array(
+			'label' => \__( 'Author', 'cf7-entry-manager' ),
+			'hint'  => \__(
+				'Whether the submission author will be registered as subscriber',
+				'cf7-entry-manager'
+			),
+			'atts'  => array( 'type' => 'checkbox' ),
+		);
+
+		$options[ Option::NAME_FIELD_KEY ] = array(
+			'label'   => \__( 'Author Name', 'cf7-entry-manager' ),
+			'hint'    => \__(
+				'Choose which field is identified as the submitter\'s name',
+				'cf7-entry-manager'
+			),
+			'type'    => 'select',
+			'atts'    => array( 'class' => 'large-text code' ),
+			'options' => $mail_tags,
+		);
+
+		$options[ Option::EMAIL_FIELD_KEY ] = array(
+			'label'   => \__( 'Author Email', 'cf7-entry-manager' ),
+			'hint'    => \__(
+				'Choose which field is identified as the submitter\'s email',
+				'cf7-entry-manager'
+			),
+			'type'    => 'select',
+			'atts'    => array( 'class' => 'large-text code' ),
+			'options' => $mail_tags,
+		);
+
+		$options[ Option::PHONE_FIELD_KEY ] = array(
+			'label'   => \__( 'Author Phone', 'cf7-entry-manager' ),
+			'hint'    => \__(
+				'Choose which field is identified as the submitter\'s phone number',
+				'cf7-entry-manager'
+			),
+			'type'    => 'select',
+			'atts'    => array( 'class' => 'large-text code' ),
+			'options' => $mail_tags,
+		);
+
+		return $options;
+	},
+	10,
+	2
+);
+
 /**
  * Register new contact form option properties.
  */
