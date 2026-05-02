@@ -70,6 +70,27 @@ define( 'CF7EM__MINIMUM_WPCF7_VERSION', '6.1' );
 define( 'CF7EM__MINIMUM_PHP_VERSION', '8.1' );
 
 /**
+ * @internal
+ * @return bool
+ */
+function cf7em_within_scoped_screens(): bool {
+	if ( ! $screen = get_current_screen() ) {
+		return false;
+	}
+
+	$scoped_screens = array(
+		'plugins',
+		'plugins-network',
+		'update-core',
+		'update-core-network',
+		'contact_page_cf7-entry-manager',
+	);
+
+	return in_array( $screen->id, $scoped_screens, true )
+		|| false !== strpos( $screen->id, 'wpcf7' );
+}
+
+/**
  * Check if the version of PHP in use on the site is supported.
  */
 if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
@@ -81,13 +102,7 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action(
 		'admin_notices',
 		static function () {
-			$screen = get_current_screen();
-
-			if (
-				! in_array( $screen->id, array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' ), true )
-				&& false === strpos( $screen->id, 'wpcf7' )
-				&& 'contact_page_cf7-entry-manager' !== $screen->id
-			) {
+			if ( ! cf7em_within_scoped_screens() ) {
 				return;
 			}
 
@@ -120,13 +135,7 @@ if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) )
 	add_action(
 		'admin_notices',
 		static function () {
-			$screen = get_current_screen();
-
-			if (
-				! in_array( $screen->id, array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' ), true )
-				&& false === strpos( $screen->id, 'wpcf7' )
-				&& 'contact_page_cf7-entry-manager' !== $screen->id
-			) {
+			if ( ! cf7em_within_scoped_screens() ) {
 				return;
 			}
 
@@ -210,13 +219,7 @@ add_action(
 			add_action(
 				'admin_notices',
 				static function () {
-					$screen = get_current_screen();
-
-					if (
-						! in_array( $screen->id, array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' ), true )
-						&& false === strpos( $screen->id, 'wpcf7' )
-						&& 'contact_page_cf7-entry-manager' !== $screen->id
-					) {
+					if ( ! cf7em_within_scoped_screens() ) {
 						return;
 					}
 
