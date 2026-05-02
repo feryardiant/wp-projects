@@ -26,7 +26,7 @@ $elm->div(
 	static fn ( $elm ) => $elm
 	->call(
 		static function () use ( $item ) {
-			// Do nothing for now
+			// Do nothing for now.
 		},
 		$item
 	)
