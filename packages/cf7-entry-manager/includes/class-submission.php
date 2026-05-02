@@ -76,6 +76,18 @@ final class Submission {
 				'show_in_nav_menus' => false,
 				'show_in_admin_bar' => false,
 				'capability_type'   => 'post',
+				// Map everything to CF7 capabilities.
+				'capabilities'      => array(
+					'edit_post'          => 'wpcf7_edit_contact_form',   // Meta cap.
+					'read_post'          => 'wpcf7_read_contact_form',   // Meta cap.
+					'delete_post'        => 'wpcf7_delete_contact_form', // Meta cap.
+					'edit_posts'         => 'wpcf7_edit_contact_forms',
+					'edit_others_posts'  => 'wpcf7_edit_contact_forms',
+					'publish_posts'      => 'wpcf7_edit_contact_forms',
+					'read_private_posts' => 'wpcf7_read_contact_forms',
+					'create_posts'       => 'do_not_allow', // Prevents manual creation in admin.
+				),
+				'map_meta_cap'      => true, // Essential for the mapping above to work.
 				'hierarchical'      => false,
 				'supports'          => array( 'title', 'excerpt', 'author', 'custom-fields' ),
 				'rewrite'           => array( 'slug' => 'submission' ),
@@ -100,7 +112,7 @@ final class Submission {
 			'wpcf7',
 			$post_type_object->labels->items_list,
 			$post_type_object->labels->menu_name,
-			'wpcf7_read_contact_forms',
+			$post_type_object->cap->read_private_posts,
 			self::MENU_SLUG,
 			array( self::class, 'admin_management_page' ),
 			2,
