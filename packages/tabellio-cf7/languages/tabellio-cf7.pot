@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-02T01:07:56+00:00\n"
+"POT-Creation-Date: 2026-05-03T05:15:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tabellio-cf7\n"
@@ -34,95 +34,25 @@ msgstr ""
 msgid "https://feryardiant.id"
 msgstr ""
 
-#. translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin.
-#: tabellio-cf7.php:116
-#, php-format
-msgid "Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused."
-msgstr ""
-
-#. translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin.
-#: tabellio-cf7.php:149
-#, php-format
-msgid "Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused."
-msgstr ""
-
-#. translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin.
-#: tabellio-cf7.php:233
-#, php-format
-msgid "Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused."
-msgstr ""
-
-#: tabellio-cf7.php:266
-msgid "Phone Number"
-msgstr ""
-
-#: tabellio-cf7.php:413
-msgid "Record"
-msgstr ""
-
-#: tabellio-cf7.php:414
-msgid "Whether to record the submissions to the database"
-msgstr ""
-
-#: tabellio-cf7.php:422
-#: includes/class-list-table.php:35
-msgid "Subject"
-msgstr ""
-
-#: tabellio-cf7.php:423
-msgid "Choose which field is identified as a submission subject"
-msgstr ""
-
-#: tabellio-cf7.php:433
-msgid "Message"
-msgstr ""
-
-#: tabellio-cf7.php:434
-msgid "Choose which field is identified as a submission message"
-msgstr ""
-
-#: tabellio-cf7.php:446
-#: includes/class-list-table.php:37
-msgid "Author"
-msgstr ""
-
-#: tabellio-cf7.php:447
-msgid "Whether the submission author will be registered as subscriber"
-msgstr ""
-
-#: tabellio-cf7.php:455
-msgid "Author Name"
-msgstr ""
-
-#: tabellio-cf7.php:456
-msgid "Choose which field is identified as the submitter's name"
-msgstr ""
-
-#: tabellio-cf7.php:466
-msgid "Author Email"
-msgstr ""
-
-#: tabellio-cf7.php:467
-msgid "Choose which field is identified as the submitter's email"
-msgstr ""
-
-#: tabellio-cf7.php:477
-msgid "Author Phone"
-msgstr ""
-
-#: tabellio-cf7.php:478
-msgid "Choose which field is identified as the submitter's phone number"
-msgstr ""
-
 #. translators: %s: Contact form title
 #: includes/class-item.php:125
 #, php-format
 msgid "Submission for \"%s\""
 msgstr ""
 
+#: includes/class-list-table.php:35
+#: tabellio-cf7.php:422
+msgid "Subject"
+msgstr ""
+
 #: includes/class-list-table.php:36
 #: views/view-entry.php:131
 msgid "Form"
+msgstr ""
+
+#: includes/class-list-table.php:37
+#: tabellio-cf7.php:446
+msgid "Author"
 msgstr ""
 
 #: includes/class-list-table.php:38
@@ -221,6 +151,76 @@ msgstr ""
 
 #: includes/class-submission.php:73
 msgid "List of form submissions."
+msgstr ""
+
+#. translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin.
+#: tabellio-cf7.php:116
+#, php-format
+msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused."
+msgstr ""
+
+#. translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin.
+#: tabellio-cf7.php:149
+#, php-format
+msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused."
+msgstr ""
+
+#. translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin.
+#: tabellio-cf7.php:233
+#, php-format
+msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused."
+msgstr ""
+
+#: tabellio-cf7.php:266
+msgid "Phone Number"
+msgstr ""
+
+#: tabellio-cf7.php:413
+msgid "Record"
+msgstr ""
+
+#: tabellio-cf7.php:414
+msgid "Whether to record the submissions to the database"
+msgstr ""
+
+#: tabellio-cf7.php:423
+msgid "Choose which field is identified as a submission subject"
+msgstr ""
+
+#: tabellio-cf7.php:433
+msgid "Message"
+msgstr ""
+
+#: tabellio-cf7.php:434
+msgid "Choose which field is identified as a submission message"
+msgstr ""
+
+#: tabellio-cf7.php:447
+msgid "Whether the submission author will be registered as subscriber"
+msgstr ""
+
+#: tabellio-cf7.php:455
+msgid "Author Name"
+msgstr ""
+
+#: tabellio-cf7.php:456
+msgid "Choose which field is identified as the submitter's name"
+msgstr ""
+
+#: tabellio-cf7.php:466
+msgid "Author Email"
+msgstr ""
+
+#: tabellio-cf7.php:467
+msgid "Choose which field is identified as the submitter's email"
+msgstr ""
+
+#: tabellio-cf7.php:477
+msgid "Author Phone"
+msgstr ""
+
+#: tabellio-cf7.php:478
+msgid "Choose which field is identified as the submitter's phone number"
 msgstr ""
 
 #: views/editor-panel.php:27

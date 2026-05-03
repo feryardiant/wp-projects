@@ -1,6 +1,6 @@
 <?php
 /**
- * Item class.
+ * Submission class.
  *
  * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
