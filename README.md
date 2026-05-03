@@ -5,7 +5,7 @@
 Leverage a Docker-based local environment for rapid development, testing, and evaluation. This environment is pre-tuned for high-speed development of custom themes, plugins, and complex setups like WooCommerce or Multisite.
 
 ## 🚀 Featured Packages
-- **Tabellio for Contact Form 7** ([`tableio-cf7`](packages/tableio-cf7/)): Never lose a lead again. Captures every submission and stores it securely in your WordPress dashboard.
+- **Tabellio for Contact Form 7** ([`tabellio-cf7`](packages/tabellio-cf7/)): Never lose a lead again. Captures every submission and stores it securely in your WordPress dashboard.
 - **Custom Theme** ([`custom-theme`](packages/custom-theme/)): A high-performance Blocksy child theme tailored for custom block development and deep WooCommerce integration.
 
 ## 🚀 Quick Start
