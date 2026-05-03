@@ -2,12 +2,12 @@
 /**
  * Option class.
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
-namespace CF7_Entry_Manager;
+namespace Tabellio_CF7;
 
 use ArrayAccess;
 use WPCF7_ContactForm;

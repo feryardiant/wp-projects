@@ -2,7 +2,7 @@
 /**
  * View entry template.
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 
 $elm->div(
 	array(
-		'id'    => 'cf7em-submission-entry-viewer',
+		'id'    => 'tabellio-submission-entry-viewer',
 		'class' => 'wrap',
 	),
 	static fn ( $elm ) => $elm
@@ -33,7 +33,7 @@ $elm->div(
 
 	->h1(
 		array( 'class' => 'wp-heading-inline' ),
-		esc_html__( 'View Form Submission', 'cf7-entry-manager' )
+		esc_html__( 'View Form Submission', 'tabellio-cf7' )
 	)
 
 	->hr( array( 'class' => 'wp-header-end' ) )
@@ -89,14 +89,14 @@ $elm->div(
 					static fn ( $elm ) => $elm
 					->section(
 						array(
-							'id'    => 'cf7em-info',
-							'class' => 'cf7em-box postbox',
+							'id'    => 'tabellio-info',
+							'class' => 'tabellio-box postbox',
 						),
 						static fn ( $elm ) => $elm
 						->header(
 							array( 'class' => 'postbox-header' ),
 							static fn ( $elm ) => $elm
-							->h2( child: \__( 'Info', 'cf7-entry-manager' ) )
+							->h2( child: \__( 'Info', 'tabellio-cf7' ) )
 							->div(
 								array( 'class' => 'handle-actions hide-if-no-js' ),
 								static fn ( $elm ) => $elm
@@ -108,45 +108,45 @@ $elm->div(
 							array( 'class' => 'inside' ),
 							static fn ( $elm ) => $elm
 							->div(
-								array( 'class' => 'cf7em-row cf7em-info' ),
+								array( 'class' => 'tabellio-row tabellio-info' ),
 								static fn ( $elm ) => $elm
 								->div(
-									array( 'class' => 'cf7em-col cf7em-info-field' ),
+									array( 'class' => 'tabellio-col tabellio-info-field' ),
 									static fn ( $elm ) => $elm
-									->p( child: \__( 'Submitted', 'cf7-entry-manager' ) )
+									->p( child: \__( 'Submitted', 'tabellio-cf7' ) )
 								)
 								->div(
-									array( 'class' => 'cf7em-col cf7em-info-value' ),
+									array( 'class' => 'tabellio-col tabellio-info-value' ),
 									static fn ( $elm ) => $elm
 									->p( child: esc_html( $item->datetime?->format( 'Y-m-d H:i:s' ) ) )
 								)
-							) // .cf7em-row
+							) // .tabellio-row
 
 							->div(
-								array( 'class' => 'cf7em-row cf7em-info' ),
+								array( 'class' => 'tabellio-row tabellio-info' ),
 								static fn ( $elm ) => $elm
 								->div(
-									array( 'class' => 'cf7em-col cf7em-info-field' ),
+									array( 'class' => 'tabellio-col tabellio-info-field' ),
 									static fn ( $elm ) => $elm
-									->p( child: \__( 'Form', 'cf7-entry-manager' ) )
+									->p( child: \__( 'Form', 'tabellio-cf7' ) )
 								)
 								->div(
-									array( 'class' => 'cf7em-col cf7em-info-value ' . ( $item->form_id ? '' : 'cf7em-no-value' ) ),
+									array( 'class' => 'tabellio-col tabellio-info-value ' . ( $item->form_id ? '' : 'tabellio-no-value' ) ),
 									static fn ( $elm ) => $elm
 									->p(
 										child: ( $form = $item->form() ) ? esc_html( $form->title() ) : sprintf(
 											'<span aria-hidden="true">—</span><span class="screen-reader-text">(%s)</span>',
-											\__( 'no form', 'cf7-entry-manager' )
+											\__( 'no form', 'tabellio-cf7' )
 										)
 									)
 								)
-							) // .cf7em-row
+							) // .tabellio-row
 
 							->div(
-								array( 'class' => 'cf7em-row cf7em-info' ),
+								array( 'class' => 'tabellio-row tabellio-info' ),
 								static fn ( $elm ) => $elm
 								->div(
-									array( 'class' => 'cf7em-col cf7em-info-field' ),
+									array( 'class' => 'tabellio-col tabellio-info-field' ),
 									static fn ( $elm ) => $elm
 									->img(
 										array(
@@ -157,34 +157,34 @@ $elm->div(
 									)
 								)
 								->div(
-									array( 'class' => 'cf7em-col cf7em-info-value ' . ( $item->author_id ? '' : 'cf7em-no-value' ) ),
+									array( 'class' => 'tabellio-col tabellio-info-value ' . ( $item->author_id ? '' : 'tabellio-no-value' ) ),
 									static fn ( $elm ) => $elm
 									->p(
-										array( 'class' => $item->author_name ? '' : 'cf7em-no-value' ),
+										array( 'class' => $item->author_name ? '' : 'tabellio-no-value' ),
 										$item->author_name ? esc_html( $item->author_name ) : sprintf(
 											'<span aria-hidden="true">%s</span><span class="screen-reader-text">(%s)</span>',
-											\__( 'Anonymous', 'cf7-entry-manager' ),
-											\__( 'no author info', 'cf7-entry-manager' )
+											\__( 'Anonymous', 'tabellio-cf7' ),
+											\__( 'no author info', 'tabellio-cf7' )
 										)
 									)
 									->p(
-										array( 'class' => $item->author_email ? '' : 'cf7em-no-value' ),
+										array( 'class' => $item->author_email ? '' : 'tabellio-no-value' ),
 										$item->author_email ? esc_html( $item->author_email ) : sprintf(
 											'<span aria-hidden="true">—</span><span class="screen-reader-text">(%s)</span>',
-											\__( 'no email info', 'cf7-entry-manager' )
+											\__( 'no email info', 'tabellio-cf7' )
 										)
 									)
 									->p(
-										array( 'class' => $item->author_phone ? '' : 'cf7em-no-value' ),
+										array( 'class' => $item->author_phone ? '' : 'tabellio-no-value' ),
 										$item->author_phone ? esc_html( $item->author_phone ) : sprintf(
 											'<span aria-hidden="true">—</span><span class="screen-reader-text">(%s)</span>',
-											\__( 'no phone info', 'cf7-entry-manager' )
+											\__( 'no phone info', 'tabellio-cf7' )
 										)
 									)
 								)
-							) // .cf7em-row
+							) // .tabellio-row
 						), // .inside
-					) // #cf7em-info
+					) // #tabellio-info
 				) // #postbox-container-1
 
 				->div(
@@ -195,14 +195,14 @@ $elm->div(
 					static fn ( $elm ) => $elm
 					->section(
 						array(
-							'id'    => 'cf7em-entry',
-							'class' => 'cf7em-box postbox',
+							'id'    => 'tabellio-entry',
+							'class' => 'tabellio-box postbox',
 						),
 						static fn ( $elm ) => $elm
 						->header(
 							array( 'class' => 'postbox-header' ),
 							static fn ( $elm ) => $elm
-							->h2( child: \__( 'Submission Entry', 'cf7-entry-manager' ) )
+							->h2( child: \__( 'Submission Entry', 'tabellio-cf7' ) )
 							->div(
 								array( 'class' => 'handle-actions hide-if-no-js' ),
 								static fn ( $elm ) => $elm
@@ -227,15 +227,15 @@ $elm->div(
 
 									$elm->div(
 										array(
-											'class' => 'cf7em-row cf7em-submission ' . ( $has_value ? 'field-answered' : 'field-no-answer' ),
+											'class' => 'tabellio-row tabellio-submission ' . ( $has_value ? 'field-answered' : 'field-no-answer' ),
 										),
 										static fn ( $elm ) => $elm
 										->div(
-											array( 'class' => 'cf7em-col cf7em-submission-field' ),
+											array( 'class' => 'tabellio-col tabellio-submission-field' ),
 											static fn ( $elm ) => $elm->p( child: esc_html( $tag->name ) )
 										)
 										->div(
-											array( 'class' => "cf7em-col cf7em-submission-value cf7em-type-{$tag->basetype}" ),
+											array( 'class' => "tabellio-col tabellio-submission-value tabellio-type-{$tag->basetype}" ),
 											static fn ( $elm ) => match ( $tag->basetype ) {
 												'tel' => $elm->p(
 													child: static fn ( $elm ) => $elm
@@ -259,26 +259,26 @@ $elm->div(
 												),
 
 												'file' => $elm->p(
-													child: esc_html( $has_value ? $value : \__( 'No file uploaded', 'cf7-entry-manager' ) )
+													child: esc_html( $has_value ? $value : \__( 'No file uploaded', 'tabellio-cf7' ) )
 												),
 
 												'acceptance' => $elm->p(
 													child: boolval( $value )
-													? \__( 'Accepted', 'cf7-entry-manager' )
-													: \__( 'Not accepted', 'cf7-entry-manager' )
+													? \__( 'Accepted', 'tabellio-cf7' )
+													: \__( 'Not accepted', 'tabellio-cf7' )
 												),
 
-												default => $elm->p( child: $has_value ? $value : \__( 'No answer', 'cf7-entry-manager' ) ),
+												default => $elm->p( child: $has_value ? $value : \__( 'No answer', 'tabellio-cf7' ) ),
 											}
 										)
 										->div(
-											array( 'class' => 'cf7em-col cf7em-submission-info' ),
+											array( 'class' => 'tabellio-col tabellio-submission-info' ),
 											static fn ( $elm ) => $elm
 											->when(
 												! empty( $tag->options ),
 												static fn ( $elm ) => $elm
 												->span(
-													array( 'class' => 'cf7em-submission-option' ),
+													array( 'class' => 'tabellio-submission-option' ),
 													static function ( $elm ) use ( $tag ) {
 														$options = array_reduce(
 															$tag->options,
@@ -307,7 +307,7 @@ $elm->div(
 														$elm->p(
 															child: sprintf(
 															/* translators: %s: comma-separated list of form tag options */
-																esc_html__( 'Options: %s', 'cf7-entry-manager' ),
+																esc_html__( 'Options: %s', 'tabellio-cf7' ),
 																implode( ', ', $options )
 															)
 														);
@@ -317,12 +317,12 @@ $elm->div(
 											->when(
 												! empty( $tag->content ),
 												static fn ( $elm ) => $elm
-												->p( array( 'class' => 'cf7em-submission-content' ), $tag->content )
+												->p( array( 'class' => 'tabellio-submission-content' ), $tag->content )
 											)
 											->when(
 												'quiz' === $tag->basetype,
 												static fn ( $elm ) => $elm
-												->p( child: \__( 'Questions', 'cf7-entry-manager' ) )
+												->p( child: \__( 'Questions', 'tabellio-cf7' ) )
 												->ol(
 													child: static function ( $elm ) use ( $tag ) {
 														foreach ( $tag->raw_values as $i => $option ) {
@@ -341,11 +341,11 @@ $elm->div(
 								}
 							}
 						) // .inside
-					) // #cf7em-viewer
+					) // #tabellio-viewer
 				) // #postbox-container-2
 			) // #post-body
 
 			->clear()
 		) // #poststuff
 	) // #wpcf7-admin-form-element
-); // #cf7em-submission-entry-viewer.wrap
+); // #tabellio-submission-entry-viewer.wrap

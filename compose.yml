@@ -25,7 +25,7 @@ services:
     volumes:
       - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./docker/volumes/wordpress:/var/www/html
-      - ./packages/cf7-entry-manager:/var/www/html/wp-content/plugins/cf7-entry-manager
+      - ./packages/tabellio-cf7:/var/www/html/wp-content/plugins/tabellio-cf7
       - ./packages/custom-theme:/var/www/html/wp-content/themes/custom-theme
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
@@ -71,7 +71,7 @@ services:
       - ./assets:/var/www/setup/assets
       - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./docker/volumes/wordpress:/var/www/html
-      - ./packages/cf7-entry-manager:/var/www/html/wp-content/plugins/cf7-entry-manager:ro
+      - ./packages/tabellio-cf7:/var/www/html/wp-content/plugins/tabellio-cf7:ro
       - ./packages/custom-theme:/var/www/html/wp-content/themes/custom-theme:ro
       - ./scripts:/var/www/setup/scripts:ro
 

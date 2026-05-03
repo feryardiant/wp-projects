@@ -2,12 +2,12 @@
 /**
  * Page element class.
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
-namespace CF7_Entry_Manager;
+namespace Tabellio_CF7;
 
 use Closure;
 use WPCF7_HTMLFormatter;
@@ -388,18 +388,18 @@ final class Page_Element {
 	}
 
 	/**
-	 * Dump parameters for debugging (no-op if CF7EM_DEBUG is false).
+	 * Dump parameters for debugging (no-op if TABELLIO_DEBUG is false).
 	 *
 	 * @param mixed ...$params The parameters to dump.
 	 * @return self
 	 * @internal
 	 */
 	public function dump( mixed ...$params ): self {
-		if ( ! CF7EM_DEBUG ) {
+		if ( ! TABELLIO_DEBUG ) {
 			return $this; // No-op in production.
 		}
 
-		$atts = array( 'class' => 'cf7em-debug' );
+		$atts = array( 'class' => 'tabellio-debug' );
 
 		return $this->div(
 			$atts,

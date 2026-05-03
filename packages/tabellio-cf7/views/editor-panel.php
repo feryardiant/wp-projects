@@ -2,7 +2,7 @@
 /**
  * View entry template.
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
@@ -22,9 +22,9 @@ defined( 'ABSPATH' ) || exit;
 $elm->h2( array(), \esc_html( $post_type_object->label ) );
 
 $elm->fieldset(
-	array( 'class' => 'cf7em-option' ),
+	array( 'class' => 'tabellio-option' ),
 	static fn ( $elm ) => $elm
-	->legend( child: \__( 'You can edit the way you treat each submissions here.', 'cf7-entry-manager' ) )
+	->legend( child: \__( 'You can edit the way you treat each submissions here.', 'tabellio-cf7' ) )
 
 	->table(
 		array( 'class' => 'form-table' ),
@@ -38,7 +38,7 @@ $elm->fieldset(
 				 *
 				 * @var array<string, array{label: string, hint: string, type: string, atts: array, options: array}> $fields
 				 */
-				$fields = apply_filters( 'cf7em_editor_panel_options', array(), $contact_form );
+				$fields = apply_filters( 'tabellio_editor_panel_options', array(), $contact_form );
 
 				foreach ( $fields as $id => $field ) {
 					$field = \wp_parse_args(
@@ -112,7 +112,7 @@ $elm->fieldset(
 													'selected' => empty( $selected ),
 													'value'    => '',
 												),
-												\__( 'None selected', 'cf7-entry-manager' )
+												\__( 'None selected', 'tabellio-cf7' )
 											);
 
 											foreach ( $field['options'] as $value => $label ) {

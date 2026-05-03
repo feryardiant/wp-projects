@@ -3,10 +3,10 @@ github_actions:
       - any-glob-to-any-file:
           - '.github/**.yml'
 
-'pkg: cf7-entry-manager':
+'pkg: tabellio-cf7':
   - changed-files:
       - any-glob-to-any-file:
-          - 'packages/cf7-entry-manager/**'
+          - 'packages/tabellio-cf7/**'
 
 'pkg: custom-theme':
   - changed-files:

@@ -35,7 +35,7 @@
 
         <!--
         This is actually somewhat missleading, happens to `Page_Element::when()` in
-        `./packages/cf7-entry-manager/includes/class-page-element.php`, where `$met`
+        `./packages/tableio-cf7/includes/class-page-element.php`, where `$met`
         param is actually a `Closure(self)` but even I wrote it correctly `phpcs` keeps
         complaining, like I was write it using `Closure` type hint. It says:
         __Expected type hint "Closure(self)"; found "Closure" for $met__

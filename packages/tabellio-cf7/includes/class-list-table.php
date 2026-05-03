@@ -2,12 +2,12 @@
 /**
  * List table class.
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
-namespace CF7_Entry_Manager;
+namespace Tabellio_CF7;
 
 use WP_List_Table;
 use WP_Query;
@@ -32,10 +32,10 @@ class List_Table extends WP_List_Table {
 			$columns,
 			array(
 				'cb'     => '<input type="checkbox" />',
-				'title'  => __( 'Subject', 'cf7-entry-manager' ),
-				'form'   => __( 'Form', 'cf7-entry-manager' ),
-				'author' => __( 'Author', 'cf7-entry-manager' ),
-				'date'   => __( 'Date', 'cf7-entry-manager' ),
+				'title'  => __( 'Subject', 'tabellio-cf7' ),
+				'form'   => __( 'Form', 'tabellio-cf7' ),
+				'author' => __( 'Author', 'tabellio-cf7' ),
+				'date'   => __( 'Date', 'tabellio-cf7' ),
 			)
 		);
 	}
@@ -63,7 +63,7 @@ class List_Table extends WP_List_Table {
 	 * @return void
 	 */
 	public function prepare_items() {
-		$per_page = max( 1, (int) $this->get_items_per_page( 'cf7em_submissions_per_page' ) );
+		$per_page = max( 1, (int) $this->get_items_per_page( 'tabellio_submissions_per_page' ) );
 
 		$args = array(
 			'post_type'      => Submission::POST_TYPE,
@@ -162,23 +162,23 @@ class List_Table extends WP_List_Table {
 				$item->url(),
 				sprintf(
 					/* translators: %s: title of contact form */
-					\esc_attr__( 'View "%s"', 'cf7-entry-manager' ),
+					\esc_attr__( 'View "%s"', 'tabellio-cf7' ),
 					$item->title
 				),
-				\__( 'View', 'cf7-entry-manager' ),
+				\__( 'View', 'tabellio-cf7' ),
 			),
 		);
 
 		if ( $item->is_unread() ) {
 			$actions['read'] = sprintf(
 				'<a href="%1$s" aria-label="%2$s">%3$s</a>',
-				$item->url( 'read', 'cf7em-entry_' ),
+				$item->url( 'read', 'tabellio-entry_' ),
 				sprintf(
 					/* translators: %s: title of contact form */
-					\esc_attr__( 'Mark "%s" as read', 'cf7-entry-manager' ),
+					\esc_attr__( 'Mark "%s" as read', 'tabellio-cf7' ),
 					$item->title,
 				),
-				\__( 'Mark as read', 'cf7-entry-manager' ),
+				\__( 'Mark as read', 'tabellio-cf7' ),
 			);
 		}
 
@@ -211,7 +211,7 @@ class List_Table extends WP_List_Table {
 			$item->url(),
 			sprintf(
 				/* translators: %s: title of submission */
-				\esc_attr__( 'View &#8220;%s&#8221;', 'cf7-entry-manager' ),
+				\esc_attr__( 'View &#8220;%s&#8221;', 'tabellio-cf7' ),
 				$item->title
 			),
 			\esc_html( $item->title ),
@@ -234,7 +234,7 @@ class List_Table extends WP_List_Table {
 
 		return sprintf(
 			'<span aria-hidden="true">—</span><span class="screen-reader-text">(%s)</span>',
-			\__( 'no author', 'cf7-entry-manager' )
+			\__( 'no author', 'tabellio-cf7' )
 		);
 	}
 
@@ -251,7 +251,7 @@ class List_Table extends WP_List_Table {
 
 		return sprintf(
 			'<span aria-hidden="true">—</span><span class="screen-reader-text">(%s)</span>',
-			\__( 'no form', 'cf7-entry-manager' )
+			\__( 'no form', 'tabellio-cf7' )
 		);
 	}
 
@@ -268,11 +268,11 @@ class List_Table extends WP_List_Table {
 
 		return sprintf(
 			/* translators: 1: date, 2: time */
-			\__( '%1$s at %2$s', 'cf7-entry-manager' ),
+			\__( '%1$s at %2$s', 'tabellio-cf7' ),
 			/* translators: date format, see https://www.php.net/date */
-			$item->datetime->format( \__( 'Y/m/d', 'cf7-entry-manager' ) ),
+			$item->datetime->format( \__( 'Y/m/d', 'tabellio-cf7' ) ),
 			/* translators: time format, see https://www.php.net/date */
-			$item->datetime->format( \__( 'g:i a', 'cf7-entry-manager' ) )
+			$item->datetime->format( \__( 'g:i a', 'tabellio-cf7' ) )
 		);
 	}
 }
