@@ -1,5 +1,5 @@
 === Tabellio for Contact Form 7 ===
-Tags: contact form 7, tabellio-cf7, leads capture, form storage, contact form submissions
+Tags: contact form 7, submission entry, leads capture, entry database, contact form submissions
 Plugin Name: Tabellio for Contact Form 7
 Description: Never lose a lead again. Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.
 Text Domain: tabellio-cf7
