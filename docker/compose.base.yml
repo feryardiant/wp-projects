@@ -60,15 +60,15 @@ services:
       WC_PRICE_DECIMAL_SEP: ${WC_PRICE_DECIMAL_SEP:-}
       WC_PRICE_DECIMAL_NUM: ${WC_PRICE_DECIMAL_NUM:-0}
 
-      ASSET_DIR: /var/www/setup/assets
+      SETUP_DIR: /var/www/setup
       INSTALL_DIR: /var/www/html
       WP_VERSION: ${WP_VERSION:-6.9}
     volumes:
       - ${HOME}/.wp-cli:/home/www-data/.wp-cli
       - ../assets:/var/www/setup/assets
       - ../scripts:/var/www/setup/scripts:ro
-      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./volumes/wordpress:/var/www/html
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
 
   db:
     image: mysql:8.0
