@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace UnitTests\CF7EntryManager\Includes;
+namespace UnitTests\TabellioCF7\Includes;
 
-use CF7_Entry_Manager\Item;
+use Tabellio_CF7\Item;
 use PHPUnit\Framework\Attributes\CoversClass;
-use UnitTests\CF7EntryManager\TestCase;
+use UnitTests\TabellioCF7\TestCase;
 
 /**
  * Unit tests for the Item class.
@@ -21,7 +21,7 @@ class ItemTest extends TestCase
     {
         parent::setUpBeforeClass();
 
-        require_once static::packageFile('cf7-entry-manager/includes/class-item.php');
+        require_once static::packageFile('tabellio-cf7/includes/class-item.php');
     }
 
     /**

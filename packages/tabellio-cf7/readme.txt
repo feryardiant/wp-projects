@@ -1,9 +1,8 @@
-=== Entry Manager for Contact Form 7 ===
-Contributors: ferywardiyanto
-Tags: contact form 7, cf7 entry manager, leads capture, form storage, contact form submissions
-Plugin Name: Entry Manager for Contact Form 7
+=== Tabellio for Contact Form 7 ===
+Tags: contact form 7, submission entry, leads capture, entry database, contact form submissions
+Plugin Name: Tabellio for Contact Form 7
 Description: Never lose a lead again. Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.
-Text Domain: cf7-entry-manager
+Text Domain: tabellio-cf7
 Stable tag: 0.1.0
 Tested up to: 6.9
 Requires at least: 6.0
@@ -18,7 +17,7 @@ Never lose a lead again. Save, manage, and convert every Contact Form 7 submissi
 
 == Description ==
 
-Stop relying on unreliable email notifications. **Entry Manager for Contact Form 7** acts as your ultimate safety net, capturing every single submission and storing it securely in your WordPress database.
+Stop relying on unreliable email notifications. **Tabellio for Contact Form 7** acts as your ultimate safety net, capturing every single submission and storing it securely in your WordPress database.
 
 Whether it's a server error, a spam filter, or a full inbox, you can rest easy knowing your data is safe and accessible right from your dashboard.
 
@@ -31,7 +30,6 @@ Unlike basic storage plugins, this plugin allows you to map submissions to WordP
 *   **Custom Field Mapping:** Map your form tags to specific submission properties (Subject, Name, Email, Phone).
 *   **Read/Unread Status:** Keep track of which leads you've already handled.
 *   **Per-Form Control:** Choose exactly which forms should record data and which shouldn't.
-*   **Developer Friendly:** Lightweight architecture with local SMTP support for dev environments.
 
 = Minimum Requirements =
 
@@ -57,7 +55,7 @@ Unlike basic storage plugins, this plugin allows you to map submissions to WordP
 Yes! You can configure the submission settings for each form individually.
 
 = Where are the submissions stored? =
-Submissions are stored as a private Custom Post Type called `form-submissions`, ensuring they are indexed and secure without bloating your options table.
+Submissions are stored as a private Custom Post Type called `tabellio-submission`, ensuring they are indexed and secure without bloating your options table.
 
 = Can I export the data? =
 In the current version (0.1.0), you can manage them via the dashboard. CSV Export is a planned feature for future updates.

@@ -1,8 +1,8 @@
 {
-    "name": "feryardiant/cf7-entry-manager",
+    "name": "feryardiant/tabellio-cf7",
     "description": "Never lose a lead again. Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.",
-    "keywords": [ "contact-form-7", "wordpress-plugin", "boilerplate" ],
-    "homepage": "https://github.com/feryardiant/local-wordpress/",
+    "keywords": [ "contact-form-7", "wordpress-plugin", "contact-form-7", "submission-entry", "leads-capture", "entry-database", "contact-form-submissions" ],
+    "homepage": "https://github.com/feryardiant/wp-projects/",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
     "authors": [
@@ -25,6 +25,11 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {}
+    },
+    "extra": {
+        "version-constants": {
+            "TABELLIO_VERSION": "tabellio-cf7.php"
+        }
     },
     "minimum-stability": "beta",
     "prefer-stable": true

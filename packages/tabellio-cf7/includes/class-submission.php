@@ -1,13 +1,13 @@
 <?php
 /**
- * Item class.
+ * Submission class.
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
-namespace CF7_Entry_Manager;
+namespace Tabellio_CF7;
 
 use WPCF7_ContactForm;
 
@@ -20,21 +20,21 @@ final class Submission {
 	 *
 	 * @var string
 	 */
-	public const POST_TYPE = 'cf7em-submission';
+	public const POST_TYPE = 'tabellio-submission';
 
 	/**
 	 * Menu slug for the submissions admin page.
 	 *
 	 * @var string
 	 */
-	public const MENU_SLUG = 'cf7-entry-manager';
+	public const MENU_SLUG = 'tabellio-cf7';
 
 	/**
 	 * Meta key for the user phone field.
 	 *
 	 * @var string
 	 */
-	public const USER_PHONE_META_KEY = '_cf7em_user_phone';
+	public const USER_PHONE_META_KEY = '_tabellio_user_phone';
 
 	/**
 	 * Register the submissions custom post type.
@@ -43,26 +43,26 @@ final class Submission {
 	 */
 	public static function register() {
 		$labels = array(
-			'name'                  => __( 'Submissions', 'cf7-entry-manager' ),
-			'singular_name'         => __( 'Submission', 'cf7-entry-manager' ),
-			'view_item'             => __( 'View Submission', 'cf7-entry-manager' ),
-			'search_items'          => __( 'Search Submissions', 'cf7-entry-manager' ),
-			'not_found'             => __( 'No submissions found.', 'cf7-entry-manager' ),
-			'not_found_in_trash'    => __( 'No submissions found in Trash.', 'cf7-entry-manager' ),
+			'name'                  => __( 'Submissions', 'tabellio-cf7' ),
+			'singular_name'         => __( 'Submission', 'tabellio-cf7' ),
+			'view_item'             => __( 'View Submission', 'tabellio-cf7' ),
+			'search_items'          => __( 'Search Submissions', 'tabellio-cf7' ),
+			'not_found'             => __( 'No submissions found.', 'tabellio-cf7' ),
+			'not_found_in_trash'    => __( 'No submissions found in Trash.', 'tabellio-cf7' ),
 			'filter_items_list'     => _x(
 				'Filter submissions list',
 				'Screen reader text for the filter links heading on the post type listing screen.',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'items_list_navigation' => _x(
 				'Submissions list navigation',
 				'Screen reader text for the pagination heading on the post type listing screen.',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'items_list'            => _x(
 				'Submissions list',
 				'Screen reader text for the items list heading on the post type listing screen.',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 		);
 
@@ -70,7 +70,7 @@ final class Submission {
 			self::POST_TYPE,
 			array(
 				'labels'            => $labels,
-				'description'       => __( 'List of form submissions.', 'cf7-entry-manager' ),
+				'description'       => __( 'List of form submissions.', 'tabellio-cf7' ),
 				'public'            => false,
 				'show_ui'           => false,
 				'show_in_nav_menus' => false,
@@ -110,7 +110,7 @@ final class Submission {
 		$action = \wpcf7_superglobal_request( 'action', null );
 
 		\do_action(
-			'cf7em_admin_page_load',
+			'tabellio_admin_page_load',
 			\wpcf7_superglobal_get( 'page' ),
 			$action
 		);
@@ -118,7 +118,7 @@ final class Submission {
 		if ( 'read' === $action ) {
 			$id = (int) \wpcf7_superglobal_get( 'post' );
 
-			\check_admin_referer( 'cf7em-entry_' . $id );
+			\check_admin_referer( 'tabellio-entry_' . $id );
 
 			$query = array();
 
@@ -160,7 +160,7 @@ final class Submission {
 			)
 		);
 
-		require_once CF7EM_PLUGIN_DIR . '/views/editor-panel.php';
+		require_once TABELLIO_PLUGIN_DIR . '/views/editor-panel.php';
 
 		$elm->render();
 	}
@@ -193,7 +193,7 @@ final class Submission {
 
 			$item->mark_read();
 
-			require_once CF7EM_PLUGIN_DIR . '/views/view-entry.php';
+			require_once TABELLIO_PLUGIN_DIR . '/views/view-entry.php';
 
 			$elm->render();
 
@@ -210,7 +210,7 @@ final class Submission {
 			)
 		);
 
-		require_once CF7EM_PLUGIN_DIR . '/views/list-entries.php';
+		require_once TABELLIO_PLUGIN_DIR . '/views/list-entries.php';
 
 		$elm->render();
 	}

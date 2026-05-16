@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UnitTests\CF7EntryManager;
+namespace UnitTests\TabellioCF7;
 
 use UnitTests\BaseTestCase;
 use Brain\Monkey\Actions;
@@ -27,7 +27,7 @@ class PluginTest extends BaseTestCase
         // Mock WP functions used in the main file
         Functions\when('register_activation_hook')->justReturn();
         Functions\when('register_deactivation_hook')->justReturn();
-        Functions\when('plugin_dir_url')->justReturn('https://example.com/wp-content/plugins/cf7-entry-manager/');
+        Functions\when('plugin_dir_url')->justReturn('https://example.com/wp-content/plugins/tabellio-cf7/');
         Functions\when('register_post_type')->justReturn();
 
         if (! defined('WPCF7_VERSION')) {
@@ -51,12 +51,12 @@ class PluginTest extends BaseTestCase
             });
 
         // Load the plugin file
-        require static::packageFile('cf7-entry-manager/cf7-entry-manager.php');
+        require static::packageFile('tabellio-cf7/tabellio-cf7.php');
 
         // Verify constants
-        $this->assertTrue(defined('CF7EM_VERSION'));
-        $this->assertEquals('0.1.0', CF7EM_VERSION);
-        $this->assertTrue(defined('CF7EM__MINIMUM_WP_VERSION'));
-        $this->assertTrue(defined('CF7EM__MINIMUM_PHP_VERSION'));
+        $this->assertTrue(defined('TABELLIO_VERSION'));
+        $this->assertEquals('0.1.0', TABELLIO_VERSION);
+        $this->assertTrue(defined('TABELLIO__MINIMUM_WP_VERSION'));
+        $this->assertTrue(defined('TABELLIO__MINIMUM_PHP_VERSION'));
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UnitTests\CF7EntryManager;
+namespace UnitTests\TabellioCF7;
 
 use Brain\Monkey\Functions;
 use UnitTests\BaseTestCase;

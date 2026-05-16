@@ -4,7 +4,7 @@ This file serves as a persistent context for AI agents working in this project. 
 
 ## 🏗 Project Identity
 
-A monorepo for custom WordPress asset development (plugins/themes) and distribution, backed by an automated Dockerized development environment. Includes specialized tools like **Entry Manager for Contact Form 7**.
+A monorepo for custom WordPress asset development (plugins/themes) and distribution, backed by an automated Dockerized development environment. Includes specialized tools like **Tabellio for Contact Form 7**.
 
 ## 🛠 Operational Mandates
 

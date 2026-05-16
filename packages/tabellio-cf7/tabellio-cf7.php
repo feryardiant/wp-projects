@@ -1,15 +1,15 @@
 <?php
 /**
- * Entry Manager for Contact Form 7
+ * Tabellio for Contact Form 7
  *
- * @package feryardiant/cf7-entry-manager
+ * @package feryardiant/tabellio-cf7
  * @copyright Copyright (c) 2026 Fery Wardiyanto <https://feryardiant.id>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
  * @wordpress-plugin
- * Plugin Name: Entry Manager for Contact Form 7
+ * Plugin Name: Tabellio for Contact Form 7
  * Description: Never lose a lead again. Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.
- * Text Domain: cf7-entry-manager
+ * Text Domain: tabellio-cf7
  * Domain Path: /languages
  * Version: 0.1.0
  * Tested up to: 6.9
@@ -21,9 +21,9 @@
  * Requires Plugins: contact-form-7
  */
 
-use CF7_Entry_Manager\Item;
-use CF7_Entry_Manager\Option;
-use CF7_Entry_Manager\Submission;
+use Tabellio_CF7\Item;
+use Tabellio_CF7\Option;
+use Tabellio_CF7\Submission;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,42 +32,42 @@ defined( 'ABSPATH' ) || exit;
  *
  * @var string
  */
-define( 'CF7EM_VERSION', '0.1.0' );
+define( 'TABELLIO_VERSION', '0.1.0' );
 
 /**
  * Debug mode flag.
  *
  * @var bool
  */
-define( 'CF7EM_DEBUG', defined( 'WP_DEBUG' ) && boolval( WP_DEBUG ) );
+define( 'TABELLIO_DEBUG', defined( 'WP_DEBUG' ) && boolval( WP_DEBUG ) );
 
 /**
  * Plugin directory path.
  *
  * @var string
  */
-define( 'CF7EM_PLUGIN_DIR', __DIR__ );
+define( 'TABELLIO_PLUGIN_DIR', __DIR__ );
 
 /**
  * Minimum required WordPress version.
  *
  * @var string
  */
-define( 'CF7EM__MINIMUM_WP_VERSION', '6.0' );
+define( 'TABELLIO__MINIMUM_WP_VERSION', '6.0' );
 
 /**
  * Minimum required Contact Form 7 version.
  *
  * @var string
  */
-define( 'CF7EM__MINIMUM_WPCF7_VERSION', '6.1' );
+define( 'TABELLIO__MINIMUM_WPCF7_VERSION', '6.1' );
 
 /**
  * Minimum required PHP version.
  *
  * @var string
  */
-define( 'CF7EM__MINIMUM_PHP_VERSION', '8.1' );
+define( 'TABELLIO__MINIMUM_PHP_VERSION', '8.1' );
 
 /**
  * Check the current screen.
@@ -75,7 +75,7 @@ define( 'CF7EM__MINIMUM_PHP_VERSION', '8.1' );
  * @internal
  * @return bool
  */
-function cf7em_within_scoped_screens(): bool {
+function tabellio_within_scoped_screens(): bool {
 	if ( ! $screen = get_current_screen() ) {
 		return false;
 	}
@@ -85,7 +85,7 @@ function cf7em_within_scoped_screens(): bool {
 		'plugins-network',
 		'update-core',
 		'update-core-network',
-		'contact_page_cf7-entry-manager',
+		'contact_page_tabellio-cf7',
 	);
 
 	return in_array( $screen->id, $scoped_screens, true )
@@ -95,7 +95,7 @@ function cf7em_within_scoped_screens(): bool {
 /**
  * Check if the version of PHP in use on the site is supported.
  */
-if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
+if ( version_compare( PHP_VERSION, TABELLIO__MINIMUM_PHP_VERSION, '<' ) ) {
 	/**
 	 * Display an admin notice if the PHP version is too low.
 	 *
@@ -104,7 +104,7 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action(
 		'admin_notices',
 		static function () {
-			if ( ! cf7em_within_scoped_screens() ) {
+			if ( ! tabellio_within_scoped_screens() ) {
 				return;
 			}
 
@@ -112,9 +112,9 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 
 			// phpcs:disable WordPress.Security.EscapeOutput
 			printf(
-				/* translators: %s: version of PHP required by Entry Manager for Contact Form 7 plugin. */
-				__( 'Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused.', 'cf7-entry-manager' ),
-				CF7EM__MINIMUM_PHP_VERSION
+				/* translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin. */
+				__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused.', 'tabellio-cf7' ),
+				TABELLIO__MINIMUM_PHP_VERSION
 			);
 			// phpcs:enable
 
@@ -128,7 +128,7 @@ if ( version_compare( PHP_VERSION, CF7EM__MINIMUM_PHP_VERSION, '<' ) ) {
 /**
  * Check if the version of WordPress in use on the site is supported.
  */
-if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) ) {
+if ( version_compare( $GLOBALS['wp_version'], TABELLIO__MINIMUM_WP_VERSION, '<' ) ) {
 	/**
 	 * Display an admin notice if the WordPress version is too low.
 	 *
@@ -137,7 +137,7 @@ if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) )
 	add_action(
 		'admin_notices',
 		static function () {
-			if ( ! cf7em_within_scoped_screens() ) {
+			if ( ! tabellio_within_scoped_screens() ) {
 				return;
 			}
 
@@ -145,9 +145,9 @@ if ( version_compare( $GLOBALS['wp_version'], CF7EM__MINIMUM_WP_VERSION, '<' ) )
 
 			// phpcs:disable WordPress.Security.EscapeOutput
 			printf(
-				/* translators: %s: version of WordPress required by Entry Manager for Contact Form 7 plugin. */
-				__( 'Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused.', 'cf7-entry-manager' ),
-				CF7EM__MINIMUM_WP_VERSION
+				/* translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin. */
+				__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused.', 'tabellio-cf7' ),
+				TABELLIO__MINIMUM_WP_VERSION
 			);
 			// phpcs:enable
 
@@ -191,11 +191,11 @@ register_deactivation_hook(
 add_action(
 	'admin_enqueue_scripts',
 	static function ( string $suffix ): void {
-		if ( ! in_array( $suffix, array( 'toplevel_page_wpcf7', 'contact_page_cf7-entry-manager' ), true ) ) {
+		if ( ! in_array( $suffix, array( 'toplevel_page_wpcf7', 'contact_page_tabellio-cf7' ), true ) ) {
 			return;
 		}
 
-		wp_enqueue_style( 'cf7-entry-manager-style', plugin_dir_url( __FILE__ ) . 'assets/style.css', array(), CF7EM_VERSION );
+		wp_enqueue_style( 'tabellio-style', plugin_dir_url( __FILE__ ) . 'assets/style.css', array(), TABELLIO_VERSION );
 	},
 	10,
 	1
@@ -210,9 +210,9 @@ add_action(
 	'wpcf7_init',
 	static function (): void {
 		/**
-		 * Check if the version of Contact Form 7 in use on the site is supported by Entry Manager for Contact Form 7.
+		 * Check if the version of Contact Form 7 in use on the site is supported by Tabellio for Contact Form 7.
 		 */
-		if ( version_compare( WPCF7_VERSION, CF7EM__MINIMUM_WPCF7_VERSION, '<' ) ) {
+		if ( version_compare( WPCF7_VERSION, TABELLIO__MINIMUM_WPCF7_VERSION, '<' ) ) {
 			/**
 			 * Display an admin notice if the Contact Form 7 version is too low.
 			 *
@@ -221,7 +221,7 @@ add_action(
 			add_action(
 				'admin_notices',
 				static function () {
-					if ( ! cf7em_within_scoped_screens() ) {
+					if ( ! tabellio_within_scoped_screens() ) {
 						return;
 					}
 
@@ -229,9 +229,9 @@ add_action(
 
 					// phpcs:disable WordPress.Security.EscapeOutput
 					printf(
-						/* translators: %s: version of Contact Form 7 required by Entry Manager for Contact Form 7 plugin. */
-						__( 'Entry <strong>Manager for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused.', 'cf7-entry-manager' ),
-						CF7EM__MINIMUM_WPCF7_VERSION
+						/* translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin. */
+						__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused.', 'tabellio-cf7' ),
+						TABELLIO__MINIMUM_WPCF7_VERSION
 					);
 					// phpcs:enable
 
@@ -263,7 +263,7 @@ add_action(
 		add_filter(
 			'user_contactmethods',
 			static fn ( array $methods ) => array_merge(
-				array( Submission::USER_PHONE_META_KEY => __( 'Phone Number', 'cf7-entry-manager' ) ),
+				array( Submission::USER_PHONE_META_KEY => __( 'Phone Number', 'tabellio-cf7' ) ),
 				$methods
 			),
 			10,
@@ -361,7 +361,7 @@ add_action(
 				 *
 				 * @param array $form_data The form submission data.
 				 */
-				\do_action( 'cf7em_before_save', $form_data );
+				\do_action( 'tabellio_before_save', $form_data );
 
 				$returned_id = Item::store( $contact_form, $option );
 
@@ -371,7 +371,7 @@ add_action(
 				 * @param array         $form_data   The form submission data.
 				 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
 				 */
-				\do_action( 'cf7em_after_save', $form_data, $returned_id );
+				\do_action( 'tabellio_after_save', $form_data, $returned_id );
 			},
 			10,
 			1
@@ -405,24 +405,24 @@ add_action(
  * @return array
  */
 \add_filter(
-	'cf7em_editor_panel_options',
+	'tabellio_editor_panel_options',
 	static function ( array $options, WPCF7_ContactForm $contact_form ) {
 		$mail_tags = $contact_form->collect_mail_tags();
 
 		$options[ Option::SHOULD_RECORD_KEY ] = array(
-			'label' => \__( 'Record', 'cf7-entry-manager' ),
+			'label' => \__( 'Record', 'tabellio-cf7' ),
 			'hint'  => \__(
 				'Whether to record the submissions to the database',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'atts'  => array( 'type' => 'checkbox' ),
 		);
 
 		$options[ Option::SUBJECT_FIELD_KEY ] = array(
-			'label'   => \__( 'Subject', 'cf7-entry-manager' ),
+			'label'   => \__( 'Subject', 'tabellio-cf7' ),
 			'hint'    => \__(
 				'Choose which field is identified as a submission subject',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'type'    => 'select',
 			'atts'    => array( 'class' => 'large-text code' ),
@@ -430,10 +430,10 @@ add_action(
 		);
 
 		$options[ Option::MESSAGE_FIELD_KEY ] = array(
-			'label'   => \__( 'Message', 'cf7-entry-manager' ),
+			'label'   => \__( 'Message', 'tabellio-cf7' ),
 			'hint'    => \__(
 				'Choose which field is identified as a submission message',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'type'    => 'select',
 			'atts'    => array( 'class' => 'large-text code' ),
@@ -443,19 +443,19 @@ add_action(
 		$options['sep-1'] = array( 'type' => 'separator' );
 
 		$options[ Option::STORE_AUTHOR_KEY ] = array(
-			'label' => \__( 'Author', 'cf7-entry-manager' ),
+			'label' => \__( 'Author', 'tabellio-cf7' ),
 			'hint'  => \__(
 				'Whether the submission author will be registered as subscriber',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'atts'  => array( 'type' => 'checkbox' ),
 		);
 
 		$options[ Option::NAME_FIELD_KEY ] = array(
-			'label'   => \__( 'Author Name', 'cf7-entry-manager' ),
+			'label'   => \__( 'Author Name', 'tabellio-cf7' ),
 			'hint'    => \__(
 				'Choose which field is identified as the submitter\'s name',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'type'    => 'select',
 			'atts'    => array( 'class' => 'large-text code' ),
@@ -463,10 +463,10 @@ add_action(
 		);
 
 		$options[ Option::EMAIL_FIELD_KEY ] = array(
-			'label'   => \__( 'Author Email', 'cf7-entry-manager' ),
+			'label'   => \__( 'Author Email', 'tabellio-cf7' ),
 			'hint'    => \__(
 				'Choose which field is identified as the submitter\'s email',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'type'    => 'select',
 			'atts'    => array( 'class' => 'large-text code' ),
@@ -474,10 +474,10 @@ add_action(
 		);
 
 		$options[ Option::PHONE_FIELD_KEY ] = array(
-			'label'   => \__( 'Author Phone', 'cf7-entry-manager' ),
+			'label'   => \__( 'Author Phone', 'tabellio-cf7' ),
 			'hint'    => \__(
 				'Choose which field is identified as the submitter\'s phone number',
-				'cf7-entry-manager'
+				'tabellio-cf7'
 			),
 			'type'    => 'select',
 			'atts'    => array( 'class' => 'large-text code' ),
