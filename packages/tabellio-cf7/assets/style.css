@@ -3,16 +3,18 @@
   --secondary-background-color: #f6f7f7;
   --secondary-text-color: #a2a2a2;
 
-  .fixed .column-author {
-    width: 15%;
-  }
+  .fixed {
+    .column-author {
+      width: 15%;
+    }
 
-  .fixed .column-form {
-    width: 10%;
-  }
+    .column-form {
+      width: 10%;
+    }
 
-  .fixed .column-title {
-    width: auto;
+    .column-title {
+      width: auto;
+    }
   }
 }
 

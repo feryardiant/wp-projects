@@ -1,6 +1,6 @@
 x-packages: &packages
-  - ./packages/cf7-entry-manager:/var/www/html/wp-content/plugins/cf7-entry-manager
   - ./packages/custom-theme:/var/www/html/wp-content/themes/custom-theme
+  - ./packages/tabellio-cf7:/var/www/html/wp-content/plugins/tabellio-cf7
 
 services:
   web:

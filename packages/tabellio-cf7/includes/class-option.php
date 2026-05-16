@@ -13,6 +13,8 @@ use ArrayAccess;
 use WPCF7_ContactForm;
 use WPCF7_Submission;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Option.
  */

@@ -11,6 +11,8 @@ namespace Tabellio_CF7;
 
 use WPCF7_ContactForm;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Submission.
  */
