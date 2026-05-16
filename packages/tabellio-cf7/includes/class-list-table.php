@@ -13,6 +13,8 @@ use WP_List_Table;
 use WP_Query;
 use WPCF7_ContactForm;
 
+defined( 'ABSPATH' ) || exit;
+
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }

@@ -12,6 +12,8 @@ namespace Tabellio_CF7;
 use Closure;
 use WPCF7_HTMLFormatter;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Page_Element class.
  *

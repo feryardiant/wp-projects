@@ -14,6 +14,8 @@ use WP_Post;
 use WP_User;
 use WPCF7_ContactForm;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Item.
  */
