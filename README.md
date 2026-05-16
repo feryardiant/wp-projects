@@ -28,7 +28,19 @@ See [.env.example](.env.example) for a full list of available settings including
 
 ## 🏗️ Project Architecture
 
-This project is built upon the [WP Env template](https://github.com/feryardiant/wp-env). For a comprehensive deep dive into the underlying architecture, monorepo structure, and development workflows, please refer to the [template documentation](https://github.com/feryardiant/wp-env#readme).
+This project uses a modular Docker architecture to separate core service definitions from project-specific package mounts:
+- **[`docker/compose.base.yml`](docker/compose.base.yml)**: Contains the base service definitions (web, cli, db, mail) and environment configurations.
+- **[`compose.yml`](compose.yml)**: The root entry point that extends the base configuration and manages local package mounting via YAML anchors.
+
+### Package Mounting
+To add a new plugin or theme to the environment, update the `x-packages` anchor in the root [`compose.yml`](compose.yml). This ensures that your local package is mounted into the correct location within the container:
+
+```yaml
+x-packages: &packages
+  - ./packages/my-plugin:/var/www/html/wp-content/plugins/my-plugin
+```
+
+For a comprehensive deep dive into the underlying architecture, monorepo structure, and development workflows, please refer to the [template documentation](https://github.com/feryardiant/wp-env#readme).
 
 ## ⚖️ Licensing
 

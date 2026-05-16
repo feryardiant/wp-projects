@@ -7,14 +7,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
+defined( 'CUSTOM_THEME_VERSION' ) || define( 'CUSTOM_THEME_VERSION', '0.0.0' );
+
 add_action(
 	'wp_enqueue_scripts',
 	static function (): void {
-		$theme = wp_get_theme( get_stylesheet() );
+		$theme = wp_get_theme();
 
 		wp_register_script(
 			$theme->stylesheet,
-			get_stylesheet_directory_uri() . '/assets/custom.js',
+			$theme->get_stylesheet_directory_uri() . '/assets/custom.js',
 			array(),
 			$theme->version,
 			array( 'strategy' => 'defer' )
