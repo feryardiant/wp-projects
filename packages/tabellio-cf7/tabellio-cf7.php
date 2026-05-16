@@ -110,13 +110,14 @@ if ( version_compare( PHP_VERSION, TABELLIO__MINIMUM_PHP_VERSION, '<' ) ) {
 
 			echo '<div class="notice notice-error is-dismissible"><p>';
 
-			// phpcs:disable WordPress.Security.EscapeOutput
-			printf(
-				/* translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin. */
-				__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused.', 'tabellio-cf7' ),
-				TABELLIO__MINIMUM_PHP_VERSION
+			echo \wp_kses(
+				sprintf(
+					/* translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin. */
+					__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused.', 'tabellio-cf7' ),
+					TABELLIO__MINIMUM_PHP_VERSION
+				),
+				array( 'strong' => array() )
 			);
-			// phpcs:enable
 
 			echo '</p></div>';
 		}
@@ -143,13 +144,14 @@ if ( version_compare( $GLOBALS['wp_version'], TABELLIO__MINIMUM_WP_VERSION, '<' 
 
 			echo '<div class="notice notice-error is-dismissible"><p>';
 
-			// phpcs:disable WordPress.Security.EscapeOutput
-			printf(
-				/* translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin. */
-				__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused.', 'tabellio-cf7' ),
-				TABELLIO__MINIMUM_WP_VERSION
+			echo \wp_kses(
+				sprintf(
+					/* translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin. */
+					__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused.', 'tabellio-cf7' ),
+					TABELLIO__MINIMUM_WP_VERSION
+				),
+				array( 'strong' => array() )
 			);
-			// phpcs:enable
 
 			echo '</p></div>';
 		}
@@ -227,13 +229,14 @@ add_action(
 
 					echo '<div class="notice notice-error is-dismissible"><p>';
 
-					// phpcs:disable WordPress.Security.EscapeOutput
-					printf(
-						/* translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin. */
-						__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused.', 'tabellio-cf7' ),
-						TABELLIO__MINIMUM_WPCF7_VERSION
+					echo \wp_kses(
+						sprintf(
+							/* translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin. */
+							__( '<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused.', 'tabellio-cf7' ),
+							TABELLIO__MINIMUM_WPCF7_VERSION
+						),
+						array( 'strong' => array() )
 					);
-					// phpcs:enable
 
 					echo '</p></div>';
 				}
