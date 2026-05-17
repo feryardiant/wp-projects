@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-16T19:00:58+00:00\n"
+"POT-Creation-Date: 2026-05-17T19:58:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tabellio-cf7\n"
@@ -46,7 +46,7 @@ msgid "Subject"
 msgstr ""
 
 #: includes/class-list-table.php:38
-#: views/view-entry.php:131
+#: views/view-entry.php:129
 msgid "Form"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgid "no author"
 msgstr ""
 
 #: includes/class-list-table.php:256
-#: views/view-entry.php:139
+#: views/view-entry.php:137
 msgid "no form"
 msgstr ""
 
@@ -223,68 +223,68 @@ msgstr ""
 msgid "Choose which field is identified as the submitter's phone number"
 msgstr ""
 
-#: views/editor-panel.php:27
+#: views/editor-panel.php:28
 msgid "You can edit the way you treat each submissions here."
 msgstr ""
 
-#: views/editor-panel.php:115
+#: views/editor-panel.php:116
 msgid "None selected"
 msgstr ""
 
-#: views/view-entry.php:36
+#: views/view-entry.php:34
 msgid "View Form Submission"
 msgstr ""
 
-#: views/view-entry.php:99
+#: views/view-entry.php:97
 msgid "Info"
 msgstr ""
 
-#: views/view-entry.php:116
+#: views/view-entry.php:114
 msgid "Submitted"
 msgstr ""
 
-#: views/view-entry.php:166
+#: views/view-entry.php:164
 msgid "Anonymous"
 msgstr ""
 
-#: views/view-entry.php:167
+#: views/view-entry.php:165
 msgid "no author info"
 msgstr ""
 
-#: views/view-entry.php:174
+#: views/view-entry.php:172
 msgid "no email info"
 msgstr ""
 
-#: views/view-entry.php:181
+#: views/view-entry.php:179
 msgid "no phone info"
 msgstr ""
 
-#: views/view-entry.php:205
+#: views/view-entry.php:203
 msgid "Submission Entry"
 msgstr ""
 
-#: views/view-entry.php:262
+#: views/view-entry.php:260
 msgid "No file uploaded"
 msgstr ""
 
-#: views/view-entry.php:267
+#: views/view-entry.php:265
 msgid "Accepted"
 msgstr ""
 
-#: views/view-entry.php:268
+#: views/view-entry.php:266
 msgid "Not accepted"
 msgstr ""
 
-#: views/view-entry.php:271
+#: views/view-entry.php:269
 msgid "No answer"
 msgstr ""
 
 #. translators: %s: comma-separated list of form tag options
-#: views/view-entry.php:310
+#: views/view-entry.php:308
 #, php-format
 msgid "Options: %s"
 msgstr ""
 
-#: views/view-entry.php:325
+#: views/view-entry.php:323
 msgid "Questions"
 msgstr ""
