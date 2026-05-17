@@ -7,16 +7,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
-namespace CF7_Entry_Manager;
+use Tabellio_CF7\Option;
+use Tabellio_CF7\Submission;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Variables for the view.
  *
- * @var Page_Element       $elm              The page element instance.
- * @var \WP_Post_Type      $post_type_object The custom post type object.
- * @var \WPCF7_ContactForm $contact_form     The contact form object.
+ * @var \Tabellio_CF7\Page_Element $elm The page element instance.
+ * @var \WP_Post_Type $post_type_object The custom post type object.
+ * @var \WPCF7_ContactForm $contact_form The contact form object.
  */
 
 $elm->h2( array(), \esc_html( $post_type_object->label ) );
