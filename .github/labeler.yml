@@ -8,11 +8,6 @@ github_actions:
       - any-glob-to-any-file:
           - 'packages/tabellio-cf7/**'
 
-'pkg: custom-theme':
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'packages/custom-theme/**'
-
 tests:
   - changed-files:
       - any-glob-to-any-file:

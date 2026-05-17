@@ -1,5 +1,4 @@
 x-packages: &packages
-  - ./packages/custom-theme:/var/www/html/wp-content/themes/custom-theme
   - ./packages/tabellio-cf7:/var/www/html/wp-content/plugins/tabellio-cf7
 
 services:
