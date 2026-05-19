@@ -1,0 +1,61 @@
+name: Static
+run-name: "static(${{ github.event.workflow_run.head_branch }}): deploying `${{ github.event.workflow_run.head_sha }}`"
+
+on:
+  workflow_run:
+    workflows: [Distribution]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployed.outputs.page_url }}
+
+    permissions:
+      pages: write
+      id-token: write
+
+    env:
+      DIST_DIR: assets/dist
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        ref: ${{ github.event.workflow_run.head_sha }}
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: release-archives
+        path: ${{ env.DIST_DIR }}
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}
+
+    - name: Prepare
+      shell: bash
+      run: |
+        cp assets/*.{html,png,svg,ico} $DIST_DIR/
+        cp assets/.nojekyll $DIST_DIR/
+
+    - name: Store
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: ${{ env.DIST_DIR }}
+        include-hidden-files: true
+
+    - name: Deploy
+      id: deployed
+      uses: actions/deploy-pages@v5
+      with:
+        token: ${{ github.token }}
