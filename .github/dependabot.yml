@@ -25,7 +25,9 @@ updates:
       - dependencies
 
   - package-ecosystem: bun
-    directory: /
+    directories:
+      - /
+      - /packages/*
     schedule:
       interval: weekly
       timezone: Asia/Jakarta

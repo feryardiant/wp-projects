@@ -2,8 +2,7 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    tags: ['v*.*.*']
 
 jobs:
   publish:
@@ -13,8 +12,8 @@ jobs:
     permissions:
       contents: write
 
-  update-assets:
-    name: Upload assets
+  upload:
+    name: Upload
     needs: publish
     uses: projek-xyz/actions/.github/workflows/uploads.yml@main
     with:

@@ -8,6 +8,11 @@ github_actions:
       - any-glob-to-any-file:
           - 'packages/tabellio-cf7/**'
 
+assets:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'assets/**'
+
 tests:
   - changed-files:
       - any-glob-to-any-file:
