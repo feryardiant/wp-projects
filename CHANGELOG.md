@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.2](https://github.com/feryardiant/wp-projects/compare/v0.0.1...v0.0.2) (2026-05-19)
+
+
+### Features
+
+* **ci:** automate package distribution ([#28](https://github.com/feryardiant/wp-projects/issues/28)) ([6e1a3c8](https://github.com/feryardiant/wp-projects/commit/6e1a3c80ea98401c407a6f33df707594c246fa14))
+
+
+### Bug Fixes
+
+* **tabellio-cf7:** the `views` files remain using old namespace ([087b5e6](https://github.com/feryardiant/wp-projects/commit/087b5e614b881d824dc6aff6e0033c80fc05839a))
+
 ## 0.0.1 (2026-05-17)
 
 
