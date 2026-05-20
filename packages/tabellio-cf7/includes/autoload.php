@@ -14,6 +14,8 @@ declare( strict_types = 1 );
 
 namespace Tabellio_CF7;
 
+defined( 'ABSPATH' ) || exit;
+
 spl_autoload_register(
 	/**
 	 * Automatically loads classes based on their namespace.
@@ -47,15 +49,17 @@ spl_autoload_register(
 	}
 );
 
-$dirs = array(
-	\TABELLIO_PLUGIN_DIR,
-	dirname( dirname( \TABELLIO_PLUGIN_DIR ) ),
-);
+( static function () {
+	$dirs = array(
+		\TABELLIO_PLUGIN_DIR,
+		dirname( dirname( \TABELLIO_PLUGIN_DIR ) ),
+	);
 
-// Check for Composer autoloader in both the theme root and the project root.
-foreach ( $dirs as $dir ) {
-	if ( $file = realpath( $dir . '/vendor/autoload.php' ) ) {
-		require_once $file;
-		break;
+	// Check for Composer autoloader in both the theme root and the project root.
+	foreach ( $dirs as $dir ) {
+		if ( $file = realpath( $dir . '/vendor/autoload.php' ) ) {
+			require_once $file;
+			break;
+		}
 	}
-}
+} )();
