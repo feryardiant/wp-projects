@@ -35,143 +35,143 @@ msgid "https://feryardiant.id"
 msgstr ""
 
 #. translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin.
-#: includes/class-admin-notices.php:43
+#: includes/class-admin-notices.php:45
 #, php-format
 msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused."
 msgstr ""
 
 #. translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin.
-#: includes/class-admin-notices.php:67
+#: includes/class-admin-notices.php:69
 #, php-format
 msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused."
 msgstr ""
 
 #. translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin.
-#: includes/class-admin-notices.php:91
+#: includes/class-admin-notices.php:93
 #, php-format
 msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused."
 msgstr ""
 
 #. translators: %s: Contact form title
-#: includes/class-item.php:127
+#: includes/class-item.php:129
 #, php-format
 msgid "Submission for \"%s\""
 msgstr ""
 
-#: includes/class-list-table.php:37
+#: includes/class-list-table.php:39
 #: tabellio-cf7.php:114
 msgid "Subject"
 msgstr ""
 
-#: includes/class-list-table.php:38
+#: includes/class-list-table.php:40
 #: views/view-entry.php:129
 msgid "Form"
 msgstr ""
 
-#: includes/class-list-table.php:39
+#: includes/class-list-table.php:41
 #: tabellio-cf7.php:138
 msgid "Author"
 msgstr ""
 
-#: includes/class-list-table.php:40
+#: includes/class-list-table.php:42
 msgid "Date"
 msgstr ""
 
 #. translators: %s: title of contact form
-#: includes/class-list-table.php:167
+#: includes/class-list-table.php:169
 #, php-format
 msgid "View \"%s\""
 msgstr ""
 
-#: includes/class-list-table.php:170
+#: includes/class-list-table.php:172
 msgid "View"
 msgstr ""
 
 #. translators: %s: title of contact form
-#: includes/class-list-table.php:180
+#: includes/class-list-table.php:182
 #, php-format
 msgid "Mark \"%s\" as read"
 msgstr ""
 
-#: includes/class-list-table.php:183
+#: includes/class-list-table.php:185
 msgid "Mark as read"
 msgstr ""
 
 #. translators: %s: title of submission
-#: includes/class-list-table.php:216
+#: includes/class-list-table.php:218
 #, php-format
 msgid "View &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/class-list-table.php:239
+#: includes/class-list-table.php:241
 msgid "no author"
 msgstr ""
 
-#: includes/class-list-table.php:256
+#: includes/class-list-table.php:258
 #: views/view-entry.php:137
 msgid "no form"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: includes/class-list-table.php:273
+#: includes/class-list-table.php:275
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
 
 #. translators: date format, see https://www.php.net/date
-#: includes/class-list-table.php:275
+#: includes/class-list-table.php:277
 msgid "Y/m/d"
 msgstr ""
 
 #. translators: time format, see https://www.php.net/date
-#: includes/class-list-table.php:277
+#: includes/class-list-table.php:279
 msgid "g:i a"
 msgstr ""
 
-#: includes/class-plugin.php:91
+#: includes/class-plugin.php:93
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class-submission.php:48
+#: includes/class-submission.php:50
 msgid "Submissions"
 msgstr ""
 
-#: includes/class-submission.php:49
+#: includes/class-submission.php:51
 msgid "Submission"
 msgstr ""
 
-#: includes/class-submission.php:50
+#: includes/class-submission.php:52
 msgid "View Submission"
 msgstr ""
 
-#: includes/class-submission.php:51
+#: includes/class-submission.php:53
 msgid "Search Submissions"
 msgstr ""
 
-#: includes/class-submission.php:52
+#: includes/class-submission.php:54
 msgid "No submissions found."
 msgstr ""
 
-#: includes/class-submission.php:53
+#: includes/class-submission.php:55
 msgid "No submissions found in Trash."
 msgstr ""
 
-#: includes/class-submission.php:54
+#: includes/class-submission.php:56
 msgctxt "Screen reader text for the filter links heading on the post type listing screen."
 msgid "Filter submissions list"
 msgstr ""
 
-#: includes/class-submission.php:59
+#: includes/class-submission.php:61
 msgctxt "Screen reader text for the pagination heading on the post type listing screen."
 msgid "Submissions list navigation"
 msgstr ""
 
-#: includes/class-submission.php:64
+#: includes/class-submission.php:66
 msgctxt "Screen reader text for the items list heading on the post type listing screen."
 msgid "Submissions list"
 msgstr ""
 
-#: includes/class-submission.php:75
+#: includes/class-submission.php:77
 msgid "List of form submissions."
 msgstr ""
 

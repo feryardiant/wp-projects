@@ -7,6 +7,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  */
 
+declare( strict_types = 1 );
+
 namespace Tabellio_CF7;
 
 use ArrayAccess;
