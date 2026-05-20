@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.3](https://github.com/feryardiant/wp-projects/compare/v0.0.2...v0.0.3) (2026-05-20)
+
+
+### Features
+
+* **ci:** improved build and translation generation scripts, enhanced CI/CD workflows and test reporting infra ([#29](https://github.com/feryardiant/wp-projects/issues/29)) ([0cc8818](https://github.com/feryardiant/wp-projects/commit/0cc88186fa04852c61a8e135cb27e14ae25a487b))
+* **tabellio-cf7:** init support for WordPress 7.0 ([#32](https://github.com/feryardiant/wp-projects/issues/32)) ([c0dc175](https://github.com/feryardiant/wp-projects/commit/c0dc175276c6fe563d764fb3cf25d3672679b48c))
+
+
+### Bug Fixes
+
+* unable to reset wp installation when running via `WP_RESET=1 scripts/init-wp.sh` ([e6811fe](https://github.com/feryardiant/wp-projects/commit/e6811fe43408ba507a66fe89f89fe379556cb20e))
+
 ## [0.0.2](https://github.com/feryardiant/wp-projects/compare/v0.0.1...v0.0.2) (2026-05-19)
 
 
