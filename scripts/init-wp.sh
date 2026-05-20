@@ -45,6 +45,7 @@ plugins_map['6.6']='latest  latest  6.0.6   14.4.1  9.8.7'
 plugins_map['6.7']='latest  latest  6.1.6   15.1.1  10.3.8'
 plugins_map['6.8']='latest  latest  latest  15.7.1  10.7.0'
 plugins_map['6.9']='latest  latest  latest  latest  latest'
+plugins_map['7.0']='latest  latest  latest  latest  latest'
 
 # ==============================================================================
 
@@ -62,6 +63,7 @@ themes_map['6.6']='latest'
 themes_map['6.7']='latest'
 themes_map['6.8']='latest'
 themes_map['6.9']='latest'
+themes_map['7.0']='latest'
 
 # ==============================================================================
 
