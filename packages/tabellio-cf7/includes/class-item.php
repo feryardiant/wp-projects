@@ -107,7 +107,9 @@ final class Item {
 	 * @return int|false The updated meta ID if successful, false on failure.
 	 */
 	public static function set_read_status( ?int $id, bool $read ): int|false {
-		return \update_post_meta( $id, '_tabellio_read_status', $read ? 1 : 0 );
+		$updated = \update_post_meta( $id, '_tabellio_read_status', $read ? 1 : 0 );
+
+		return $updated === true ? $id : false;
 	}
 
 	/**
@@ -220,7 +222,7 @@ final class Item {
 		$this->id          = $item?->ID;
 		$this->title       = $item?->post_title;
 		$this->form_id     = $item?->post_parent;
-		$this->author_id   = $item?->post_author;
+		$this->author_id   = (int) $item?->post_author;
 		$this->message     = $item?->post_excerpt;
 		$this->datetime    = \get_post_datetime( $item?->ID ?? null ) ?: null;
 		$this->read_status = (int) \get_post_meta( $this->id, '_tabellio_read_status', true );
