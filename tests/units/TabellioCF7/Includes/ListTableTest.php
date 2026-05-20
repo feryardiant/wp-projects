@@ -9,13 +9,13 @@ use Tabellio_CF7\List_Table;
 use UnitTests\TabellioCF7\TestCase;
 
 /**
- * Unit tests for the Item class.
+ * Unit tests for the List_Table class.
  */
 #[CoversClass(List_Table::class)]
 class ListTableTest extends TestCase
 {
     /**
-     * Verifies that the Item class is loaded and available.
+     * Verifies that the List_Table class is loaded and available.
      *
      * @return void
      */

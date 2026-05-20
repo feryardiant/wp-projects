@@ -9,13 +9,13 @@ use Tabellio_CF7\Submission;
 use UnitTests\TabellioCF7\TestCase;
 
 /**
- * Unit tests for the Item class.
+ * Unit tests for the Submission class.
  */
 #[CoversClass(Submission::class)]
 class SubmissionTest extends TestCase
 {
     /**
-     * Verifies that the Item class is loaded and available.
+     * Verifies that the Submission class is loaded and available.
      *
      * @return void
      */
