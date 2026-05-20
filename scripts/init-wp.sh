@@ -133,12 +133,14 @@ theme_supports['blocksy']="${wp_themes[0]:-2.0.86}"
 if [[ ${WP_RESET:-0} -eq 1 ]]; then
     e_start "Reset WordPress Core"
     rm -rf "$INSTALL_DIR"
+    echo -e "\e[1;32mSuccess:\e[0m WordPress has been reset."
     e_end
 fi
 
 if [[ ! -d "${INSTALL_DIR}" ]]; then
     e_start 'Download WordPress Core'
-    _wp core download --version=${WP_VERSION}
+    result=$(_wp core download --version=${WP_VERSION} | tail -n 1)
+    echo -e "$result"
     e_end
 fi
 
