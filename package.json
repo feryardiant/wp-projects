@@ -84,7 +84,8 @@
       "sh -c 'composer format:packages -- \"$@\"; [ \"$?\" -eq 0 ] || [ \"$?\" -eq 1 ]' --"
     ],
     "packages/**/*.php": [
-      "sh -c 'composer format:packages -- \"$@\"; [ \"$?\" -eq 0 ] || [ \"$?\" -eq 1 ]' --"
+      "sh -c 'composer format:packages -- \"$@\"; [ \"$?\" -eq 0 ] || [ \"$?\" -eq 1 ]' --",
+      "scripts/make-pot.sh"
     ],
     "tests/**/*.php": [
       "sh -c 'composer format:tests -- \"$@\"; [ \"$?\" -eq 0 ] || [ \"$?\" -eq 1 ]' --"
