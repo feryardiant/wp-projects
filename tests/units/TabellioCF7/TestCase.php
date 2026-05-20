@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UnitTests\TabellioCF7;
 
-use Brain\Monkey\Functions;
 use UnitTests\BaseTestCase;
 
 /**
@@ -20,6 +19,15 @@ abstract class TestCase extends BaseTestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+
+        $plugin_dir = static::packageFile('tabellio-cf7');
+        $plugin_pkg = json_decode(file_get_contents($plugin_dir . '/package.json'));
+
+        defined('TABELLIO_VERSION') || define('TABELLIO_VERSION', $plugin_pkg->version);
+        defined('TABELLIO_PLUGIN_DIR') || define('TABELLIO_PLUGIN_DIR', $plugin_dir);
+        defined('TABELLIO_PLUGIN_FILE') || define('TABELLIO_PLUGIN_FILE', $plugin_dir . '/tabellio-cf7.php');
+
+        require_once $plugin_dir . '/includes/autoload.php';
 
         if (! class_exists('WPCF7_HTMLFormatter')) {
             eval(
@@ -40,17 +48,5 @@ abstract class TestCase extends BaseTestCase
 			}'
             );
         }
-    }
-
-    /**
-     * Setup the test environment.
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        Functions\when('wpcf7_kses_allowed_html')->justReturn(array());
     }
 }

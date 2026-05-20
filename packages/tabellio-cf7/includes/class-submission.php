@@ -89,7 +89,6 @@ final class Submission {
 					'read_private_posts' => 'wpcf7_read_contact_forms',
 					'create_posts'       => 'do_not_allow', // Prevents manual creation in admin.
 				),
-				'map_meta_cap'      => true, // Essential for the mapping above to work.
 				'hierarchical'      => false,
 				'supports'          => array( 'title', 'excerpt', 'author', 'custom-fields' ),
 				'rewrite'           => array( 'slug' => 'submission' ),

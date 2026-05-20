@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace UnitTests\TabellioCF7\Includes;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Tabellio_CF7\Option;
+use Tabellio_CF7\Submission;
 use UnitTests\TabellioCF7\TestCase;
 
 /**
- * Unit tests for the Option class.
+ * Unit tests for the Item class.
  */
-#[CoversClass(Option::class)]
-class OptionTest extends TestCase
+#[CoversClass(Submission::class)]
+class SubmissionTest extends TestCase
 {
     /**
-     * Verifies that the Option class is loaded and available.
+     * Verifies that the Item class is loaded and available.
      *
      * @return void
      */
     public function testDummy()
     {
-        $this->assertTrue(class_exists(Option::class));
+        $this->assertTrue(class_exists(Submission::class));
     }
 }

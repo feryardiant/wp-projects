@@ -397,7 +397,7 @@ final class Page_Element {
 	 * @internal
 	 */
 	public function dump( mixed ...$params ): self {
-		if ( ! TABELLIO_DEBUG ) {
+		if ( ! Plugin::is_debug() ) {
 			return $this; // No-op in production.
 		}
 
