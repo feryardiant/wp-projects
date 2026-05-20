@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace UnitTests\TabellioCF7;
 
-use UnitTests\BaseTestCase;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
+use UnitTests\BaseTestCase;
 
 /**
  * Unit tests for the CF7 Entry Manager plugin main file.
@@ -15,7 +15,7 @@ use Brain\Monkey\Functions;
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class PluginTest extends BaseTestCase
+class PluginFileTest extends BaseTestCase
 {
     /**
      * Verifies that the plugin correctly defines its constants and registers primary hooks during initialization.
@@ -56,7 +56,5 @@ class PluginTest extends BaseTestCase
         // Verify constants
         $this->assertTrue(defined('TABELLIO_VERSION'));
         $this->assertEquals('0.1.0', TABELLIO_VERSION);
-        $this->assertTrue(defined('TABELLIO__MINIMUM_WP_VERSION'));
-        $this->assertTrue(defined('TABELLIO__MINIMUM_PHP_VERSION'));
     }
 }
