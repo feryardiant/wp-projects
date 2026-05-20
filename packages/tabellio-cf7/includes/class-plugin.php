@@ -240,7 +240,7 @@ final class Plugin {
 	/**
 	 * Get the plugin directory path.
 	 *
-	 * @param string ...$paths
+	 * @param string ...$paths Path segments to append.
 	 * @return string
 	 */
 	public static function dir( string ...$paths ): string {
