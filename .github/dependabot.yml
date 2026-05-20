@@ -9,8 +9,10 @@ updates:
     labels:
       - dependencies
     groups:
-      dependencies:
-        patterns: ['*']
+      artifacts:
+        patterns: [actions/*-artifact, actions/deploy-pages]
+      runtimes:
+        patterns: [oven-sh/setup-bun, shivammathur/setup-php]
 
   - package-ecosystem: composer
     directories:
@@ -20,7 +22,21 @@ updates:
       interval: weekly
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
-    versioning-strategy: lockfile-only
+    versioning-strategy: increase-if-necessary
+    groups:
+      linting:
+        patterns:
+          - dealerdirect/phpcodesniffer-composer-installer
+          - phpcompatibility/*
+          - squizlabs/php_codesniffer
+      testing:
+        patterns:
+          - brain/monkey
+          - mockery/mockery
+          - phpunit/*
+          - sebastian/*
+      wp-cli:
+        patterns: ['wp-cli/*']
     labels:
       - dependencies
 
@@ -32,7 +48,7 @@ updates:
       interval: weekly
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
-    versioning-strategy: lockfile-only
+    versioning-strategy: increase-if-necessary
     ignore:
       - dependency-name: '@types/bun'
       - dependency-name: '@types/node'
@@ -40,6 +56,5 @@ updates:
     groups:
       commitlint:
         patterns: ['@commitlint/*']
-        update-types: [patch]
     labels:
       - dependencies
