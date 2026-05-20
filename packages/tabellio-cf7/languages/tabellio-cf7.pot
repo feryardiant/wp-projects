@@ -53,7 +53,7 @@ msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <s
 msgstr ""
 
 #. translators: %s: Contact form title
-#: includes/class-item.php:129
+#: includes/class-item.php:131
 #, php-format
 msgid "Submission for \"%s\""
 msgstr ""

@@ -4,7 +4,7 @@ Plugin Name: Tabellio for Contact Form 7
 Description: Never lose a lead again. Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.
 Text Domain: tabellio-cf7
 Stable tag: 0.1.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires at least: 6.0
 Requires PHP: 8.1
 Author: Fery Wardiyanto
