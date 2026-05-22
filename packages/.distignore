@@ -20,5 +20,4 @@ Desktop.ini
 
 node_modules
 vendor/bin
-package.json
 composer.lock
