@@ -6,7 +6,6 @@ namespace UnitTests\TabellioCF7\Includes;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Tabellio_CF7\List_Table;
-use UnitTests\TabellioCF7\TestCase;
 
 /**
  * Unit tests for the List_Table class.

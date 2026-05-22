@@ -7,7 +7,6 @@ namespace UnitTests\TabellioCF7;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
-use UnitTests\BaseTestCase;
 
 /**
  * Unit tests for the CF7 Entry Manager plugin main file.
@@ -15,7 +14,7 @@ use UnitTests\BaseTestCase;
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class PluginFileTest extends BaseTestCase
+class PluginFileTest extends TestCase
 {
     /**
      * Verifies that the plugin correctly defines its constants and registers primary hooks during initialization.
