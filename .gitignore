@@ -45,6 +45,7 @@ GEMINI.md
 .env
 vendor
 node_modules
+scripts
 
 # Additional plugins and themes
 scripts/init-*.txt
