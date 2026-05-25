@@ -124,6 +124,18 @@ jobs:
         run: |
           composer update --ansi --no-interaction --no-progress --prefer-dist
 
+      - name: Set up scripts
+        uses: actions/checkout@v6
+        if: github.repository != 'projek-xyz/wp-env'
+        with:
+          fetch-depth: 1
+          repository: projek-xyz/wp-env
+          persist-credentials: false
+          path: .github/xyz-actions
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            scripts
+
       - name: Set up WordPress
         shell: bash
         env:
@@ -133,6 +145,9 @@ jobs:
           SKIP_MEDIA: 1
           SKIP_OPTIONS: 1
         run: |
+          mkdir -p scripts
+          cp -r .github/xyz-actions/scripts .
+          ls -lah scripts
           scripts/init-wp.sh
 
       - name: Unit Test

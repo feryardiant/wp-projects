@@ -96,7 +96,7 @@ abstract class TestCase extends PHPUnitTestCase
         static::$setUpCallback = self::assignCallbackToCurrentInstance(
             $callback,
             static::$setUpCallback ?? static function () {
-                // noop
+                // no-op
             },
         );
     }
@@ -113,7 +113,7 @@ abstract class TestCase extends PHPUnitTestCase
         static::$tearDownCallback = self::assignCallbackToCurrentInstance(
             $callback,
             static::$tearDownCallback ?? static function () {
-                // noop
+                // no-op
             },
         );
     }
