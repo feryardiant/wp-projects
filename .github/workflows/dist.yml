@@ -15,7 +15,7 @@ jobs:
   publish:
     name: Publish
     if: github.event.workflow_run.conclusion == 'success'
-    uses: projek-xyz/actions/.github/workflows/publish.yml@main
+    uses: projek-xyz/wp-env/.github/workflows/publish.yml@main
     with:
       commit-message: ${{ github.event.workflow_run.head_commit.message }}
       dist-dir: assets/dist
