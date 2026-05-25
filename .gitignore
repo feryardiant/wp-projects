@@ -47,9 +47,6 @@ vendor
 node_modules
 scripts
 
-# Additional plugins and themes
-scripts/init-*.txt
-
 # Other package managers
 packages/*/composer.lock
 packages/*/license.txt
