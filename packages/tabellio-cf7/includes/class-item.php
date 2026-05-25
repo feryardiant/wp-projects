@@ -109,7 +109,7 @@ final class Item {
 	public static function set_read_status( ?int $id, bool $read ): int|false {
 		$updated = \update_post_meta( $id, '_tabellio_read_status', $read ? 1 : 0 );
 
-		return $updated === true ? $id : false;
+		return true === $updated ? $id : false;
 	}
 
 	/**
