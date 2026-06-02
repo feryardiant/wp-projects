@@ -7,13 +7,14 @@ namespace UnitTests\TabellioCF7;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
+use PHPUnit\Framework\Attributes\RunClassInSeparateProcess;
 
 /**
  * Unit tests for the CF7 Entry Manager plugin main file.
  *
- * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
+#[RunClassInSeparateProcess]
 class PluginFileTest extends TestCase
 {
     /**
@@ -50,7 +51,7 @@ class PluginFileTest extends TestCase
             });
 
         // Load the plugin file
-        require static::packageFile('tabellio-cf7/tabellio-cf7.php');
+        require static::package('entrypoint');
 
         // Verify constants
         $this->assertTrue(defined('TABELLIO_VERSION'));

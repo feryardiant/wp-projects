@@ -49,12 +49,7 @@ spl_autoload_register(
 	}
 );
 
-( static function () {
-	$dirs = array(
-		\TABELLIO_PLUGIN_DIR,
-		dirname( dirname( \TABELLIO_PLUGIN_DIR ) ),
-	);
-
+( static function ( $dirs ) {
 	// Check for Composer autoloader in both the theme root and the project root.
 	foreach ( $dirs as $dir ) {
 		if ( $file = realpath( $dir . '/vendor/autoload.php' ) ) {
@@ -62,4 +57,8 @@ spl_autoload_register(
 			break;
 		}
 	}
-} )();
+
+	if ( ! function_exists( 'get_plugin_data' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+} )( array( \TABELLIO_PLUGIN_DIR, dirname( \TABELLIO_PLUGIN_DIR, 2 ) ) );

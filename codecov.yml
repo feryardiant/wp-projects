@@ -1,6 +1,13 @@
+comment:
+    layout: header, diff, flags
+
 coverage:
   status:
     project:
       tabellio-cf7:
+        threshold: 5%
+        flags:
+          - unit-tests
+          - integration-tests
         paths:
           - packages/tabellio-cf7

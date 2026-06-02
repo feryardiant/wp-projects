@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UnitTests\TabellioCF7\Includes;
 
+use Override;
 use UnitTests\TabellioCF7\TestCase as BaseTestCase;
 
 /**
@@ -11,16 +12,21 @@ use UnitTests\TabellioCF7\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
-    protected static function packageAutoload(string $name, ?string $type, ?string $version)
+    /**
+     * {@inheritdoc}
+     */
+    public static function setUpBeforePackage(): void
     {
-        parent::packageAutoload($name, $type, $version);
+        parent::setUpBeforePackage();
 
-        $plugin_dir = static::packageFile($name);
+        defined('TABELLIO_VERSION') || define('TABELLIO_VERSION', static::package('version'));
+        defined('TABELLIO_PLUGIN_DIR') || define('TABELLIO_PLUGIN_DIR', static::package('path'));
+        defined('TABELLIO_PLUGIN_FILE') || define('TABELLIO_PLUGIN_FILE', static::package('entrypoint'));
+    }
 
-        defined('TABELLIO_VERSION') || define('TABELLIO_VERSION', $version);
-        defined('TABELLIO_PLUGIN_DIR') || define('TABELLIO_PLUGIN_DIR', $plugin_dir);
-        defined('TABELLIO_PLUGIN_FILE') || define('TABELLIO_PLUGIN_FILE', "$plugin_dir/$name.php");
-
+    #[Override]
+    protected function preparePackage(string $name, string $path, ?string $url, ?string $version): void
+    {
         if (! class_exists('WPCF7_HTMLFormatter')) {
             eval(
                 'class WPCF7_HTMLFormatter {
@@ -40,5 +46,7 @@ abstract class TestCase extends BaseTestCase
           		}'
             );
         }
+
+        require_once "$path/includes/autoload.php";
     }
 }

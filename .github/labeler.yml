@@ -6,7 +6,9 @@ github_actions:
 'pkg: tabellio-cf7':
   - changed-files:
       - any-glob-to-any-file:
+          - 'assets/tabellio-cf7/**'
           - 'packages/tabellio-cf7/**'
+          - 'tests/*/TabellioCF7/**'
 
 assets:
   - changed-files:
