@@ -173,7 +173,7 @@ final class Plugin {
 		/**
 		 * Check if the version of Contact Form 7 in use on the site is supported by Tabellio for Contact Form 7.
 		 */
-		self::check_requirements( 'Contact Form 7', WPCF7_VERSION, '6.1' );
+		self::check_requirements( 'Contact Form 7', \WPCF7_VERSION, '6.1' );
 
 		if ( ! self::is_met_requirements() ) {
 			return;
