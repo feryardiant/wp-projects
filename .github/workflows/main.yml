@@ -143,8 +143,6 @@ jobs:
         shell: bash
         env:
           DB_HOST: 127.0.0.1:${{ job.services.mysql.ports['3306'] }}
-          SITE_PLUGINS: blocksy-companion
-          SITE_THEMES: blocksy
           SKIP_MEDIA: 1
           SKIP_OPTIONS: 1
         run: |
@@ -257,7 +255,7 @@ jobs:
         shell: bash
         env:
           DB_HOST: 127.0.0.1:${{ job.services.mysql.ports['3306'] }}
-          SITE_PLUGINS: blocksy-companion
+          SITE_PLUGINS: blocksy-companion,contact-form-7
           SITE_THEMES: blocksy
           SKIP_MEDIA: 1
           SKIP_OPTIONS: 1
