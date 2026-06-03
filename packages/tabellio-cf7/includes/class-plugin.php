@@ -11,7 +11,10 @@ declare( strict_types = 1 );
 
 namespace Tabellio_CF7;
 
-use WPCF7_ContactForm;
+use Tabellio_CF7\Admin\Submission_Page;
+use Tabellio_CF7\Integrations\Contact_Form7;
+use WP_Filesystem_Base;
+use WP_Filesystem_Direct;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,25 +25,124 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Plugin {
 	/**
-	 * Minimum required PHP version.
+	 * Plugin basename.
 	 *
 	 * @var string
 	 */
-	public const MINIMUM_PHP_VERSION = '8.1';
+	public readonly string $basename;
 
 	/**
-	 * Minimum required WordPress version.
+	 * Plugin directory path.
 	 *
 	 * @var string
 	 */
-	public const MINIMUM_WP_VERSION = '6.0';
+	public readonly string $directory_path;
 
 	/**
-	 * Minimum required Contact Form 7 version.
+	 * Plugin directory URL.
 	 *
 	 * @var string
 	 */
-	public const MINIMUM_WPCF7_VERSION = '6.1';
+	public readonly string $directory_url;
+
+	/**
+	 * List of registered admin pages.
+	 *
+	 * @var array
+	 */
+	private array $admin_pages = array();
+
+	/**
+	 * Plugin data.
+	 *
+	 * @var array<string, string>
+	 */
+	private array $data = array();
+
+	/**
+	 * Map of asset paths to their URL and version.
+	 *
+	 * @var array<string, array<string, string>>
+	 */
+	private array $asset_map = array();
+
+	/**
+	 * Plugin assets directory relative to the plugin directory, default: 'assets'.
+	 *
+	 * @var string
+	 */
+	private string $asset_dir = 'assets';
+
+	/**
+	 * Instance of the WordPress filesystem.
+	 *
+	 * @var WP_Filesystem_Direct|null
+	 */
+	private ?WP_Filesystem_Direct $filesystem = null;
+
+	/**
+	 * Whether the plugin meets the required version of during initiation.
+	 *
+	 * @var bool
+	 */
+	private static bool $is_met_requirements = true;
+
+	/**
+	 * Singleton instance of the Plugin.
+	 *
+	 * @var Plugin|null
+	 */
+	private static ?Plugin $instance = null;
+
+	/**
+	 * Whether the plugin meets the required version of during initiation.
+	 *
+	 * @return bool
+	 */
+	public static function is_met_requirements(): bool {
+		return self::$is_met_requirements;
+	}
+
+	/**
+	 * Checks if the plugin meets the required version of during initiation.
+	 *
+	 * @param 'PHP'|'WordPress'|'Contact Form 7' $requirement The requirement to check.
+	 * @param string                             $current     The current version of the plugin.
+	 * @param string                             $required The required version of the plugin.
+	 * @return void
+	 */
+	public static function check_requirements( string $requirement, string $current, string $required ) {
+		self::$is_met_requirements = version_compare( $current, $required, '>=' );
+
+		if ( ! self::$is_met_requirements ) {
+			\add_action(
+				'admin_notices',
+				static function () use ( $current, $required, $requirement ) {
+					$screens = array( 'plugins', 'plugins-network', 'update-core', 'update-core-network' );
+
+					if ( ! self::is_within_screens( ...$screens ) ) {
+						return;
+					}
+
+					$plugin = \get_plugin_data( TABELLIO_PLUGIN_FILE );
+
+					$message = sprintf(
+						// Translators: %1$s is the plugin name, %2$s is the requirement, %3$s is the required version, %4$s is the current version.
+						\__( 'The <strong>%1$s</strong> plugin requires at least version <strong>%3$s</strong> of <strong>%2$s</strong>, currently you have <strong>%4$s</strong>.', 'blank-option' ),
+						$plugin['Name'],
+						$requirement,
+						$required,
+						$current,
+					);
+
+					printf(
+						'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+						\wp_kses( $message, array( 'strong' => array() ) )
+					);
+				}
+			);
+		}
+	}
 
 	/**
 	 * Perform actions on plugin activation.
@@ -66,16 +168,14 @@ final class Plugin {
 	 * @return void
 	 */
 	public static function wpcf7_init(): void {
+		$plugin = new Plugin( TABELLIO_PLUGIN_FILE );
 
 		/**
 		 * Check if the version of Contact Form 7 in use on the site is supported by Tabellio for Contact Form 7.
 		 */
-		if ( self::is_unmet_cf7_requirements() ) {
-			/**
-			 * Display an admin notice if the Contact Form 7 version is too low.
-			 */
-			add_action( 'admin_notices', array( Admin_Notices::class, 'unmet_cf7_requirements' ) );
+		self::check_requirements( 'Contact Form 7', WPCF7_VERSION, '6.1' );
 
+		if ( ! self::is_met_requirements() ) {
 			return;
 		}
 
@@ -87,7 +187,7 @@ final class Plugin {
 		 * @param array $methods The user contact methods.
 		 * @return array
 		 */
-		add_filter(
+		\add_filter(
 			'user_contactmethods',
 			static fn ( array $methods ) => array_merge(
 				array( Submission::USER_PHONE_META_KEY => __( 'Phone Number', 'tabellio-cf7' ) ),
@@ -98,145 +198,115 @@ final class Plugin {
 		);
 
 		/**
-		 * Enqueue admin scripts and styles.
+		 * Initiate contact-form7 integration.
 		 */
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
+		new Contact_Form7();
 
 		/**
 		 * Register the submissions admin menu.
 		 */
-		\add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ), 9, 0 );
-
-		/**
-		 * Register new contact form option properties.
-		 */
-		\add_filter(
-			'wpcf7_pre_construct_contact_form_properties',
-			static fn ( array $properties ): array => array_merge(
-				$properties,
-				array( Option::FORM_PROP_KEY => array() )
-			),
-			10,
-			1
-		);
-
-		/**
-		 * Add a submissions panel to the contact form editor.
-		 */
-		\add_filter( 'wpcf7_editor_panels', array( __CLASS__, 'wpcf7_editor_panels' ) );
-
-		/**
-		 * Capture the contact form submission and store it to database before sending it.
-		 */
-		\add_action( 'wpcf7_before_send_mail', array( __CLASS__, 'wpcf7_before_send_mail' ) );
-
-		/**
-		 * Prepare to store option properties values.
-		 */
-		\add_action( 'wpcf7_save_contact_form', array( __CLASS__, 'wpcf7_save_contact_form' ), 10, 2 );
+		$plugin->add_admin_page( new Submission_Page( $plugin ), 9 );
 	}
 
 	/**
-	 * Enqueue admin scripts and styles.
+	 * Retrieves the singleton instance of the Plugin class.
 	 *
-	 * @param string $suffix The current admin page suffix.
-	 * @return void
+	 * @return self
 	 */
-	public static function admin_enqueue_scripts( string $suffix ): void {
-		if ( ! in_array( $suffix, array( 'toplevel_page_wpcf7', 'contact_page_tabellio-cf7' ), true ) ) {
-			return;
+	public static function instance(): self {
+		if ( ! self::$instance ) {
+			self::$instance = new Plugin( TABELLIO_PLUGIN_FILE );
 		}
 
-		\wp_enqueue_style( 'tabellio-style', self::url( 'assets/style.css' ), array(), TABELLIO_VERSION );
+		return self::$instance;
 	}
 
 	/**
-	 * Register the submissions admin menu.
+	 * Constructs the Plugin instance.
 	 *
+	 * @param string $file The path to the plugin file.
 	 * @return void
 	 */
-	public static function admin_menu(): void {
-		$post_type_object = Submission::get_post_type_object();
+	public function __construct(
+		public readonly string $file,
+	) {
+		$this->basename       = \plugin_basename( $file );
+		$this->directory_path = \plugin_dir_path( $file );
+		$this->directory_url  = \plugin_dir_url( $file );
 
-		$submissions = \add_submenu_page(
-			'wpcf7',
-			$post_type_object->labels->items_list,
-			$post_type_object->labels->menu_name,
-			$post_type_object->cap->read_private_posts,
-			Submission::MENU_SLUG,
-			array( Submission::class, 'admin_management_page' ),
-			2,
+		/**
+		 * The key is what provided by `get_plugin_data()`.
+		 *
+		 * @see \get_plugin_data()
+		 */
+		$data_map = array(
+			'Name'            => 'name',
+			'PluginURI'       => 'plugin_uri',
+			'Version'         => 'version',
+			'Description'     => 'description',
+			'Author'          => 'author',
+			'AuthorURI'       => 'author_uri',
+			'TextDomain'      => 'text_domain',
+			'DomainPath'      => 'domain_path',
+			'Network'         => 'network',
+			'RequiresWP'      => 'requires_wp',
+			'RequiresPHP'     => 'requires_php',
+			'UpdateURI'       => 'update_uri',
+			'RequiresPlugins' => 'requires_plugins',
 		);
 
-		\add_action(
-			'load-' . $submissions,
-			array( Submission::class, 'admin_load_page' ),
-			10,
-			0
-		);
-	}
-
-	/**
-	 * Add a submissions panel to the contact form editor.
-	 *
-	 * @param array $panels The existing editor panels.
-	 * @return array
-	 */
-	public static function wpcf7_editor_panels( array $panels ): array {
-		$post_type_object = Submission::get_post_type_object();
-
-		$panels[ Option::FORM_PROP_KEY ] = array(
-			'title'    => $post_type_object->label,
-			'callback' => array( Submission::class, 'admin_editor_panel' ),
-		);
-
-		return $panels;
-	}
-
-	/**
-	 * Capture the contact form submission and store it to database before sending it.
-	 *
-	 * @param WPCF7_ContactForm $contact_form The contact form object.
-	 * @return void
-	 */
-	public static function wpcf7_before_send_mail( WPCF7_ContactForm $contact_form ): void {
-		$option = Option::get( $contact_form );
-
-		if ( ! $option ) {
-			return;
+		foreach ( \get_plugin_data( $file ) as $key => $value ) {
+			if ( $map = $data_map[ $key ] ?? null ) {
+				$this->data[ $map ] = $value;
+			}
 		}
 
-		$form_data = $option->form_data();
+		$json = $this->get_file_contents( 'composer.json' );
+		$data = $json ? json_decode( $json ?: array(), true ) : array();
 
-		/**
-		 * Action hook before saving the submission.
-		 *
-		 * @param array $form_data The form submission data.
-		 */
-		\do_action( 'tabellio_before_save', $form_data );
+		$this->data['supports'] = $data['support'] ?? array();
 
-		$returned_id = Item::store( $contact_form, $option );
-
-		/**
-		 * Action hook after saving the submission.
-		 *
-		 * @param array         $form_data   The form submission data.
-		 * @param int|\WP_Error $returned_id The ID of the saved submission or error.
-		 */
-		\do_action( 'tabellio_after_save', $form_data, $returned_id );
+		self::$instance = $this;
 	}
 
 	/**
-	 * Prepare to store option properties values.
+	 * Retrieve plugin metadata based on given key.
 	 *
-	 * @param WPCF7_ContactForm $contact_form The contact form object.
-	 * @param array             $data         The form data being saved.
+	 * @param 'name'|'plugin_uri'|'version'|'description'|'text_domain'|'domain_path'|'network'|'requires_wp'|'requires_php'|'update_uri'|'requires_plugins'|'supports' $key Plugin metadata key.
+	 * @return ($key is 'supports' ? array : non-empty-string)
+	 * @throws \InvalidArgumentException If the key is unknown.
+	 */
+	public function get( string $key ): array|string {
+		if ( ! isset( $this->data[ $key ] ) ) {
+			throw new \InvalidArgumentException(
+				\wp_kses( "Unknown plugin metadata: $key", array() )
+			);
+		}
+
+		return $this->data[ $key ];
+	}
+
+	/**
+	 * Register an admin page.
+	 *
+	 * @param Admin_Page $page The admin page instance.
+	 * @param int        $priority The hook priority.
 	 * @return void
 	 */
-	public static function wpcf7_save_contact_form( WPCF7_ContactForm $contact_form, array $data ): void {
-		$submissions = \wp_parse_args( $data[ Submission::MENU_SLUG ] ?? array(), array() );
+	public function add_admin_page( Admin_Page $page, int $priority = 10 ): void {
+		/**
+		 * Register the admin menu.
+		 */
+		\add_action( 'admin_menu', array( $page, 'menu' ), $priority, 0 );
 
-		$contact_form->set_properties( array( Option::FORM_PROP_KEY => $submissions ) );
+		if ( method_exists( $page, 'action_links' ) ) {
+			/**
+			 * Register the action links.
+			 */
+			\add_filter( 'plugin_action_links_' . $this->basename, array( $page, 'action_links' ), 10, 4 );
+		}
+
+		$this->admin_pages[ $page::class ] = $page;
 	}
 
 	/**
@@ -244,54 +314,91 @@ final class Plugin {
 	 *
 	 * @param string ...$paths Path segments to append.
 	 * @return string
+	 * @throws \InvalidArgumentException If the path is not found.
 	 */
-	public static function dir( string ...$paths ): string {
-		$paths = array_merge( array( TABELLIO_PLUGIN_DIR ), $paths );
+	public function get_path( string ...$paths ): string {
+		$rel_path = implode( '/', array_filter( $paths ) );
+		$realpath = realpath( "$this->directory_path/$rel_path" );
 
-		return implode( DIRECTORY_SEPARATOR, array_filter( $paths ) );
+		if ( $realpath ) {
+			return \wp_normalize_path( $realpath );
+		}
+
+		throw new \InvalidArgumentException(
+			\wp_kses( "Path not found: $rel_path", array() )
+		);
 	}
 
 	/**
-	 * Get the plugin URL.
+	 * Get the plugin directory URL.
 	 *
 	 * @param string ...$paths Path segments to append.
 	 * @return string
 	 */
-	public static function url( string ...$paths ): string {
-		$paths = array_merge( array( \plugin_dir_url( TABELLIO_PLUGIN_FILE ) ), $paths );
+	public function get_url( string ...$paths ): string {
+		$paths = array_merge( array( $this->directory_url ), $paths );
 
 		return implode( '/', array_filter( $paths ) );
 	}
 
 	/**
-	 * Check if the version of PHP in use on the site is supported.
+	 * Set new assets directory relative to the plugin directory.
 	 *
-	 * @return bool
+	 * @param string $dir The assets directory path.
+	 * @return void
 	 */
-	public static function is_unmet_php_requirements(): bool {
-		return version_compare( PHP_VERSION, self::MINIMUM_PHP_VERSION, '<' );
+	public function set_asset_dir( string $dir ): void {
+		$this->asset_dir = $dir;
 	}
 
 	/**
-	 * Check if the version of WordPress in use on the site is supported.
+	 * Retrieve the URL for a plugin asset.
 	 *
-	 * @return bool
+	 * @param string                     $path Path to the asset.
+	 * @param 'dir'|'url'|'version'|null $key  Optional. The key to retrieve from the asset array.
+	 * @return ($key is string ? string : array)
+	 * @throws \InvalidArgumentException If an invalid key is provided.
 	 */
-	public static function is_unmet_wp_requirements(): bool {
-		return version_compare( $GLOBALS['wp_version'], self::MINIMUM_WP_VERSION, '<' );
-	}
+	public function get_asset_url( string $path, ?string $key = null ): string|array {
+		$asset = $this->asset_map[ $path ] ?? array();
 
-	/**
-	 * Check if the version of Contact Form 7 in use on the site is supported by Tabellio for Contact Form 7.
-	 *
-	 * @return bool
-	 */
-	public static function is_unmet_cf7_requirements(): bool {
-		if ( ! defined( 'WPCF7_VERSION' ) ) {
-			return false;
+		if ( ! empty( $asset ) ) {
+			if ( $key ) {
+				if ( ! in_array( $key, array( 'dir', 'url', 'version' ), true ) ) {
+					throw new \InvalidArgumentException(
+						\wp_kses( "Invalid key: $key, expected 'dir', 'url' or 'version'", array() )
+					);
+				}
+
+				return $asset[ $key ];
+			}
+
+			return $asset;
 		}
 
-		return version_compare( WPCF7_VERSION, self::MINIMUM_WPCF7_VERSION, '<' );
+		$asset = array(
+			'dir'     => $this->get_path( $this->asset_dir, $path ),
+			'url'     => $this->get_url( $this->asset_dir, $path ),
+			'version' => $this->get( 'version' ),
+		);
+
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			$asset['version'] .= '-' . ( (string) filemtime( $asset['dir'] ) );
+		}
+
+		$this->asset_map[ $path ] = $asset;
+
+		return $this->get_asset_url( $path, $key );
+	}
+
+	/**
+	 * Get the content of a file from the plugin directory.
+	 *
+	 * @param string $path The path to the file relative to the plugin directory.
+	 * @return string|false The content of the file.
+	 */
+	public function get_file_contents( string $path ): string|false {
+		return $this->filesystem()->get_contents( $this->get_path( $path ) );
 	}
 
 	/**
@@ -306,15 +413,41 @@ final class Plugin {
 		}
 
 		return in_array( $screen->id, $desired_screens, true )
-			|| false !== strpos( $screen->id, 'wpcf7' );
+			|| str_contains( $screen->id, 'wpcf7' );
 	}
 
 	/**
 	 * Check if the version of WordPress in under debug mode.
 	 *
+	 * @codeCoverageIgnore
 	 * @return bool
 	 */
 	public static function is_debug(): bool {
 		return defined( 'WP_DEBUG' ) && boolval( WP_DEBUG );
+	}
+
+	/**
+	 * Retrieve the filesystem instance.
+	 *
+	 * @internal
+	 * @return WP_Filesystem_Direct
+	 */
+	private function filesystem(): WP_Filesystem_Direct {
+		if ( $this->filesystem ) {
+			return $this->filesystem;
+		}
+
+		$fs_classes = array(
+			WP_Filesystem_Base::class   => 'class-wp-filesystem-base.php',
+			WP_Filesystem_Direct::class => 'class-wp-filesystem-direct.php',
+		);
+
+		foreach ( $fs_classes as $class => $file ) {
+			if ( ! class_exists( $class ) ) {
+				require_once ABSPATH . "wp-admin/includes/$file";
+			}
+		}
+
+		return $this->filesystem = new WP_Filesystem_Direct( 1 );
 	}
 }

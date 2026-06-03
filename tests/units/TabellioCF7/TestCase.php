@@ -18,7 +18,10 @@ abstract class TestCase extends BaseTestCase
         return [
             'Name' => 'Tabellio for Contact Form 7',
             'PluginURI' => '',
-            'Description' => 'Never lose a lead again. Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.',
+            'Description' => implode(' ', [
+                'Never lose a lead again.',
+                'Save, manage, and convert every Contact Form 7 submission directly in your WordPress dashboard.'
+            ]),
             'Network' => false,
             'UpdateURI' => '',
             'RequiresPlugins' => '',
