@@ -17,6 +17,11 @@ trait PackageTestHelper
     private static array $packageData = [];
 
     /**
+     * @var array<string, array{name: string, file: string, path: string}>
+     */
+    private static array $availablePlugins = [];
+
+    /**
      * Gets the package name from the subclass `PACKAGE_NAME` constant.
      *
      * @return non-empty-string|null The package name or null if not defined.
@@ -65,6 +70,8 @@ trait PackageTestHelper
             return;
         }
 
+        self::prepareAvailablePlugins();
+
         $path = BASE_PATH . '/packages/' . $name;
 
         [$packageJson, $composerJson] = array_map(
@@ -100,6 +107,70 @@ trait PackageTestHelper
         ];
     }
 
+    private static function prepareAvailablePlugins(): void
+    {
+        if (! empty(self::$availablePlugins)) {
+            return;
+        }
+
+        self::$availablePlugins = array_reduce(
+            glob(ABSPATH . '/wp-content/plugins/*', GLOB_ONLYDIR) ?: [],
+            static function ($out, $path) {
+                $name = basename($path);
+                $plugin = [];
+
+                foreach (glob("$path/*.php") as $filepath) {
+                    if (false === ($fd = fopen($filepath, 'r'))) {
+                        continue;
+                    }
+
+                    $filename = basename($filepath);
+                    $header = fread($fd, 320);
+
+                    if (!str_contains($header, 'Plugin Name: ')) {
+                        fclose($fd);
+                        continue;
+                    }
+
+                    preg_match('/Plugin Name: *(?<name>[^\r\n]+)/', $header, $matches);
+
+                    $plugin['name'] = $matches['name'];
+                    $plugin['file'] = "$name/$filename";
+                    $plugin['path'] = $path;
+
+                    fclose($fd);
+
+                    break;
+                }
+
+                $out[$name] = $plugin;
+
+                return $out;
+            },
+            []
+        );
+    }
+
+    /**
+     * Retrieve data from available third-party plugin.
+     *
+     * @param string $slug Plugin slug.
+     * @param null|'name'|'file'|'path' $key Data key.
+     * @return ($key is string ? string|null : array|null)
+     */
+    final protected function getAvailablePlugin(string $slug, ?string $key = null): string|array|null
+    {
+        if (! isset(self::$availablePlugins[$slug])) {
+            return null;
+        }
+
+        if (null === $key) {
+            return self::$availablePlugins[$slug];
+        }
+
+        return self::$availablePlugins[$slug][$key] ?? null;
+    }
+
     /**
      * Handles common package environment setup.
      *
@@ -111,5 +182,15 @@ trait PackageTestHelper
     protected function preparePackage(string $name, string $path, ?string $url, ?string $version): void
     {
         // doing nothing.
+    }
+
+    /**
+     * Define package metadata.
+     *
+     * @return array<string, mixed>
+     */
+    protected function packageMetadata(): array
+    {
+        return [];
     }
 }
