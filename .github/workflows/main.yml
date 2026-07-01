@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -95,12 +95,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Set up scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         if: github.repository != 'projek-xyz/wp-env'
         with:
           fetch-depth: 1
@@ -208,12 +208,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Set up scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         if: github.repository != 'projek-xyz/wp-env'
         with:
           fetch-depth: 1
