@@ -100,6 +100,8 @@ final class Contact_Form7 {
 
 			->call(
 				static function ( $elm ) use ( $contact_form ) {
+					$elm->dump( $contact_form->collect_mail_tags() );
+
 					require_once TABELLIO_PLUGIN_DIR . '/views/editor-panel.php';
 
 					return $elm;

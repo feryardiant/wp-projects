@@ -150,7 +150,7 @@ final class Plugin {
 	 * @return void
 	 */
 	public static function activate(): void {
-		// Doing nothing on activation, for now.
+		\do_action( 'tabellio_activate' );
 	}
 
 	/**
@@ -159,7 +159,7 @@ final class Plugin {
 	 * @return void
 	 */
 	public static function deactivate(): void {
-		// Doing nothing on deactivation, for now.
+		\do_action( 'tabellio_deactivate' );
 	}
 
 	/**
@@ -404,10 +404,10 @@ final class Plugin {
 	/**
 	 * Check the current screen.
 	 *
-	 * @param array $desired_screens The desired screen IDs to check against.
+	 * @param string ...$desired_screens The desired screen IDs to check against.
 	 * @return bool
 	 */
-	public static function is_within_screens( array $desired_screens ): bool {
+	public static function is_within_screens( string ...$desired_screens ): bool {
 		if ( ! $screen = \get_current_screen() ) {
 			return false;
 		}
