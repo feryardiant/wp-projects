@@ -34,24 +34,6 @@ msgstr ""
 msgid "https://feryardiant.id"
 msgstr ""
 
-#. translators: %s: version of PHP required by Tabellio for Contact Form 7 plugin.
-#: includes/class-admin-notices.php:45
-#, php-format
-msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>PHP</strong> and has been paused."
-msgstr ""
-
-#. translators: %s: version of WordPress required by Tabellio for Contact Form 7 plugin.
-#: includes/class-admin-notices.php:69
-#, php-format
-msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>WordPress</strong> and has been paused."
-msgstr ""
-
-#. translators: %s: version of Contact Form 7 required by Tabellio for Contact Form 7 plugin.
-#: includes/class-admin-notices.php:93
-#, php-format
-msgid "<strong>Tabellio for Contact Form 7</strong> requires at least version <strong>%s</strong> of <strong>Contact Form 7</strong> and has been paused."
-msgstr ""
-
 #. translators: %s: Contact form title
 #: includes/class-item.php:131
 #, php-format
@@ -59,17 +41,17 @@ msgid "Submission for \"%s\""
 msgstr ""
 
 #: includes/class-list-table.php:39
-#: tabellio-cf7.php:114
+#: tabellio-cf7.php:103
 msgid "Subject"
 msgstr ""
 
 #: includes/class-list-table.php:40
-#: views/view-entry.php:129
+#: views/view-entry.php:87
 msgid "Form"
 msgstr ""
 
 #: includes/class-list-table.php:41
-#: tabellio-cf7.php:138
+#: tabellio-cf7.php:127
 msgid "Author"
 msgstr ""
 
@@ -108,7 +90,7 @@ msgid "no author"
 msgstr ""
 
 #: includes/class-list-table.php:258
-#: views/view-entry.php:137
+#: views/view-entry.php:95
 msgid "no form"
 msgstr ""
 
@@ -128,7 +110,7 @@ msgstr ""
 msgid "g:i a"
 msgstr ""
 
-#: includes/class-plugin.php:93
+#: includes/class-plugin.php:193
 msgid "Phone Number"
 msgstr ""
 
@@ -175,116 +157,112 @@ msgstr ""
 msgid "List of form submissions."
 msgstr ""
 
-#: tabellio-cf7.php:105
+#: tabellio-cf7.php:94
 msgid "Record"
 msgstr ""
 
-#: tabellio-cf7.php:106
+#: tabellio-cf7.php:95
 msgid "Whether to record the submissions to the database"
 msgstr ""
 
-#: tabellio-cf7.php:115
+#: tabellio-cf7.php:104
 msgid "Choose which field is identified as a submission subject"
 msgstr ""
 
-#: tabellio-cf7.php:125
+#: tabellio-cf7.php:114
 msgid "Message"
 msgstr ""
 
-#: tabellio-cf7.php:126
+#: tabellio-cf7.php:115
 msgid "Choose which field is identified as a submission message"
 msgstr ""
 
-#: tabellio-cf7.php:139
+#: tabellio-cf7.php:128
 msgid "Whether the submission author will be registered as subscriber"
 msgstr ""
 
-#: tabellio-cf7.php:147
+#: tabellio-cf7.php:136
 msgid "Author Name"
 msgstr ""
 
-#: tabellio-cf7.php:148
+#: tabellio-cf7.php:137
 msgid "Choose which field is identified as the submitter's name"
 msgstr ""
 
-#: tabellio-cf7.php:158
+#: tabellio-cf7.php:147
 msgid "Author Email"
 msgstr ""
 
-#: tabellio-cf7.php:159
+#: tabellio-cf7.php:148
 msgid "Choose which field is identified as the submitter's email"
 msgstr ""
 
-#: tabellio-cf7.php:169
+#: tabellio-cf7.php:158
 msgid "Author Phone"
 msgstr ""
 
-#: tabellio-cf7.php:170
+#: tabellio-cf7.php:159
 msgid "Choose which field is identified as the submitter's phone number"
 msgstr ""
 
-#: views/editor-panel.php:28
+#: views/editor-panel.php:25
 msgid "You can edit the way you treat each submissions here."
 msgstr ""
 
-#: views/editor-panel.php:116
+#: views/editor-panel.php:113
 msgid "None selected"
 msgstr ""
 
-#: views/view-entry.php:34
-msgid "View Form Submission"
-msgstr ""
-
-#: views/view-entry.php:97
+#: views/view-entry.php:55
 msgid "Info"
 msgstr ""
 
-#: views/view-entry.php:114
+#: views/view-entry.php:72
 msgid "Submitted"
 msgstr ""
 
-#: views/view-entry.php:164
+#: views/view-entry.php:121
 msgid "Anonymous"
 msgstr ""
 
-#: views/view-entry.php:165
+#: views/view-entry.php:122
 msgid "no author info"
 msgstr ""
 
-#: views/view-entry.php:172
+#: views/view-entry.php:129
 msgid "no email info"
 msgstr ""
 
-#: views/view-entry.php:179
+#: views/view-entry.php:136
 msgid "no phone info"
 msgstr ""
 
-#: views/view-entry.php:203
+#: views/view-entry.php:156
 msgid "Submission Entry"
 msgstr ""
 
-#: views/view-entry.php:260
+#: views/view-entry.php:213
 msgid "No file uploaded"
 msgstr ""
 
-#: views/view-entry.php:265
+#: views/view-entry.php:218
 msgid "Accepted"
 msgstr ""
 
-#: views/view-entry.php:266
+#: views/view-entry.php:219
 msgid "Not accepted"
 msgstr ""
 
-#: views/view-entry.php:269
+#: views/view-entry.php:222
 msgid "No answer"
 msgstr ""
 
 #. translators: %s: comma-separated list of form tag options
-#: views/view-entry.php:308
+#: views/view-entry.php:260
 #, php-format
 msgid "Options: %s"
 msgstr ""
 
-#: views/view-entry.php:323
+#: views/view-entry.php:270
 msgid "Questions"
 msgstr ""

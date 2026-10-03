@@ -15,30 +15,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
- * @var \Tabellio_CF7\Page_Element $elm The page element instance.
+ * @var \Tabellio_CF7\Html_Element $elm The page element instance.
  * @var \WP_Post_Type $post_type_object The custom post type object.
  */
 
-$elm->div(
-	array( 'class' => 'wrap' ),
-	static fn ( $elm ) => $elm
-	->h1(
-		array( 'class' => 'wp-heading-inline' ),
-		\esc_html( $post_type_object->labels->items_list )
-	)
-
-	->hr( array( 'class' => 'wp-header-end' ) )
-
-	->form(
-		array( 'method' => 'get' ),
-		static fn ( $elm ) => $elm
-		->input(
-			array(
-				'type'  => 'hidden',
-				'name'  => 'page',
-				'value' => Submission::MENU_SLUG,
-			)
-		)
+$elm->form(
+	method: 'get',
+	child: static fn ( $elm ) => $elm
+		->input( type: 'hidden', name: 'page', value: Submission::MENU_SLUG )
 
 		->call(
 			static function () use ( $post_type_object ) {
@@ -54,5 +38,4 @@ $elm->div(
 				$list_table->display();
 			}
 		)
-	)
 );
