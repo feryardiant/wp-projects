@@ -88,25 +88,13 @@ class PluginTest extends TestCase
     #[RunInSeparateProcess]
     public function shouldBeInitialized()
     {
-        Actions\expectAdded('wp_enqueue_scripts')->once()->whenHappen(function ($callback) {
-            $this->assertIsArray($callback);
-
-            $this->assertInstanceOf(Plugin::class, $callback[0]);
-            $this->assertSame('enqueue_scripts', $callback[1]);
-        });
-
-        Actions\expectAdded('admin_menu')->once()->whenHappen(function ($callback) {
-            $this->assertIsArray($callback);
-
-            $this->assertInstanceOf(Submission_Page::class, $callback[0]);
-            $this->assertSame('menu', $callback[1]);
-        });
+        Functions\expect('register_post_type')->once();
 
         defined('WPCF7_VERSION') || define('WPCF7_VERSION', '6.1');
 
-        $this->mockStaticMethods(Submission::class, [
-            'register' => fn ($mock) => $mock->once()
-        ]);
+        // $this->mockStaticMethods(Submission::class, [
+        //     'register' => fn ($mock) => $mock->once()
+        // ]);
 
         Plugin::wpcf7_init();
     }

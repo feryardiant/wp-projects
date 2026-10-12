@@ -354,8 +354,8 @@ class ContactForm7IntegrationTest extends TestCase
 
         $_POST = array_merge($_POST, $form_data);
 
-        $option = Option::get($contact_form);
-        \error_log('Tabellio CF7 Integration Test - should_record: ' . ($option ? ($option->should_record ? 'true' : 'false') : 'no option'));
+        $option = ($opt = Option::get($contact_form)) ? ($opt->should_record ? 'true' : 'false') : 'no option';
+        \error_log('Tabellio CF7 Integration Test - should_record: ' . $option);
 
         $wpcf7 = (object) [
             'contact_form' => $contact_form,
