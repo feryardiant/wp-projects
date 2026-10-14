@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace UnitTests\TabellioCF7\Includes;
 
+use Brain\Monkey\Functions;
 use Override;
 use UnitTests\TabellioCF7\TestCase as BaseTestCase;
+use WP_Post_Type;
 
 /**
  * Base Test Case for CF7 Entry Manager unit tests.
@@ -27,25 +29,9 @@ abstract class TestCase extends BaseTestCase
     #[Override]
     protected function preparePackage(string $name, string $path, ?string $url, ?string $version): void
     {
-        if (! class_exists('WPCF7_HTMLFormatter')) {
-            eval(
-                'class WPCF7_HTMLFormatter {
-         			public const placeholder_block = "pb";
-         			public const placeholder_inline = "pi";
-         			public const void_elements = ["br", "hr", "input", "img"];
-         			public const p_parent_elements = ["div"];
-         			public const p_nonparent_elements = ["p"];
-         			public const p_child_elements = ["span"];
-         			public const br_parent_elements = ["div"];
-         			public function __construct($opt) {}
-         			public function append_start_tag($t, $a) {}
-         			public function append_preformatted($c) {}
-         			public function end_tag($t) {}
-         			public function append_comment($c) {}
-         			public function print() { echo "rendered"; }
-          		}'
-            );
-        }
+        $mockPostType = mock(WP_Post_Type::class);
+
+        Functions\when('get_post_type_object')->alias(static fn () => $mockPostType);
 
         require_once "$path/includes/autoload.php";
     }

@@ -14,14 +14,13 @@
  * Version: 0.1.0
  * Tested up to: 7.0
  * Requires at least: 6.0
- * Requires PHP: 8.1
+ * Requires PHP: 8.2
  * Author: Fery Wardiyanto
  * Author URI: https://feryardiant.id
  * License: GPLv3 or later
  * Requires Plugins: contact-form-7
  */
 
-use Tabellio_CF7\Admin_Notices;
 use Tabellio_CF7\Option;
 use Tabellio_CF7\Plugin;
 
@@ -53,24 +52,14 @@ require_once TABELLIO_PLUGIN_DIR . '/includes/autoload.php';
 /**
  * Check if the version of PHP in use on the site is supported.
  */
-if ( Plugin::is_unmet_php_requirements() ) {
-	/**
-	 * Display an admin notice if the PHP version is too low.
-	 */
-	add_action( 'admin_notices', array( Admin_Notices::class, 'unmet_php_requirements' ) );
-
-	return;
-}
+Plugin::check_requirements( 'PHP', PHP_VERSION, '8.2' );
 
 /**
  * Check if the version of WordPress in use on the site is supported.
  */
-if ( Plugin::is_unmet_wp_requirements() ) {
-	/**
-	 * Display an admin notice if the WordPress version is too low.
-	 */
-	add_action( 'admin_notices', array( Admin_Notices::class, 'unmet_wp_requirements' ) );
+Plugin::check_requirements( 'WordPress', $GLOBALS['wp_version'], '6.0' );
 
+if ( ! Plugin::is_met_requirements() ) {
 	return;
 }
 
