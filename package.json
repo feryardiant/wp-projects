@@ -9,7 +9,7 @@
       "packages/*"
     ],
     "catalog": {
-      "commit-and-tag-version": "^12.7.1"
+      "commit-and-tag-version": "^13.2.2"
     }
   },
   "scripts": {
