@@ -15,21 +15,18 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Variables for the view.
  *
- * @var \Tabellio_CF7\Page_Element $elm The page element instance.
- * @var \WP_Post_Type $post_type_object The custom post type object.
+ * @var \Tabellio_CF7\Html_Element $elm The page element instance.
  * @var \WPCF7_ContactForm $contact_form The contact form object.
  */
 
-$elm->h2( array(), \esc_html( $post_type_object->label ) );
-
 $elm->fieldset(
-	array( 'class' => 'tabellio-option' ),
-	static fn ( $elm ) => $elm
+	class: 'tabellio-option',
+	child: static fn ( $elm ) => $elm
 	->legend( child: \__( 'You can edit the way you treat each submissions here.', 'tabellio-cf7' ) )
 
 	->table(
-		array( 'class' => 'form-table' ),
-		static fn ( $elm ) => $elm
+		class: 'form-table',
+		child: static fn ( $elm ) => $elm
 		->tbody(
 			child: static function ( $elm ) use ( $contact_form ) {
 				$option = new Option( $contact_form );
